@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="primary">
+      <ion-button (click)="goBack()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Cargos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-grid>
+    <table>
+      <tr>
+        <th>Cargos</th>
+        <th>Opções</th>
+      </tr>
+      <tr *ngFor="let cargo of cargos">
+        <td>{{cargo.cargo}}</td>
+  
+        <td>
+          <ion-button routerLink="/menu/add-cargo/{{cargo.codigo}}" slot="end" fill="clear" shape="round" [disabled]="permissoes.Editar == 0">
+            <ion-icon name="create" color="secondary"></ion-icon>
+          </ion-button>
+          <ion-button (click)="delete(cargo.codigo, cargo.cargo)" slot="end" fill="clear" shape="round" [disabled]="permissoes.Deletar == 0">
+            <ion-icon name="trash" color="secondary"></ion-icon>
+          </ion-button>
+        </td>
+      </tr>
+
+    </table>
+  </ion-grid>
+
+
+  <!-- OPTIONS -->
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="secondary" routerLink="/menu/add-cargo" [disabled]="permissoes.Inserir == 0">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>

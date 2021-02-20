@@ -1,0 +1,233 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="primary">
+      <ion-button (click)="goBack()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Uso de Devices</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form #form="ngForm" method="post">
+    <ion-row>
+      <ion-col size-sm="3" size-xs="12">
+        <ion-label position="floating">Data Inicio</ion-label>
+        <ion-input class="selectoraper" type="Date" [(ngModel)]="uso.DataInicio" name="DataInicio" displayFormat="DD/MM/YYYY" required>
+        </ion-input>
+      </ion-col>
+      <ion-col size-sm="3" size-xs="12">
+        <ion-label position="floating">Data Fim</ion-label>
+        <ion-input class="selectoraper" type="Date" [(ngModel)]="uso.DataFim" name="DataFim" displayFormat="DD/MM/YYYY" required>
+        </ion-input>
+      </ion-col>
+      <ion-col size-sm="3" size-xs="12">
+        <ion-item>
+          <ion-label position='stacked'>Órgão</ion-label>
+          <ionic-selectable #segmentoComponent item-content [(ngModel)]="uso.segmento" name="Segmento"
+            itemValueField="codigo" itemTextField="segmento" [items]="segmentos" [canSearch]="true" [canClear]="true"
+            [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true" searchFailText="Sem dados a mostrar"
+             searchPlaceholder="Pesquisar" (onChange)="CarregaSegmentoGrupos()">
+            <ng-template ionicSelectableHeaderTemplate>
+              <ion-toolbar>
+                <ion-buttons start>
+                  <ion-button (click)="segmentoComponent.close()">
+                    <ion-label>Cancelar</ion-label>
+                  </ion-button>
+                </ion-buttons>
+                <ion-title>
+                </ion-title>
+              </ion-toolbar>
+            </ng-template>
+          </ionic-selectable>
+        </ion-item>
+      </ion-col>
+      <ion-col size-sm="3" size-xs="12">
+        <ion-item>
+          <ion-label position='stacked'>Unidade</ion-label>
+          <ionic-selectable #grupoComponent item-content [(ngModel)]="uso.Grupo" name="Grupo"
+            itemValueField="codigo" itemTextField="nome" [items]="grupos" [canSearch]="true" [canClear]="true"
+            [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true" searchFailText="Sem dados a mostrar"
+             searchPlaceholder="Pesquisar" disabled ="{{grupos.length == 0}}">
+            <ng-template ionicSelectableHeaderTemplate>
+              <ion-toolbar>
+                <ion-buttons start>
+                  <ion-button (click)="grupoComponent.close()">
+                    <ion-label>Cancelar</ion-label>
+                  </ion-button>
+                </ion-buttons>
+                <ion-title>
+                </ion-title>
+              </ion-toolbar>
+            </ng-template>
+          </ionic-selectable>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size-sm="3" size-xs="12">
+        <ion-label position="floating">IMEI:</ion-label>
+        <ion-input class="selectoraper" type="text" [(ngModel)]="uso.imei" name="Imei" (keypress)="numberOnlyValidation($event)">
+        </ion-input>
+      </ion-col>
+      <ion-col size-sm="3" size-xs="12">
+        <br>
+        <ion-item>
+          <ion-label>Devices sem uso:</ion-label>
+          <ion-checkbox [(ngModel)]="uso.semuso" name="semuso"></ion-checkbox>
+        </ion-item>
+      </ion-col>
+      <ion-col size-sm="3" size-xs="12" >
+        <br>
+        <ion-button color="primary" [disabled]="!form.valid || permissoes.Pesquisar == 0" (click)="cargarTable(form,'')" expand="full">
+          Pesquisar
+        </ion-button>
+      </ion-col>
+      <ion-col size-sm="3" size-xs="12" >
+        <!-- <p>
+          <ion-label>
+            Exportar No Formato:
+          </ion-label>
+        </p> -->
+        <br>
+        <ion-label position="floating">Exportar No Formato:</ion-label>
+          <ion-col>
+            <ion-button color="primary" (click)="cargarTable(form,'X')"
+              [disabled]="!bottomExcelHTML || permissoes.Pesquisar == 0">
+              xlsx</ion-button>
+          </ion-col>
+          <ion-col>
+            <ion-button color="primary" (click)="htmlLoad(form)"
+              [disabled]="!bottomExcelHTML || permissoes.Pesquisar == 0">
+              HTML</ion-button>
+          </ion-col>
+      </ion-col>
+    </ion-row>
+    <!-- <a class="centerlink" *ngIf="ShowUrl" [href]="fileUrl" download="tabela.html">Baixar Arquivo HTML</a> -->
+  </form>
+
+  <ion-grid *ngIf="showTable  && usos.length > 0">
+    <ngx-datatable class="bootstrap" [rows]="usos" [columnMode]="'force'" [headerHeight]="40" [footerHeight]="40"
+      rowHeight="auto" [scrollbarH]="true" [limit]="10">
+
+      <ngx-datatable-column name="Data Consulta">
+        <ng-template let-column="column" ngx-datatable-header-template> {{ column.name }} </ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.data}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Nome" width="150">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.nomeUsuario}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Órgão">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.segmento}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Unidade">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.nomeGrupo}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Tipo">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.tipo}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Origem">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.origem}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="IMEI" width="200">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.imei}}</ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+  </ion-grid>
+
+  <ion-grid *ngIf="showTablesemuso  && usos.length > 0">
+    <ngx-datatable class="bootstrap" [rows]="usos" [columnMode]="'force'" [headerHeight]="40" [footerHeight]="40"
+      rowHeight="auto" [scrollbarH]="true" [limit]="10">
+
+      <ngx-datatable-column name="Data Consulta">
+        <ng-template let-column="column" ngx-datatable-header-template> {{ column.name }} </ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.data}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Nome" width="150">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.nomeUsuario}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Órgão">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.segmento}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Unidade">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.nomeGrupo}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="IMEI" width="200">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.imei}}</ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+
+  </ion-grid>
+
+
+
+
+
+  <!-- <ion-card>
+    <table>
+      <tr text-center>
+        <th style="width: 9rem;">
+          Data Consulta
+        </th>
+        <th style="width: 20rem;">
+          Nome
+        </th>
+        <th style="width: 9rem;">
+          Segmento
+        </th>
+        <th style="width: 15rem;">
+          Grupo
+        </th>
+        <th style="width: 9rem;">
+          Tipo
+        </th>
+        <th style="width: 9rem;">
+          Origem
+        </th>
+        <th style="width: 15rem;">
+          IMEI
+        </th>
+      </tr>
+      <tr id="{{sa.codigo}}" *ngFor="let sa of usos" align="center">
+
+        <td>
+          {{sa.data}}
+        </td>
+        <td>
+          {{sa.nomeUsuario}}
+        </td>
+        <td>
+          {{sa.segmento}}
+        </td>
+        <td>
+          {{sa.nomeGrupo}}
+        </td>
+        <td>
+          {{sa.tipo}}
+        </td>
+        <td>
+          {{sa.origem}}
+        </td>
+        <td>
+          {{sa.imei}}
+        </td>
+      </tr>
+    </table>
+  </ion-card> -->
+
+</ion-content>

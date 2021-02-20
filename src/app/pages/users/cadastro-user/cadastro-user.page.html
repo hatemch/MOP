@@ -1,0 +1,351 @@
+<ion-header>
+
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="primary">
+      <ion-button (click)="goBack()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Usuários</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form #form="ngForm" (ngSubmit)="save(form)" method="post">
+
+    <ion-card>
+
+      <ion-card-header>
+        <ion-card-title>Dados básicos</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-label position="floating" *ngIf="form.value.userName">Nome*</ion-label>
+                <ion-label position="floating" *ngIf="!form.value.userName" color="danger">Nome*</ion-label>
+                <ion-input type="text" [(ngModel)]="user.NOME" name="userName" required>
+                </ion-input>
+              </ion-item>
+            </ion-col>
+
+            <ion-col>
+              <ion-item>
+                <ion-label position="floating" *ngIf="form.value.userCPF">CPF*</ion-label>
+                <ion-label position="floating" *ngIf="!form.value.userCPF" color="danger">CPF*</ion-label>
+                <ion-input type="text" maxlength="14" [(ngModel)]="user.CPF" name="userCPF" id="CPF"
+                  (ionChange)="formatCPF(user.CPF,'CPF')" placeholder="999.999.999-99" required>
+                </ion-input>
+              </ion-item>
+            </ion-col>
+
+            <ion-col>
+              <ion-item>
+                <ion-label position="floating" *ngIf="form.value.userRG">RG*</ion-label>
+                <ion-label position="floating" *ngIf="!form.value.userRG" color="danger">RG*</ion-label>
+                <ion-input type="text" maxlength="12" [(ngModel)]="user.RG" name="userRG" id="RG"
+                (ionChange)="formatRG(user.RG,'RG')"  placeholder="888888888-88" required> 
+                </ion-input>
+              </ion-item>
+            </ion-col>
+
+            <ion-col>
+              <ion-item>
+                <ion-label position="floating" *ngIf="form.value.userFone">Fone*</ion-label>
+                <ion-label position="floating" *ngIf="!form.value.userFone" color="danger">Fone*</ion-label>
+                <ion-input type="text" [(ngModel)]="user.TELEFONE" name="userFone" id="TELEFONE"
+                  (ionChange)="formatTelefone(user.TELEFONE,'TELEFONE')" placeholder="(00)0000-0000" required>
+                </ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>
+              <ion-list>
+                <ion-item>
+                  <ion-label position="floating" *ngIf="form.value.userCargo">Cargo*:</ion-label>
+                  <ion-label position="floating" *ngIf="!form.value.userCargo" color="danger">Cargo*:</ion-label>
+                  <ionic-selectable required #cargoComponent item-content [(ngModel)]="user.CARGO" name="userCargo"
+                    itemValueField="codigo" itemTextField="cargo" [items]="cargos" [canSearch]="true" [canClear]="true"
+                    [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true" searchFailText="Sem dados a mostrar"
+                    searchPlaceholder="Pesquisar">
+                    <ng-template ionicSelectableHeaderTemplate>
+                      <ion-toolbar>
+                        <ion-buttons start>
+                          <ion-button (click)="cargoComponent.close()">
+                            <ion-label>Cancelar</ion-label>
+                          </ion-button>
+                        </ion-buttons>
+                        <ion-title>
+                        </ion-title>
+                      </ion-toolbar>
+                    </ng-template>
+                  </ionic-selectable>
+                </ion-item>
+              </ion-list>
+
+            </ion-col>
+
+            <ion-col>
+              <ion-list>
+
+                <ion-item>
+                  <ion-label position="floating" *ngIf="form.value.userMunicipio">Município*:</ion-label>
+                  <ion-label position="floating" *ngIf="!form.value.userMunicipio" color="danger">Município*:
+                  </ion-label>
+
+                  <ionic-selectable required #municipioComponent item-content [(ngModel)]="user.CODIGO_MUNICIPIO"
+                    name="userMunicipio" itemValueField="codigo" itemTextField="nome" [items]="municipios"
+                    [canSearch]="true" [canClear]="true" [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true"
+                    searchFailText="Sem dados a mostrar" searchPlaceholder="Pesquisar">
+                    <ng-template ionicSelectableHeaderTemplate>
+                      <ion-toolbar>
+                        <ion-buttons start>
+                          <ion-button (click)="municipioComponent.close()">
+                            <ion-label>Cancelar</ion-label>
+                          </ion-button>
+                        </ion-buttons>
+                        <ion-title>
+                        </ion-title>
+                      </ion-toolbar>
+                    </ng-template>
+                  </ionic-selectable>
+                </ion-item>
+              </ion-list>
+
+            </ion-col>
+            <ion-col>
+              <ion-list>
+                <ion-item>
+                  <ion-label position="floating" *ngIf="form.value.userSexo">Sexo*:</ion-label>
+                  <ion-label position="floating" *ngIf="!form.value.userSexo" color="danger">Sexo*:</ion-label>
+                  <ion-select placeholder="Sexo" required [(ngModel)]="user.SEXO" name="userSexo">
+                    <ion-select-option value="F">Feminino</ion-select-option>
+                    <ion-select-option value="M">Masculino</ion-select-option>
+                  </ion-select>
+                </ion-item>
+              </ion-list>
+            </ion-col>
+
+
+          </ion-row>
+
+          <ion-row>
+            <ion-col>
+
+              <ion-item>
+                <ion-label position="floating" *ngIf="form.value.userEmail">Email*</ion-label>
+                <ion-label position="floating" *ngIf="!form.value.userEmail" color="danger">Email*</ion-label>
+                <ion-input type="text" required [(ngModel)]="user.EMAIL" name="userEmail">
+                </ion-input>
+              </ion-item>
+
+            </ion-col>
+            <ion-col>
+
+              <ion-item>
+                <ion-label position="floating" *ngIf="form.value.userMatricula">Matrícula*</ion-label>
+                <ion-label position="floating" *ngIf="!form.value.userMatricula" color="danger">Matrícula*</ion-label>
+                <ion-input type="text" (ionBlur)="changeLogin(form)" required [(ngModel)]="user.MATRICULA"
+                  name="userMatricula">
+                </ion-input>
+              </ion-item>
+
+            </ion-col>
+
+          </ion-row>
+
+        </ion-grid>
+
+      </ion-card-content>
+    </ion-card>
+    <ion-card>
+
+      <ion-card-header>
+        <ion-card-title>Autenticação</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+
+
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-label position="floating">Login</ion-label>
+                <ion-input readonly type="text" [(ngModel)]="user.LOGIN" name="userLogin">
+                </ion-input>
+              </ion-item>
+            </ion-col>
+
+            <ion-col *ngIf="user.CODIGO">
+              <ion-item>
+                <ion-label position="stacked">Senha</ion-label>
+                <ion-input>
+                  <ion-button style="text-transform: capitalize;" (click)="AlertresetSenha()" fill="outline">Resetar
+                    Senha</ion-button>
+                </ion-input>
+              </ion-item>
+            </ion-col>
+
+            <ion-col *ngIf="user.CODIGO == null">
+              <ion-item>
+                <ion-label position="floating">Senha</ion-label>
+                <ion-input type="password" [(ngModel)]="user.SENHA" name="userSenha" [disabled]="user.CODIGO == null">
+                </ion-input>
+              </ion-item>
+            </ion-col>
+
+            <ion-col *ngIf="user.CODIGO == null">
+              <ion-item>
+                <ion-label position="floating">Confirmar Senha</ion-label>
+                <ion-input type="password"  [(ngModel)]="user.ConfirmSenha" name="userConfirmSenha" [disabled]="user.CODIGO == null">
+                </ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col col-1>
+              <ion-list>
+                <ion-label position='floating'>Órgão</ion-label>
+                <ion-item lines="none">
+
+                  <ionic-selectable class="selector" #segmentoComponent item-content [(ngModel)]="user.SEGMENTO"
+                    name="userSegmento" itemValueField="segmento" itemTextField="segmento" [items]="segmentos"
+                    [canSearch]="true" [canClear]="true" [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true"
+                    searchFailText="Sem dados a mostrar" searchPlaceholder="Pesquisar"
+                    (onChange)="CarregaSegmentoGrupos()" required>
+                    <ng-template ionicSelectableHeaderTemplate>
+                      <ion-toolbar>
+                        <ion-buttons start>
+                          <ion-button (click)="segmentoComponent.close()">
+                            <ion-label>Cancelar</ion-label>
+                          </ion-button>
+                        </ion-buttons>
+                        <ion-title>
+                        </ion-title>
+                      </ion-toolbar>
+                    </ng-template>
+                  </ionic-selectable>
+                </ion-item>
+              </ion-list>
+            </ion-col>
+
+            <ion-col col-12>
+              <ion-list>
+                <ion-label position='floating'>Unidade</ion-label>
+                <ion-item lines="none">
+
+                  <ionic-selectable class="selector" #segmentoComponent item-content [(ngModel)]="user.GRUPO"
+                    name="userGrupo" itemValueField="codigo" itemTextField="nome" [items]="grupos" [canSearch]="true"
+                    [canClear]="true" [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true"
+                    searchFailText="Sem dados a mostrar" searchPlaceholder="Pesquisar" required>
+                    <ng-template ionicSelectableHeaderTemplate>
+                      <ion-toolbar>
+                        <ion-buttons start>
+                          <ion-button (click)="segmentoComponent.close()">
+                            <ion-label>Cancelar</ion-label>
+                          </ion-button>
+                        </ion-buttons>
+                        <ion-title>
+                        </ion-title>
+                      </ion-toolbar>
+                    </ng-template>
+                  </ionic-selectable>
+                </ion-item>
+              </ion-list>
+            </ion-col>
+
+            <ion-col col-12>
+              <ion-list>
+                <ion-label position='floating'>Perfil</ion-label>
+                <ion-item lines="none">
+
+                  <ionic-selectable class="selector" #perfilComponent item-content [(ngModel)]="user.PERFIL"
+                    name="userPerfil" itemValueField="slug" itemTextField="nome" [items]="perfis" [canSearch]="true"
+                    [canClear]="true" [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true"
+                    searchFailText="Sem dados a mostrar" searchPlaceholder="Pesquisar">
+                    <ng-template ionicSelectableHeaderTemplate>
+                      <ion-toolbar>
+                        <ion-buttons start>
+                          <ion-button (click)="perfilComponent.close()">
+                            <ion-label>Cancelar</ion-label>
+                          </ion-button>
+                        </ion-buttons>
+                        <ion-title>
+                        </ion-title>
+                      </ion-toolbar>
+                    </ng-template>
+                  </ionic-selectable>
+                </ion-item>
+              </ion-list>
+            </ion-col>
+
+            <ion-col col-12>
+              <ion-list>
+                <ion-item>
+                  <ion-label position="floating">Status:</ion-label>
+                  <ion-select  required [(ngModel)]="user.STATUS" name="userStatus" cancelText="Desistir"
+                    doneText="Confirmar" placeholder="Status">
+
+                    <ion-select-option value="A">Ativo
+                    </ion-select-option>
+
+                    <ion-select-option value="I">Inativo
+                    </ion-select-option>
+                  </ion-select>
+                </ion-item>
+              </ion-list>
+            </ion-col>
+          </ion-row>
+
+          <!-- <ion-row>
+            <ion-col>
+              <ion-label>Pode enviar alertas
+              </ion-label>
+              <ion-checkbox [(ngModel)]="user.ALERTASBOOL" name="userAlertas"> </ion-checkbox>
+            </ion-col>
+
+            <ion-col>
+              <ion-label>Consulta Infoseg
+              </ion-label>
+              <ion-checkbox [(ngModel)]="user.INFOSEGBOOL" name="userInfoseg"></ion-checkbox>
+            </ion-col>
+          </ion-row> -->
+
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-row>
+      <ion-col>
+        <ion-button expand="block" type="submit" [disabled]="!form.valid">Salvar</ion-button>
+      </ion-col>
+    </ion-row>
+  </form>
+
+  <p *ngIf="noCompleteForm">Os seguintes campos estão ausentes:
+    <ion-text *ngIf="!form.value.userName">Nome, </ion-text>
+    <ion-text *ngIf="!form.value.userCPF">CPF, </ion-text>
+    <ion-text *ngIf="!form.value.userRG">RG, </ion-text>
+    <ion-text *ngIf="!form.value.userFone">Fone, </ion-text>
+    <ion-text *ngIf="!form.value.userCargo">Cargo, </ion-text>
+    <ion-text *ngIf="!form.value.userMunicipio">Municipio, </ion-text>
+    <ion-text *ngIf="!form.value.userSexo">Sexo, </ion-text>
+    <ion-text *ngIf="!form.value.userEmail">Email, </ion-text>
+    <ion-text *ngIf="!form.value.userMatricula">Matricula, </ion-text>
+    <ion-text *ngIf="!form.value.userLogin">Login, </ion-text>
+    <ion-text *ngIf="!form.value.userSegmento">Segmento, </ion-text>
+    <ion-text *ngIf="!form.value.userPerfil">Perfil, </ion-text>
+    <ion-text *ngIf="!form.value.userStatus">Status, </ion-text>
+  </p>
+
+</ion-content>

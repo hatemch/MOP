@@ -1,0 +1,52 @@
+<ion-header>
+
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="primary">
+      <ion-button (click)="goBack()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Consulta Perfis</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+
+  <ion-grid>
+    <table>
+      <tr>
+        <th>Perfil</th>
+        <!-- <th>Slug</th> -->
+        <th>Órgão</th>
+        <th>Opções</th>
+      </tr>
+
+      <tr *ngFor="let perfi of perfis">
+        <td>{{perfi.nome}}</td>
+        <!-- <td>{{perfi.slug}}</td> -->
+        <td>{{perfi.segmento}}</td>
+
+        <td>
+          <ion-button routerLink="/menu/add-perfis/{{perfi.codigo}}" slot="end" fill="clear" shape="round" [disabled]="permissoes.Editar == 0">
+            <ion-icon name="create" color="secondary"></ion-icon>
+          </ion-button>
+          <ion-button (click)="delete( perfi.codigo , perfi.nome )" slot="end" fill="clear" shape="round" [disabled]="permissoes.Deletar == 0">
+            <ion-icon name="trash" color="secondary"></ion-icon>
+          </ion-button>
+        </td>
+      </tr>
+
+    </table>
+  </ion-grid>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="secondary" routerLink="/menu/add-perfis" [disabled]="permissoes.Inserir == 0">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>

@@ -1,0 +1,55 @@
+<ion-header>
+
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="primary">
+      <ion-button (click)="goBack()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Módulos do aplicativo</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+
+  <!-- <ion-grid>
+    <table>
+      <tr text-center>
+        <th>Código</th>
+        <th>Módulo</th>
+        <th>Nome</th>
+      </tr>
+
+      <tr *ngFor="let modulo of modulos" text-center>
+        <td>{{modulo.codigo}}</td>
+        <td>{{modulo.modulo}}</td>
+        <td>{{modulo.nome}}</td>
+      </tr>
+
+    </table>
+  </ion-grid> -->
+
+  <ion-grid>
+
+    <ngx-datatable class="bootstrap" [columns]="columns"  [rows]="modulos" columnMode="force" [headerHeight]="40" [footerHeight]="40"
+      rowHeight="auto" [scrollbarH]="true" [limit]="10" >
+
+      <!-- <ngx-datatable-column name="Código">
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.codigo}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Módulo">
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.modulo}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Nome">
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.nome}}</ng-template>
+      </ngx-datatable-column> -->
+
+    </ngx-datatable>
+
+  </ion-grid>
+
+</ion-content>

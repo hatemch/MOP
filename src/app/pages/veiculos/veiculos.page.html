@@ -1,0 +1,427 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="primary">
+      <ion-button (click)="goBack()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Veículo</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <form #form="ngForm" method="post">
+    <!--form #form="ngForm" method="post"-->
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating"><strong>Placa</strong></ion-label>
+            <ion-input type="text" maxlength=7 [(ngModel)]="veiculo.placa" name="placa">
+            </ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating"><strong>Chassi</strong></ion-label>
+            <ion-input type="text" [(ngModel)]="veiculo.chassi" name="chassi">
+            </ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <br>
+          <ion-button color="primary" (click)="search()" [disabled]="permissoes.Pesquisar == 0">Pesquisar</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+
+  <ion-grid *ngIf="veiculos.length > 0">
+
+    <ion-row *ngIf="showRestricaoMessage">
+
+      <ion-col class="columText" align-self-center>
+        
+        <ion-label class="labelColor">
+          <strong>Veículo com suspeita de {{restricao}}</strong>
+        </ion-label>
+      </ion-col>
+
+    </ion-row>
+
+
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Dados do Veículo</ion-card-title>
+      </ion-card-header>
+      <ion-row>
+        <ion-col size-sm="8" size-md="6" size-lg="3">
+
+          <ion-item>
+            <ion-label position='stacked'><strong>Placa</strong></ion-label>
+            <ion-input readonly type="text" [(ngModel)]="veiculos[0].placa" name="placa">
+            </ion-input>
+          </ion-item>
+
+        </ion-col>
+        <ion-col size-sm="8" size-md="6" size-lg="3">
+
+          <ion-item>
+            <ion-label position='stacked'><strong>Marca/Modelo</strong></ion-label>
+            <ion-input readonly type="text" [(ngModel)]="veiculos[0].marca" name="marca">
+            </ion-input>
+          </ion-item>
+
+        </ion-col>
+        <ion-col size-sm="8" size-md="6" size-lg="3">
+
+          <ion-item>
+            <ion-label position='stacked'><strong>Cor</strong></ion-label>
+            <ion-input readonly type="text" [(ngModel)]="veiculos[0].cor" name="cor">
+            </ion-input>
+          </ion-item>
+
+        </ion-col>
+        <ion-col size-sm="8" size-md="6" size-lg="3">
+
+          <ion-item>
+            <ion-label position='stacked'><strong>Tipo</strong></ion-label>
+            <ion-input readonly type="text" [(ngModel)]="veiculos[0].tipo" name="tipo">
+            </ion-input>
+          </ion-item>
+
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size-sm="8" size-md="6" size-lg="3">
+
+          <ion-item>
+            <ion-label position='stacked'><strong>RENAVAM</strong></ion-label>
+            <ion-input readonly type="text" [(ngModel)]="veiculos[0].renavam" name="renavam">
+            </ion-input>
+          </ion-item>
+
+        </ion-col>
+        <ion-col size-sm="8" size-md="6" size-lg="3">
+
+          <ion-item>
+            <ion-label position='stacked'><strong>Chassi</strong></ion-label>
+            <ion-input readonly type="text" [(ngModel)]="veiculos[0].chassi" name="chassi">
+            </ion-input>
+          </ion-item>
+
+        </ion-col>
+        <ion-col size-sm="8" size-md="6" size-lg="3">
+
+          <ion-item>
+            <ion-label position='stacked'><strong>Motor</strong></ion-label>
+            <ion-input readonly type="text" [(ngModel)]="veiculos[0].motor" name="motor">
+            </ion-input>
+          </ion-item>
+
+        </ion-col>
+        <ion-col size-sm="8" size-md="6" size-lg="3">
+
+          <ion-item>
+            <ion-label position='stacked'><strong>Espécie</strong></ion-label>
+            <ion-input readonly type="text" [(ngModel)]="veiculos[0].especie" name="tipo">
+            </ion-input>
+          </ion-item>
+
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size-sm="8" size-md="6" size-lg="3">
+
+          <ion-item>
+            <ion-label position='stacked'><strong>Categoria</strong></ion-label>
+            <ion-input readonly type="text" [(ngModel)]="veiculos[0].categoria" name="categoria">
+            </ion-input>
+          </ion-item>
+
+        </ion-col>
+        <ion-col size-sm="8" size-md="6" size-lg="3">
+
+          <ion-item>
+            <ion-label position='stacked'><strong>Ano Fabricação</strong></ion-label>
+            <ion-input readonly type="text" [(ngModel)]="veiculos[0].anofabricacao" name="anofabricacao">
+            </ion-input>
+          </ion-item>
+
+        </ion-col>
+        <ion-col size-sm="8" size-md="6" size-lg="3">
+
+          <ion-item>
+            <ion-label position='stacked'><strong>Ano Modelo</strong></ion-label>
+            <ion-input readonly type="text" [(ngModel)]="veiculos[0].anomodelo" name="motor">
+            </ion-input>
+          </ion-item>
+
+        </ion-col>
+        <ion-col size-sm="8" size-md="6" size-lg="3">
+
+          <ion-item>
+            <ion-label position='stacked'><strong>combustível</strong></ion-label>
+            <ion-input readonly type="text" [(ngModel)]="veiculos[0].combustivel" name="tipo">
+            </ion-input>
+          </ion-item>
+
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size-sm="8" size-md="6" size-lg="3">
+
+          <ion-item>
+            <ion-label position='stacked'><strong>UF</strong></ion-label>
+            <ion-input readonly type="text" [(ngModel)]="veiculos[0].uf" name="uf">
+            </ion-input>
+          </ion-item>
+
+        </ion-col>
+        <ion-col size-sm="8" size-md="6" size-lg="3">
+
+          <ion-item>
+            <ion-label position='stacked'><strong>Município</strong></ion-label>
+            <ion-input readonly type="text" [(ngModel)]="veiculos[0].municipio" name="municipio">
+            </ion-input>
+          </ion-item>
+
+        </ion-col>
+        <ion-col size-sm="8" size-md="6" size-lg="3">
+
+          <ion-item>
+            <ion-label position='stacked'><strong>Proprietário</strong></ion-label>
+            <ion-input readonly type="text" [(ngModel)]="veiculos[0].nomeproprietario" name="nomeproprietario">
+            </ion-input>
+          </ion-item>
+
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size-sm="8" size-md="6" size-lg="3">
+
+          <ion-item>
+            <ion-label position='stacked'><strong>Telefone Proprietário</strong></ion-label>
+            <ion-input readonly type="text" [(ngModel)]="veiculos[0].telefonePropietario" name="telefonePropietario">
+            </ion-input>
+          </ion-item>
+
+        </ion-col>
+        <ion-col size-sm="8" size-md="6" size-lg="3">
+
+          <ion-item>
+            <ion-label position='stacked'><strong>Data Roubo/Furto</strong></ion-label>
+            <ion-input readonly type="text" [(ngModel)]="veiculos[0].dataRouboFurto" name="dataRouboFurto">
+            </ion-input>
+          </ion-item>
+
+        </ion-col>
+        <ion-col size-sm="8" size-md="6" size-lg="3">
+
+          <ion-item>
+            <ion-label position='stacked'><strong>Data Devolução</strong></ion-label>
+            <ion-input readonly type="text" [(ngModel)]="veiculos[0].dataDevolucao" name="dataDevolucao">
+            </ion-input>
+          </ion-item>
+
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size-sm="8" size-md="6" size-lg="3">
+
+          <ion-item>
+            <ion-label position='stacked'><strong>Restrição Financiera</strong></ion-label>
+            <ion-input readonly type="text" [(ngModel)]="veiculos[0].restricaofinanceira" name="restricaofinanceira">
+            </ion-input>
+          </ion-item>
+
+        </ion-col>
+        <ion-col size-sm="8" size-md="6" size-lg="3">
+
+          <ion-item>
+            <ion-label position='stacked'><strong>Restrição Administrativa</strong></ion-label>
+            <ion-input readonly type="text" [(ngModel)]="veiculos[0].restricaoadministrativa"
+              name="restricaoadministrativa">
+            </ion-input>
+          </ion-item>
+
+        </ion-col>
+        <ion-col size-sm="8" size-md="6" size-lg="3">
+
+          <ion-item>
+            <ion-label position='stacked'><strong>Restrição Jurídica</strong></ion-label>
+            <ion-input readonly type="text" [(ngModel)]="veiculos[0].restricaojuridica" name="restricaojuridica">
+            </ion-input>
+          </ion-item>
+
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size-sm="8" size-md="6" size-lg="3">
+
+          <ion-item>
+            <ion-label position='stacked'><strong>Ultimo IPVA</strong></ion-label>
+            <ion-input readonly type="text" [(ngModel)]="veiculos[0].ultimoipva" name="ultimoipva">
+            </ion-input>
+          </ion-item>
+
+        </ion-col>
+        <ion-col size-sm="8" size-md="6" size-lg="3">
+
+          <ion-item>
+            <ion-label position='stacked'><strong>Isento IPVA</strong></ion-label>
+            <ion-input readonly type="text" [(ngModel)]="veiculos[0].isentoipva" name="isentoipva">
+            </ion-input>
+          </ion-item>
+
+        </ion-col>
+        <ion-col size-sm="8" size-md="6" size-lg="3">
+
+          <ion-item>
+            <ion-label position='stacked'><strong>Total IPVA</strong></ion-label>
+            <ion-input readonly type="text" [(ngModel)]="veiculos[0].totalipva" name="totalipva">
+            </ion-input>
+          </ion-item>
+
+        </ion-col>
+
+        <ion-col size-sm="8" size-md="6" size-lg="3">
+
+          <ion-item>
+            <ion-label position='stacked'><strong>Total Multas </strong></ion-label>
+            <ion-input readonly type="text" [(ngModel)]="veiculos[0].multatramitacao" name="multatramitacao">
+            </ion-input>
+          </ion-item>
+
+        </ion-col>
+      </ion-row>
+    </ion-card>
+  </ion-grid>
+
+
+
+</ion-content>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <ngx-datatable class="bootstrap" [rows]="veiculos" [columnMode]="'force'" [headerHeight]="40" [footerHeight]="false"
+rowHeight="auto" [scrollbarH]="true" [limit]="10">
+<ngx-datatable-column name="útilmo IPVA">
+  <ng-template let-row="row" ngx-datatable-cell-template>{{row.ultimoipva}}</ng-template>
+</ngx-datatable-column>
+<ngx-datatable-column name="ISENTO IPVA">
+  <ng-template let-row="row" ngx-datatable-cell-template>{{row.isentoipva}}</ng-template>
+</ngx-datatable-column>
+<ngx-datatable-column name="Total IPVA">
+  <ng-template let-row="row" ngx-datatable-cell-template>{{row.totalipva}}</ng-template>
+</ngx-datatable-column>
+<ngx-datatable-column name="Total DPVAT">
+  <ng-template let-row="row" ngx-datatable-cell-template>{{row.dpvatatual}}</ng-template>
+</ngx-datatable-column>
+<ngx-datatable-column name="Total Multas">
+  <ng-template let-row="row" ngx-datatable-cell-template>{{row.valormulta}}</ng-template>
+</ngx-datatable-column>
+<ngx-datatable-column name="Total Licença">
+  <ng-template let-row="row" ngx-datatable-cell-template>{{row.totalicenca}}</ng-template>
+</ngx-datatable-column>
+<ngx-datatable-column name="DPVAT Anterior">
+  <ng-template let-row="row" ngx-datatable-cell-template>{{row.dpvatanterior}}</ng-template>
+</ngx-datatable-column>
+<ngx-datatable-column name="IPVA Anterior">
+  <ng-template let-row="row" ngx-datatable-cell-template>{{row.ipvaanterior}}</ng-template>
+</ngx-datatable-column>
+<ngx-datatable-column name="Licença Anterior">
+  <ng-template let-row="row" ngx-datatable-cell-template>{{row.licencaanterior}}</ng-template>
+</ngx-datatable-column>
+<ngx-datatable-column name="Multas(s) em Tramitação">
+  <ng-template let-row="row" ngx-datatable-cell-template>{{row.multatramitacao}}</ng-template>
+</ngx-datatable-column>
+</ngx-datatable> -->
+<!-- <ngx-datatable class="bootstrap" [rows]="veiculos" [columnMode]="'force'" [headerHeight]="40" [footerHeight]="false"
+      rowHeight="auto" [scrollbarH]="true" [limit]="10">
+      <ngx-datatable-column name="Placa">
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.placa}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Marca/Modelo">
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.marca}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Cor">
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.cor}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Tipo">
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.tipo}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Renavam">
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.renavam}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Chassi">
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.chassi}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Motor">
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.motor}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Especie">
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.especie}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Categoria">
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.categoria}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Ano fabricação">
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.anofabricacao}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Ano modelo">
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.anomodelo}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Combustivel">
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.combustivel}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Base de Consulta">
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.base}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="UF">
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.uf}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Municipio">
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.municipio}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Proprietario">
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.nomeproprietario}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Restrição Financeira?">
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.restricaofinanceira}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Restrição Administrativa">
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.restricaoadministrativa}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Restrição Jurídica">
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.restricaojuridica}}</ng-template>
+      </ngx-datatable-column>
+      
+    </ngx-datatable> -->

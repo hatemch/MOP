@@ -1,0 +1,209 @@
+<ion-header>
+
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="primary">
+      <ion-button (click)="goBack()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>ADM Devices</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form #form="ngForm"  (ngSubmit)="save(form)" method="post">
+
+  <ion-card>
+
+    <ion-card-header>
+      <ion-card-title>Novo Device</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+
+    
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+
+              <ion-item>
+                <ion-label position="floating">PIM</ion-label>
+                <ion-input type = "text" [(ngModel)]="device.pim" name="devicePim" >
+                </ion-input>
+              </ion-item>
+
+            </ion-col>
+            <ion-col>
+
+              <ion-item>
+                <ion-label position="floating"  >IMEI</ion-label>
+                <ion-input type = "text" [(ngModel)]="device.imei" name="deviceImei">
+                </ion-input>
+              </ion-item>
+
+            </ion-col>
+            <ion-col>
+
+              <ion-item>
+                <ion-label position="floating">LINHA  </ion-label>
+                <ion-input type = "text" [(ngModel)]="device.linha" name="deviceLinha">
+                </ion-input>
+              </ion-item>
+
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col col-1>
+
+              <ion-list>
+                <ion-item>
+                  <ion-label position='stacked'>Órgão:</ion-label>
+                  <ionic-selectable #segmentoComponent item-content [(ngModel)]="device.segmento" name="deviceSegmento"
+                    itemValueField="segmento" itemTextField="segmento" [items]="segmentos" [canSearch]="true" [canClear]="true"
+                    [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true" searchFailText="Sem dados a mostrar"
+                     searchPlaceholder="Pesquisar" (onChange)="CarregaSegmentoGrupos()">
+                    <ng-template ionicSelectableHeaderTemplate>
+                      <ion-toolbar>
+                        <ion-buttons start>
+                          <ion-button (click)="segmentoComponent.close()">
+                            <ion-label>Cancelar</ion-label>
+                          </ion-button>
+                        </ion-buttons>
+                        <ion-title>
+                        </ion-title>
+                      </ion-toolbar>
+                    </ng-template>
+                  </ionic-selectable>
+                </ion-item>
+                <!-- <ion-item>
+                  <ion-label position="floating">Segmento:</ion-label>
+                  <ion-select required [(ngModel)]="device.segmento" name="deviceSegmento"  placeholder="Segmento" cancelText="Desistir"
+                    doneText="Confirmar"  (ionChange)="CarregaSegmentoGrupos()" >
+                    <ion-select-option value="{{segmento.segmento}}" *ngFor="let segmento of segmentos">{{segmento.segmento}}
+                    </ion-select-option>
+                  </ion-select> 
+                </ion-item> -->
+              </ion-list>
+
+            </ion-col>
+            <ion-col col-12>
+
+              <ion-list>
+                <ion-item>
+                  <ion-label position='stacked'>Unidade:</ion-label>
+                  <ionic-selectable #grupoComponent item-content [(ngModel)]="device.grupo" name="deviceGrupo"
+                    itemValueField="codigo" itemTextField="nome" [items]="grupos" [canSearch]="true" [canClear]="true"
+                    [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true" searchFailText="Sem dados a mostrar"
+                     searchPlaceholder="Pesquisar" (onChange)="CarregaSegmentoGrupoUsuarios()" disabled ="{{grupos.length == 0}}">
+                    <ng-template ionicSelectableHeaderTemplate>
+                      <ion-toolbar>
+                        <ion-buttons start>
+                          <ion-button (click)="grupoComponent.close()">
+                            <ion-label>Cancelar</ion-label>
+                          </ion-button>
+                        </ion-buttons>
+                        <ion-title>
+                        </ion-title>
+                      </ion-toolbar>
+                    </ng-template>
+                  </ionic-selectable>
+                </ion-item>
+                <!-- <ion-item>
+                  <ion-label position="floating">Grupo:</ion-label>
+                   <ion-select required required  [(ngModel)]="device.grupo"  name="deviceGrupo" cancelText="Desistir" doneText="Confirmar"
+                    placeholder="Grupo" (ionChange)='CarregaSegmentoGrupoUsuarios()'>
+                    <ion-select-option value="{{grupo.codigo}}" *ngFor="let grupo of grupos">{{grupo.nome}}
+                    </ion-select-option>
+                  </ion-select> 
+                </ion-item> -->
+              </ion-list>
+
+            </ion-col>
+            <ion-col col-12>
+
+              <ion-list>
+                <ion-item>
+                  <ion-label position='stacked'>Usuário</ion-label>
+                  <ionic-selectable #usuarioComponent item-content [(ngModel)]="device.usuario" name="deviceUsuario"
+                    itemValueField="codigo" itemTextField="nome" [items]="users" [canSearch]="true" [canClear]="true"
+                    [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true" searchFailText="Sem dados a mostrar"
+                     searchPlaceholder="Pesquisar"  disabled ="{{users.length == 0}}">
+                    <ng-template ionicSelectableHeaderTemplate>
+                      <ion-toolbar>
+                        <ion-buttons start>
+                          <ion-button (click)="usuarioComponent.close()">
+                            <ion-label>Cancelar</ion-label>
+                          </ion-button>
+                        </ion-buttons>
+                        <ion-title>
+                        </ion-title>
+                      </ion-toolbar>
+                    </ng-template>
+                  </ionic-selectable>
+                </ion-item>
+                <!-- <ion-item>
+                  <ion-label position="floating">Usuário:</ion-label>
+                  <ion-select  required  [(ngModel)]="device.usuario" name="deviceUsuario" cancelText="Desistir" doneText="Confirmar"
+                    placeholder="Usuário">
+                    <ion-select-option value="{{user.codigo}}" *ngFor="let user of users">{{user.nome}}
+                    </ion-select-option>
+                  </ion-select> 
+                </ion-item> -->
+              </ion-list>
+
+            </ion-col>
+            <ion-col col-12>
+
+              <ion-list>
+                <ion-item>
+                  <ion-label position="floating">Sistema Operacional:</ion-label>
+                <ion-select  required  [(ngModel)]="device.sistema" name="deviceSistema" cancelText="Desistir" doneText="Confirmar"
+                    placeholder="Sistema Operacional">
+
+                    <ion-select-option value="A">Android
+                    </ion-select-option>
+
+                    <ion-select-option value="I">iOS
+                    </ion-select-option>
+                    <ion-select-option value="B">Blackberry
+                    </ion-select-option>
+                    <ion-select-option value="w">Windows Phone
+                    </ion-select-option>
+                    <ion-select-option value="O">Outro
+                    </ion-select-option>
+                    <ion-select-option value="D">DETRANBA
+                    </ion-select-option>
+                  </ion-select>
+                 
+                </ion-item>
+              </ion-list>
+
+            </ion-col>
+          </ion-row>
+         
+          <ion-row>
+         
+            <ion-col>
+
+              <ion-label>Particular
+              </ion-label>
+              <ion-checkbox [(ngModel)]="device.particularMostrar" name="particularMostrar" ></ion-checkbox> 
+            </ion-col>
+
+          </ion-row>
+
+        </ion-grid>
+      
+    </ion-card-content>
+  </ion-card>
+  <ion-row>
+    <ion-col>
+      <ion-button expand="block" type="submit">Salvar</ion-button>
+    </ion-col>
+  </ion-row>
+</form>
+
+</ion-content>

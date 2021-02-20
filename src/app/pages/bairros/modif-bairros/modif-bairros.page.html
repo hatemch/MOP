@@ -1,0 +1,203 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="primary">
+      <ion-button (click)="goBack()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title> {{title}} Bairros DETRAN </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  
+    
+    <ion-card-content>
+      <form #form="ngForm" (ngSubmit)="save(form)" method="post">
+        <!--form #form="ngForm" method="post"-->
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <ion-grid>
+
+                <!--ion-row>
+                  <ion-col>
+                    <ion-item>
+                      <ion-label position="floating">Código Bairro</ion-label>
+                      <ion-input type="text"  [(ngModel)]="bairro.codigo_bairro"  name="codigo_bairro"  required>
+                      </ion-input>
+                    </ion-item>
+                  </ion-col>
+                </ion-row-->
+
+                <ion-row>
+                  <ion-col>
+                    <ion-item>
+                      <ion-label position="floating">Nome Bairro</ion-label>
+                      <ion-input type="text"  [(ngModel)]="bairro.nome_bairro"  name="nome_bairro"  required>
+                      </ion-input>
+                    </ion-item>
+                  </ion-col>
+                </ion-row>
+
+               
+
+                <!-- <ion-row>
+                  <ion-col size-sm="8" size-md="6" size-lg="4" offsetSm="2" offsetMd="3" offsetLg="4" align-self-center>
+                    <ion-item>
+                      <ion-label position="floating">Nome Municipio</ion-label>
+                      <ion-input type="text"  [(ngModel)]="bairro.nome_municipio"  name="nome_municipio"  required>
+                      </ion-input>
+                    </ion-item>
+                  </ion-col>
+                </ion-row> -->
+                <!-- <ion-row>
+                  <ion-col size-sm="8" size-md="6" size-lg="4" offsetSm="2" offsetMd="3" offsetLg="4" align-self-center>
+                    <ion-item>
+                      <ion-label position="floating">Codigo Municipio</ion-label>
+                      <ion-input type="text"  [(ngModel)]="bairro.codigo_municipio"  name="codigo_municipio"  required>
+                      </ion-input>
+                    </ion-item>
+                  </ion-col>
+                </ion-row> -->
+
+                <ion-row>
+                  <ion-col>
+                    <ion-item>
+                      <ion-label position='floating'>AISP:</ion-label>
+                      <ionic-selectable #aispsComponent item-content [(ngModel)]="bairro.aisp" name="aisp"
+                        itemValueField="nome" itemTextField="nome" [items]="aisps" [canSearch]="true" [canClear]="true"
+                        [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true" searchFailText="Sem dados a mostrar"
+                         searchPlaceholder="Pesquisar">
+                        <ng-template ionicSelectableHeaderTemplate>
+                          <ion-toolbar>
+                            <ion-buttons start>
+                              <ion-button (click)="aispsComponent.close()">
+                                <ion-label>Cancelar</ion-label>
+                              </ion-button>
+                            </ion-buttons>
+                            <ion-title>
+                            </ion-title>
+                          </ion-toolbar>
+                        </ng-template>
+                      </ionic-selectable>
+                    </ion-item>
+                    <!--ion-item>
+                      <ion-label position="floating">AISP</ion-label>
+                      <ion-input type="text" [(ngModel)]="bairro.aisp" name="aisp" required >
+                      </ion-input>
+                    </ion-item-->
+                  </ion-col>
+                </ion-row>
+
+                <ion-row>
+                  <ion-col>
+                    <ion-item>
+                      <ion-label position='floating'>RISP:</ion-label>
+                      <ionic-selectable #rispsComponent item-content [(ngModel)]="bairro.risp" name="risp"
+                        itemValueField="nome" itemTextField="nome" [items]="risps" [canSearch]="true" [canClear]="true"
+                        [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true" searchFailText="Sem dados a mostrar"
+                         searchPlaceholder="Pesquisar">
+                        <ng-template ionicSelectableHeaderTemplate>
+                          <ion-toolbar>
+                            <ion-buttons start>
+                              <ion-button (click)="rispsComponent.close()">
+                                <ion-label>Cancelar</ion-label>
+                              </ion-button>
+                            </ion-buttons>
+                            <ion-title>
+                            </ion-title>
+                          </ion-toolbar>
+                        </ng-template>
+                      </ionic-selectable>
+                    </ion-item>
+                    <!--ion-item>
+                      <ion-label position="floating">RISP</ion-label>
+                      <ion-input type="text" [(ngModel)]="bairro.risp" name="risp" required >
+                      </ion-input>
+                    </ion-item-->
+                  </ion-col>
+                </ion-row>
+
+               
+              </ion-grid>
+            </ion-col>
+
+            <ion-col>
+              <ion-list>
+                <ion-item>
+                  <ion-label position='floating'>Município:</ion-label>
+                  <ionic-selectable #municipioComponent item-content [(ngModel)]="bairro.nome_municipio" name="nome_municipio"
+                    itemValueField="nome" itemTextField="nome" [items]="municipios" [canSearch]="true" [canClear]="true"
+                    [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true" searchFailText="Sem dados a mostrar"
+                     searchPlaceholder="Pesquisar">
+                    <ng-template ionicSelectableHeaderTemplate>
+                      <ion-toolbar>
+                        <ion-buttons start>
+                          <ion-button (click)="municipioComponent.close()">
+                            <ion-label>Cancelar</ion-label>
+                          </ion-button>
+                        </ion-buttons>
+                        <ion-title>
+                        </ion-title>
+                      </ion-toolbar>
+                    </ng-template>
+                  </ionic-selectable>
+                </ion-item>
+                <!-- <ion-item>
+                  <ion-label position="floating">Município:</ion-label>
+                  <ion-select required  [(ngModel)]="bairro.nome_municipio" name="nome_municipio" cancelText="Desistir" doneText="Confirmar"
+                    placeholder="Município">
+                    <ion-select-option value="{{municipio.nome}}" *ngFor="let municipio of municipios" >{{municipio.nome}}
+                    </ion-select-option>
+                  </ion-select>
+                </ion-item> -->
+              </ion-list>
+
+              <ion-row>
+                <ion-col>
+                  <ion-item>
+                    <ion-label position="floating">CIPM</ion-label>
+                    <ion-input type="text" [(ngModel)]="bairro.cipm" name="cipm" required >
+                    </ion-input>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+
+              <ion-row>
+                <ion-col>
+                  <ion-item>
+                    <ion-label position="floating">DT</ion-label>
+                    <ion-input type="text" [(ngModel)]="bairro.dt" name="dt" required >
+                    </ion-input>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+
+           </ion-col>
+               
+                
+              
+
+            
+          </ion-row>
+
+          <ion-row>
+            <ion-col>
+              <ion-button expand="block" type="submit" [disabled]="!form.valid">Salvar</ion-button>
+            </ion-col>
+          </ion-row>
+
+
+        </ion-grid>
+
+        
+      </form>
+    </ion-card-content>
+  
+
+  
+</ion-content>

@@ -1,0 +1,212 @@
+<ion-header>
+
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="primary">
+      <ion-button (click)="goBack()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Incluir Outras Perícias</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <form #form="ngForm" method="post">
+
+    <ion-card *ngIf = "!opcaoIncluir">
+
+      <ion-card-header>
+        <ion-card-title>Dados de Outras Perícias</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-grid>
+
+          <ion-row>
+
+            <ion-col size="6">
+              <ion-label position="floating" *ngIf="form.value.tipo">Tipo*:</ion-label>
+              <ion-label position="floating" *ngIf="!form.value.tipo" color="danger">Tipo*:
+              </ion-label>
+              <ionic-selectable class="selector" required #tipo item-content [(ngModel)]="outraPericia.tipo" name="tipo"
+                itemValueField="idTipoObjeto" itemTextField="descricao" [items]="tipoObjetos" [canSearch]="true"
+                [canClear]="true" [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true"
+                searchFailText="Sem dados a mostrar" searchPlaceholder="Pesquisar">
+                <ng-template ionicSelectableHeaderTemplate>
+                  <ion-toolbar>
+                    <ion-buttons start>
+                      <ion-button (click)="tipo.close()">
+                        <ion-label>Cancelar</ion-label>
+                      </ion-button>
+                    </ion-buttons>
+                    <ion-title>
+                    </ion-title>
+                  </ion-toolbar>
+                </ng-template>
+              </ionic-selectable>
+            </ion-col>
+
+          </ion-row>
+
+          <ion-row *ngIf="outraPericia.tipo==19">
+            <!--  Feto -->
+
+            <ion-col>
+              <ion-label position="floating">Idade intra uterina (dias):</ion-label>
+              <ion-input class="selector" [(ngModel)]="outraPericia.idade" name="idade">
+              </ion-input>
+            </ion-col>
+
+            <ion-col>
+              <ion-label position="floating">Peso (grama):</ion-label>>
+              <ion-input class="selector" [(ngModel)]="outraPericia.peso" name="peso">
+              </ion-input>
+            </ion-col>
+
+            <ion-col>
+              <ion-label position="floating">Estatura (cm):</ion-label>
+              <ion-input class="selector" [(ngModel)]="outraPericia.estatura" name="estatura">
+              </ion-input>
+            </ion-col>
+
+          </ion-row>
+
+          <ion-row>
+
+            <ion-col>
+              <ion-label position="floating" *ngIf="form.value.descricao">Descrição*:</ion-label>
+              <ion-label position="floating" *ngIf="!form.value.descricao" color="danger">Descrição*:</ion-label>
+              <ion-textarea class="selectorarea" required [(ngModel)]="outraPericia.descricao" name="descricao" required>
+              </ion-textarea>
+            </ion-col>
+
+          </ion-row>
+
+        </ion-grid>
+
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+
+      <ion-card-header *ngIf="!opcaoIncluir">
+        <ion-card-title>Exames Periciais</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-header *ngIf="opcaoIncluir">
+        <ion-card-title>Incluir Exames</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-grid>
+
+          <ion-row *ngIf="!opcaoIncluir">
+
+            <ion-col size="6">
+              <ion-label position="floating">Tipo Local:</ion-label>
+              <ionic-selectable class="selector" required #tipoLocal item-content [(ngModel)]="outraPericia.tipo_local"
+                name="tipo_local" itemValueField="codigo" itemTextField="tipo_local" [items]="tipolocales" [canSearch]="true"
+                [canClear]="true" [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true"
+                searchFailText="Sem dados a mostrar" searchPlaceholder="Pesquisar">
+                <ng-template ionicSelectableHeaderTemplate>
+                  <ion-toolbar>
+                    <ion-buttons start>
+                      <ion-button (click)="tipoLocal.close()">
+                        <ion-label>Cancelar</ion-label>
+                      </ion-button>
+                    </ion-buttons>
+                    <ion-title>
+                    </ion-title>
+                  </ion-toolbar>
+                </ng-template>
+              </ionic-selectable>
+            </ion-col>
+
+            <ion-col>
+              <ion-label position="floating">Descrição do Local:</ion-label>
+              <ion-input class="selector" [(ngModel)]="outraPericia.descricao_do_local" name="descricao_do_local">
+              </ion-input>
+            </ion-col>
+
+          </ion-row>
+
+          <ion-row>
+
+            <ion-col size="6">
+              <ion-label position="floating" *ngIf="arrayExames.length>0">Exames Requisitados*:</ion-label>
+              <ion-label position="floating" *ngIf="arrayExames.length==0" color="danger">Exames Requisitados*:</ion-label>
+              <ionic-selectable class="selector" #exameItem item-content [(ngModel)]="exame" name="exame"
+                itemValueField="CODIGO" itemTextField="nome_de_exame" [items]="examesItems" [canSearch]="true"
+                [canClear]="true" [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true"
+                searchFailText="Sem dados a mostrar" searchPlaceholder="Pesquisar"
+                (onChange)="GetExame(form.value.exame)">
+                <ng-template ionicSelectableHeaderTemplate>
+                  <ion-toolbar>
+                    <ion-buttons start>
+                      <ion-button (click)="exameItem.close()">
+                        <ion-label>Cancelar</ion-label>
+                      </ion-button>
+                    </ion-buttons>
+                    <ion-title>
+                    </ion-title>
+                  </ion-toolbar>
+                </ng-template>
+              </ionic-selectable>
+            </ion-col>
+
+            <ion-col size="6">
+              <div class="selectorarea" *ngIf="arrayExames.length>0">
+                <ion-list *ngFor="let abc of arrayExames; let i = index" [attr.data-index]="i">
+                  <ion-item lines="none">
+                    <ion-input readonly>
+                      {{abc.nome_de_exame}}
+                    </ion-input>
+                    <ion-icon name="close" item-start (click)="deleteExame(i,abc)">
+                    </ion-icon>
+                  </ion-item>
+                </ion-list>
+              </div>
+            </ion-col>
+
+          </ion-row>
+
+          <ion-row *ngIf="!opcaoIncluir">
+
+            <ion-col>
+              <ion-label position="floating">Quesitações:</ion-label>
+              <ion-textarea class="selectorarea" [(ngModel)]="outraPericia.quesitaces" name="quesitaces">
+              </ion-textarea>
+            </ion-col>
+
+          </ion-row>
+
+        </ion-grid>
+
+      </ion-card-content>
+    </ion-card>
+
+    <ion-row>
+      <ion-col *ngIf="!opcaoEditar && !opcaoIncluir" style="text-align: center;">
+        <ion-button style="text-transform: capitalize;" [disabled]="!form.valid" (click)="incluirOutrasP()">Incluir
+        </ion-button>
+      </ion-col>
+
+      <ion-col *ngIf="opcaoEditar && !opcaoIncluir" style="text-align: center;">
+        <ion-button style="text-transform: capitalize;" [disabled]="!form.valid" (click)="incluirOutrasP()">Atualizar
+        </ion-button>
+      </ion-col>
+
+      <ion-col *ngIf="!opcaoEditar && opcaoIncluir" style="text-align: center;">
+        <ion-button style="text-transform: capitalize;" [disabled]="!form.valid" (click)="incluirExames()">Incluir
+        </ion-button>
+      </ion-col>
+    </ion-row>
+
+  </form>
+</ion-content>
+
+<!-- 9L -->

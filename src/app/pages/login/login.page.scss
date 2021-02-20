@@ -1,0 +1,91 @@
+$primary-color: #157145;
+$secondary-color: #57a773;
+$tertiary-first: #6a8eae;
+$tertiary-second: #9bd1e5;
+$tertiary-third: #d1faff;
+
+/* ion-input {
+  //font-size:1.2rem;
+  margin-top: 0.2rem;
+  margin-bottom: 1.5rem;
+  border: 0.55px solid rgba(121, 121, 121, 0.4) !important;
+  border-radius: 25px;
+  --placeholder-color: black;
+  --placeholder-opacity: 1 !important;
+  --padding-top: 0.4rem;
+  --padding-bottom: 0.4rem;
+  --padding-start: 0.6rem;
+  --opacity: 1 !important;
+  opacity: 1 !important;
+} */
+/*
+.login-btn {
+  --border-radius: 25px;
+  --background: #157145;
+  --background-focused: #57a773;
+  --background-hover: #57a773;
+  --background-activated: #57a773;
+}
+*/
+.sign-up-btn {
+  --border-radius: 25px;
+  margin-top: 0.5rem;
+  /*
+  --border-color: #07299b;
+  --background: transparent;
+  --color: #07299b;
+  --color-focused: #07299b;
+  --background-activated: #3d66ee;
+  */
+}
+
+.upper-part {
+    background-color: #3880ff;
+    z-index: -1000;
+}
+
+
+.lower-part{
+    margin-top: -4.5rem;
+    margin-bottom: 1rem;
+    margin-left: 8.5%;
+    z-index: 10!important;
+    align-items: center;
+    align-content: center;   
+    
+    .external-container{
+        margin-top: 2rem;
+        box-shadow: 0px 0.3px 2px 0px rgba(0, 0, 0, 0.5);
+        background-color: white;
+        border-radius: 10px;
+        width: 90%;
+        padding: 1rem;
+    }
+}
+
+.logo{
+    align-items: center;
+    align-content: center;
+    background-color: white;
+    border-radius: 10px;     
+    // width: 10rem;
+    //padding: 1rem 0px 0.5rem 0px;
+    margin: 5rem 5rem 0rem 5rem;
+}
+
+.text-logo{
+    margin-bottom: 4rem;
+   
+    color: white;
+}
+
+p{
+    a{
+        color: #463c3b;
+    }
+}
+
+.marginbtn{
+    margin-bottom: 1rem;
+    
+}

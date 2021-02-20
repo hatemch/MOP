@@ -1,0 +1,180 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="primary">
+      <ion-button (click)="goBack()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>{{title}} Unidade</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <form #form="ngForm" (ngSubmit)="save(form)" method="post">
+    <!--form #form="ngForm" method="post"-->
+    <ion-grid>
+      <ion-row>
+        <ion-col size-sm="8" size-md="6" size-lg="4" offsetSm="2" offsetMd="3" offsetLg="4" align-self-center>
+          <ion-item>
+            <ion-label position="floating">Nome do Unidade</ion-label>
+            <ion-input type="text" [(ngModel)]="grupo.nome" name="nome" required>
+            </ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <ion-grid>
+      <ion-row>
+        <ion-col size-sm="8" size-md="6" size-lg="4" offsetSm="2" offsetMd="3" offsetLg="4" align-self-center>
+          <ion-item>
+            <ion-label position='stacked'>Órgão</ion-label>
+            <ionic-selectable #segmentoComponent item-content [(ngModel)]="grupo.segmento" name="segmento"
+              itemValueField="segmento" itemTextField="segmento" [items]="segmentos" [canSearch]="true" [canClear]="true"
+              [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true" searchFailText="Sem dados a mostrar"
+              placeholder="Órgão" searchPlaceholder="Pesquisar">
+              <ng-template ionicSelectableHeaderTemplate>
+                <ion-toolbar>
+                  <ion-buttons start>
+                    <ion-button (click)="segmentoComponent.close()">
+                      <ion-label>Cancelar</ion-label>
+                    </ion-button>
+                  </ion-buttons>
+                  <ion-title>
+                  </ion-title>
+                </ion-toolbar>
+              </ng-template>
+            </ionic-selectable>
+          </ion-item>
+          <!-- <ion-item>
+            <ion-label position="floating">Segmento</ion-label>
+            <ion-select required [(ngModel)]="grupo.segmento" name="segmento" placeholder=" Segmento..."
+              cancelText="Desistir" doneText="Confirmar">
+              <ion-select-option *ngFor="let segmento of segmentos" value="{{segmento.segmento}}">{{segmento.segmento}}
+              </ion-select-option>
+            </ion-select>
+          </ion-item> -->
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <!-- <ion-grid> -->
+      <!-- <ion-row>
+        <ion-col size-sm='8' size-md='6' size-lg='4' offsetSm='2' offsetMd='3' offsetLg='4'>
+        <ion-item>
+          <ion-label position='stacked'>Nível</ion-label>
+          <ion-select [compareWith]='compareWith' value='{{model.nivel}}' interface='popover'
+          (ionChange)="carregarSelectNivel($event)">
+            <ion-select-option *ngFor='let option of collectionNivel' value='{{option.value}}'>
+              {{option.nome}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+        </ion-col>
+      </ion-row> -->
+      <!-- <ion-row>
+
+        <ion-col size-sm='8' size-md='6' size-lg='4' offsetSm='2' offsetMd='3' offsetLg='4'>
+
+          <ion-list>
+            <ion-item>
+              <ion-label position="floating">Nível</ion-label>
+              <ion-select required required [(ngModel)]="grupo.nivel" name="nivel" cancelText="Desistir"
+                doneText="Confirmar" placeholder="Status">
+
+                <ion-select-option>1</ion-select-option>
+                <ion-select-option>2</ion-select-option>
+                <ion-select-option>3</ion-select-option>
+
+              </ion-select>
+            </ion-item>
+          </ion-list>
+
+        </ion-col>
+      </ion-row>
+
+    </ion-grid> -->
+
+    <ion-grid>
+      <ion-row>
+        <ion-col size-sm="8" size-md="6" size-lg="4" offsetSm="2" offsetMd="3" offsetLg="4" align-self-center>
+          <ion-item>
+            <ion-label position='stacked'>Comando</ion-label>
+            <ionic-selectable #comandoComponent item-content [(ngModel)]="grupo.comandoGrupo" name="comando"
+              itemValueField="ID_COMANDO" itemTextField="COMANDO" [items]="comandos" [canSearch]="true" [canClear]="true"
+              [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true" searchFailText="Sem dados a mostrar"
+              placeholder="Comando" searchPlaceholder="Pesquisar">
+              <ng-template ionicSelectableHeaderTemplate>
+                <ion-toolbar>
+                  <ion-buttons start>
+                    <ion-button (click)="comandoComponent.close()">
+                      <ion-label>Cancelar</ion-label>
+                    </ion-button>
+                  </ion-buttons>
+                  <ion-title>
+                  </ion-title>
+                </ion-toolbar>
+              </ng-template>
+            </ionic-selectable>
+          </ion-item>
+          <!-- <ion-item>
+            <ion-label position="floating">Comando</ion-label>
+            <ion-select [(ngModel)]="grupo.comandoGrupo" name="comando" placeholder="Comando..." cancelText="Desistir"
+              doneText="Confirmar">
+              <ion-select-option *ngFor="let comando of comandos" value="{{comando.ID_COMANDO}}">{{comando.COMANDO}}
+              </ion-select-option>
+            </ion-select>
+          </ion-item> -->
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <ion-grid>
+      <ion-row>
+        <ion-col size-sm="8" size-md="6" size-lg="4" offsetSm="2" offsetMd="3" offsetLg="4" align-self-center>
+          <ion-item>
+            <ion-label position="floating">E-mail</ion-label>
+            <ion-input type="text" [(ngModel)]="grupo.email" name="email" required>
+            </ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <!-- <ion-grid>
+      <ion-row>
+        <ion-col size-sm="8" size-md="6" size-lg="4" offsetSm="2" offsetMd="3" offsetLg="4" align-self-center>
+          <ion-item>
+            <ion-label position="floating">Segmento</ion-label>
+            <ion-select required [(ngModel)]="grupo.segmento" name="segmento" placeholder="Seguimento..."
+              cancelText="Desistir" doneText="Confirmar">
+              <ion-select-option *ngFor="let segmento of segmentos" value="{{segmento.segmento}}">{{segmento.segmento}}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid> -->
+
+    <!-- <ion-row>
+      <ion-col>
+        <ion-button (click)="goBack()" expand="block" color="secondary">Cancel</ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button expand="block" type="submit" [disabled]="!form.valid">Salvar</ion-button>
+      </ion-col>
+    </ion-row> -->
+
+    <ion-row>
+      <ion-col size-sm="8" size-md="6" size-lg="4" offsetSm="2" offsetMd="3" offsetLg="4" align-self-center>
+        <ion-button expand="block" type="submit" [disabled]="!form.valid">Salvar</ion-button>
+      </ion-col>
+    </ion-row>
+
+  </form>
+
+
+</ion-content>

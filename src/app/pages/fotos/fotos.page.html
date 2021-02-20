@@ -1,0 +1,156 @@
+<ion-header>
+
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="primary">
+      <ion-button (click)="goBack()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Fotos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form #form="ngForm" (ngSubmit)="search(form)" method="post">
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">RG</ion-label>
+            <ion-input type="text" [(ngModel)]="foto.rg" name="rg">
+            </ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">CPF</ion-label>
+            <ion-input type="text" [(ngModel)]="foto.cpf" name="cpf" id="cpf" (ionChange)="formatCPF(foto.cpf,'cpf')"
+              placeholder="999.999.999-99">
+            </ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Nome</ion-label>
+            <ion-input type="text" [(ngModel)]="foto.nome" name="nome">
+            </ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Vulgo</ion-label>
+            <ion-input type="text" [(ngModel)]="foto.vulgo" name="vulgo">
+            </ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Mãe</ion-label>
+            <ion-input type="text" [(ngModel)]="foto.mae" name="mae">
+            </ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Bairro</ion-label>
+            <ion-input type="text" [(ngModel)]="foto.bairro" name="bairro">
+            </ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Área de atuação</ion-label>
+            <ion-input type="text" [(ngModel)]="foto.area" name="area">
+            </ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-button expand="block" type="submit" [disabled]="permissoes.Pesquisar == 0">Pesquisar</ion-button>
+        </ion-col>
+
+      </ion-row>
+
+    </ion-grid>
+  </form>
+
+  <ion-grid *ngIf="fotos.length > 0">
+
+    <ngx-datatable class="bootstrap" [rows]="fotos" [columnMode]="'force'" [headerHeight]="40" [footerHeight]="40"
+      rowHeight="auto" [scrollbarH]="true" [limit]="10">
+
+      <!-- <ngx-datatable-column name="ID">
+        <ng-template let-column="column" ngx-datatable-header-template> {{ column.name }} </ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.id}}</ng-template>
+      </ngx-datatable-column> -->
+      <ngx-datatable-column name="RG">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.rg}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="CPF">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.cpf}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Nome">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.nome}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Data de Nascimento">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.nascimento}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Vulgo">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.vulgo}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Nome da Mãe">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.mae}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Nome do Pai">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.pai}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Bairro">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.bairro_id}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Logradouro">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.logradouro}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Área de Atuação">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.atuacao_id}}</ng-template>
+      </ngx-datatable-column>
+      
+     
+      
+      
+     
+      
+      <ngx-datatable-column name="Foto">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <ion-button
+          (click)="showPicture(row.id)"
+          slot="end"
+          fill="clear"
+          shape="round"
+          [disabled]="permissoes.Pesquisar == 0">
+          <ion-icon name="image" color="secondary"></ion-icon>
+        </ion-button>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+
+  </ion-grid>
+
+</ion-content>

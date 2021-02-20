@@ -1,0 +1,183 @@
+<ion-header>
+
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="primary">
+      <ion-button (click)="goBack()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Usuários</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form #form="ngForm" (ngSubmit)="pesquisar(form,'')" method="post">
+    <ion-grid>
+
+      <ion-row>
+        <ion-col>
+          <ion-label position='floating'>Perfil</ion-label>
+
+          <ionic-selectable class="selector" #perfilComponent item-content [(ngModel)]="user.PERFIL" name="userPerfil"
+            itemValueField="slug" itemTextField="nome" [items]="perfis" [canSearch]="true" [canClear]="true"
+            [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true" searchFailText="Sem dados a mostrar"
+            searchPlaceholder="Pesquisar">
+            <ng-template ionicSelectableHeaderTemplate>
+              <ion-toolbar>
+                <ion-buttons start>
+                  <ion-button (click)="perfilComponent.close()">
+                    <ion-label>Cancelar</ion-label>
+                  </ion-button>
+                </ion-buttons>
+                <ion-title>
+                </ion-title>
+              </ion-toolbar>
+            </ng-template>
+          </ionic-selectable>
+
+        </ion-col>
+        <ion-col>
+          <ion-label position='floating'>Órgão</ion-label>
+
+          <ionic-selectable class="selector" #segmentoComponent item-content [(ngModel)]="user.SEGMENTO"
+            name="userSegmento" itemValueField="segmento" itemTextField="segmento" [items]="segmentos"
+            [canSearch]="true" [canClear]="true" [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true"
+            searchFailText="Sem dados a mostrar" searchPlaceholder="Pesquisar" (onChange)="CarregaSegmentoGrupos()">
+            <ng-template ionicSelectableHeaderTemplate>
+              <ion-toolbar>
+                <ion-buttons start>
+                  <ion-button (click)="segmentoComponent.close()">
+                    <ion-label>Cancelar</ion-label>
+                  </ion-button>
+                </ion-buttons>
+                <ion-title>
+                </ion-title>
+              </ion-toolbar>
+            </ng-template>
+          </ionic-selectable>
+        </ion-col>
+
+        <ion-col>
+          <ion-label position='floating'>Unidade</ion-label>
+
+          <ionic-selectable class="selector" #segmentoComponent item-content [(ngModel)]="user.GRUPO" name="userGrupo"
+            itemValueField="codigo" itemTextField="nome" [items]="grupos" [canSearch]="true" [canClear]="true"
+            [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true" searchFailText="Sem dados a mostrar"
+            searchPlaceholder="Pesquisar" (onChange)='CarregaSegmentoGrupoUsuariosPerfis()'>
+            <ng-template ionicSelectableHeaderTemplate>
+              <ion-toolbar>
+                <ion-buttons start>
+                  <ion-button (click)="segmentoComponent.close()">
+                    <ion-label>Cancelar</ion-label>
+                  </ion-button>
+                </ion-buttons>
+                <ion-title>
+                </ion-title>
+              </ion-toolbar>
+            </ng-template>
+          </ionic-selectable>
+        </ion-col>
+
+        <ion-col>
+          <ion-label position="floating">Status:</ion-label>
+          <ion-select class="selector" required [(ngModel)]="user.STATUS" name="userStatus" cancelText="Desistir"
+            doneText="Confirmar" placeholder="Status">
+            <ion-select-option value='A'>Ativo</ion-select-option>
+            <ion-select-option value='I'>Inativo</ion-select-option>
+          </ion-select>
+        </ion-col>
+      </ion-row>
+
+
+      <ion-row>
+        <ion-col>
+          <ion-label position="floating">Matrícula</ion-label>
+          <ion-input class="selector" type="text" required [(ngModel)]="user.MATRICULA" name="userMatricula">
+          </ion-input>
+        </ion-col>
+
+        <ion-col>
+          <ion-label position="floating">Nome</ion-label>
+          <ion-input class="selector" type="text" required [(ngModel)]="user.NOME" name="userName">
+          </ion-input>
+        </ion-col>
+
+        <ion-col size="2">
+          <ion-button expand="block" type="submit" [disabled]="permissoes.Pesquisar == 0" style="margin-top: 2.5em;">
+            Pesquisar</ion-button>
+        </ion-col>
+        <ion-col size="2">
+          <ion-button expand="block" [disabled]="permissoes.Pesquisar == 0" (click)='pesquisar(form,"X")'
+            style="margin-top: 2.5em;">Excel
+            <ion-icon name="download"></ion-icon>
+          </ion-button>
+        </ion-col>
+        <ion-col size="2">
+          <ion-button expand="block" [disabled]="permissoes.Pesquisar == 0" (click)='LimpiarFiltros()'
+            style="margin-top: 2.5em;">Limpar Filtros
+           
+          </ion-button>
+        </ion-col>
+      </ion-row>
+
+
+    </ion-grid>
+  </form>
+
+  <ion-grid *ngIf="this.users?.length > 0">
+
+    <ngx-datatable class="bootstrap" [rows]="users" [columnMode]="'force'" [headerHeight]="40" [footerHeight]="40"
+      rowHeight="auto" [scrollbarH]="true" [limit]="15">
+
+      <ngx-datatable-column name="Nome" width="200">
+        <ng-template let-column="column" ngx-datatable-header-template> {{ column.name }} </ng-template>
+        <ng-template let-row="row" let-value="NOME" ngx-datatable-cell-template>
+          {{row.NOME}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Matrícula">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.MATRICULA}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Órgão">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.SEGMENTO}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Unidade">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.NOMEGRUPO}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Cadastrado por">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.USUARIO_CADASTRANTE_NOME}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Opções">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <ion-button (click)="editarUsuario(row.CODIGO)" slot="end" fill="clear" shape="round"
+            [disabled]="permissoes.Editar == 0">
+            <ion-icon name="create" color="secondary"></ion-icon>
+          </ion-button>
+          <ion-button (click)="delete(row.CODIGO, row.NOME, form)" slot="end" fill="clear" shape="round"
+            [disabled]="permissoes.Deletar == 0">
+            <ion-icon name="trash" color="secondary"></ion-icon>
+          </ion-button>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+
+  </ion-grid>
+
+  <ion-fab horizontal="end" vertical="bottom" slot="fixed">
+
+    <ion-fab-button color="primary" (click)="NewUser()"
+      [disabled]="permissoes.Inserir == 0 && ( Authorizer.Perfil!='A' || Authorizer.Perfil!='S' || Authorizer.Perfil!='G')">
+      <ion-icon ios="ios-add" md="md-add"></ion-icon>
+    </ion-fab-button>
+
+  </ion-fab>
+
+</ion-content>

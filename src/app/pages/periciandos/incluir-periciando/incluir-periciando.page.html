@@ -1,0 +1,750 @@
+<ion-header>
+
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="primary">
+      <ion-button (click)="goBack()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Incluir Periciando</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-button (click)="openBuscarPessoas()">
+          Buscar Pessoa
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Envolvimento Pessoa</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid>
+
+        <ion-row>
+          <ion-col size="4">
+            <ion-item>
+              <ion-label position="stacked">Envolvimento:*:</ion-label>
+
+              <ionic-selectable placeholder='selecione' required #envolvimetoPessoaComponent item-content
+                [(ngModel)]="periciando.envolvimento" name="envolvimento" itemValueField="idTipoEnvolvimentoPessoa"
+                itemTextField="descricao" [items]="envolvimentos" [canSearch]="true" [canClear]="true"
+                [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true" searchFailText="Sem dados a mostrar"
+                searchPlaceholder="Pesquisar">
+                <ng-template ionicSelectableHeaderTemplate>
+                  <ion-toolbar>
+                    <ion-buttons start>
+                      <ion-button (click)="envolvimetoPessoaComponent.close()">
+                        <ion-label>Cancelar</ion-label>
+                      </ion-button>
+                    </ion-buttons>
+                    <ion-title>
+                    </ion-title>
+                  </ion-toolbar>
+                </ng-template>
+              </ionic-selectable>
+            </ion-item>
+          </ion-col>
+          <ion-col>
+            <ion-card-header>
+              <ion-card-title>Tipificaçao</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <ion-grid>
+                <ion-radio-group [(ngModel)]="periciando.tipificacao">
+
+                  <ion-row>
+                    <ion-col size=3>
+                      <ion-item lines="none">
+                        <ion-label>Homicidio</ion-label>
+                        <ion-radio slot="start" mode="md" item-left value="N"></ion-radio>
+                      </ion-item>
+                    </ion-col>
+
+                    <ion-col>
+                      <ion-item lines="none">
+                        <ion-label>Tentativa do Homicidio</ion-label>
+                        <ion-radio slot="start" mode="md" item-left value="S"></ion-radio>
+                      </ion-item>
+                    </ion-col>
+
+                  </ion-row>
+
+                </ion-radio-group>
+              </ion-grid>
+            </ion-card-content>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-card-header>
+            <ion-card-title>Dados Pessoais</ion-card-title>
+          </ion-card-header>
+        </ion-row>
+        <ion-row>
+          <ion-card-content>
+            <ion-grid>
+              <ion-row>
+                <ion-col>
+                  <ion-item lines="none">
+                    <ion-label>Não Identificado</ion-label>
+                    <ion-checkbox slot="start" value="S" [(ngModel)]="periciando.nao_identificado"></ion-checkbox>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-row>
+        <ion-row>
+          <ion-label>Documento</ion-label>
+
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-label>CPF:</ion-label>
+              <ion-input type="text" [(ngModel)]="periciando.cpf" name="cpf"
+                (ionChange)="formatCPF(periciando.cpf,'CPF')" id="CPF" maxlength="14" placeholder="999.999.999-99" required>
+              </ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col>
+            <ion-item>
+              <ion-label>RG:</ion-label>
+              <ion-input type="text" [(ngModel)]="periciando.rg" name="rg" (ionChange)="formatRG(periciando.rg,'RG')" id="RG"
+                placeholder="888888888-88"  maxlength="12"required></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col>
+            <ion-item>
+              <ionic-selectable placeholder='Órgão Expendidor' required #OrgaoExpendidorComponent item-content
+                [(ngModel)]="periciando.orgaoExp" name="orgaoExp" itemValueField="codigo" itemTextField="segmento"
+                [items]="orgaoExpedidor" [canSearch]="true" [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true"
+                searchFailText="Sem dados a mostrar" searchPlaceholder="Pesquisar">
+                <ng-template ionicSelectableHeaderTemplate>
+                  <ion-toolbar>
+                    <ion-buttons start>
+                      <ion-button (click)="OrgaoExpendidorComponent.close()">
+                        <ion-label>Cancelar</ion-label>
+                      </ion-button>
+                    </ion-buttons>
+                    <ion-title>
+                    </ion-title>
+                  </ion-toolbar>
+                </ng-template>
+              </ionic-selectable>
+            </ion-item>
+          </ion-col>
+          <ion-col>
+            <ion-item>
+              <ion-label>Passaporte:</ion-label>
+              <ion-input type="text" [(ngModel)]="periciando.passaporte" name="passaporte" required></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size-sm="8" size-md="6" size-lg="8">
+            <ion-item>
+              <ion-label>Nome:</ion-label>
+              <ion-input type="text" [(ngModel)]="periciando.nome" name="nome" required></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size-sm="8" size-md="6" size-lg="8">
+            <ion-item>
+              <ion-label>Nome Social:</ion-label>
+              <ion-input type="text" [(ngModel)]="periciando.nome_social" name="nome_social"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size-sm="8" size-md="6" size-lg="4">
+            <ion-item>
+              <ion-label>Filiaçao:</ion-label>
+              <ion-input type="text" [(ngModel)]="periciando.filiacao1" name="filiacao1"></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-label position="stacked">e</ion-label>
+          <ion-col size-sm="8" size-md="6" size-lg="4">
+            <ion-item>
+              <ion-input type="text" [(ngModel)]="periciando.filiacao2" name="filiacao2"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size=4>
+            <ion-item>
+              <ion-label position="stacked">Data de Nacimento:</ion-label>
+              <ion-input type="date" [(ngModel)]="periciando.data_nacimento" name="data_nacimento" required>
+              </ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col size=4>
+            <ion-item>
+              <ion-label position="stacked">Idade aproximada(em anos)</ion-label>
+
+              <ion-input type="number" [(ngModel)]="periciando.idade" name="idade" required></ion-input>
+            </ion-item>
+          </ion-col>
+
+          <ion-col>
+            <ion-item lines="none">
+              <ion-label position="stacked">Sexo</ion-label>
+              <ionic-selectable required #SexoComponent item-content [(ngModel)]="periciando.sexo" name="sexo"
+                itemValueField="nome" itemTextField="nome" [items]="sexo" [canSearch]="true"
+                [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true" searchFailText="Sem dados a mostrar"
+                searchPlaceholder="Pesquisar">
+                <ng-template ionicSelectableHeaderTemplate>
+                  <ion-toolbar>
+                    <ion-buttons start>
+                      <ion-button (click)="SexoComponent.close()">
+                        <ion-label>Cancelar</ion-label>
+                      </ion-button>
+                    </ion-buttons>
+                    <ion-title>
+                    </ion-title>
+                  </ion-toolbar>
+                </ng-template>
+              </ionic-selectable>
+            </ion-item>
+          </ion-col>
+
+          <ion-col>
+            <ion-item lines="none">
+              <ion-label position="stacked">Cútis</ion-label>
+              <ionic-selectable placeholder="Selecione" required #cutisComponent item-content
+                [(ngModel)]="periciando.cutis" name="cutis" itemValueField="nome" itemTextField="nome" [items]="cutis"
+                [canSearch]="true" [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true"
+                searchFailText="Sem dados a mostrar" searchPlaceholder="Pesquisar">
+                <ng-template ionicSelectableHeaderTemplate>
+                  <ion-toolbar>
+                    <ion-buttons start>
+                      <ion-button (click)="cutisComponent.close()">
+                        <ion-label>Cancelar</ion-label>
+                      </ion-button>
+                    </ion-buttons>
+                    <ion-title>
+                    </ion-title>
+                  </ion-toolbar>
+                </ng-template>
+              </ionic-selectable>
+            </ion-item>
+
+          </ion-col>
+
+        </ion-row>
+
+        <ion-radio-group [(ngModel)]="periciando.deficiencia">
+          <ion-label>Deficiencia</ion-label>
+          <ion-row>
+            <ion-col size=2>
+              <ion-item lines="none">
+                <ion-label>Não</ion-label>
+                <ion-radio slot="start" mode="md" item-left value="N"></ion-radio>
+              </ion-item>
+            </ion-col>
+
+            <ion-col size=2>
+              <ion-item lines="none">
+                <ion-label>Sim</ion-label>
+                <ion-radio slot="start" mode="md" item-left value="S"></ion-radio>
+              </ion-item>
+            </ion-col>
+
+          </ion-row>
+
+        </ion-radio-group>
+
+        <ion-row>
+          <ion-col>
+            <ion-item lines="none">
+              <ion-label>Fisica</ion-label>
+              <ion-checkbox slot="start" [(ngModel)]="periciando.fisica"></ion-checkbox>
+            </ion-item>
+          </ion-col>
+          <ion-col>
+            <ion-item lines="none">
+              <ion-label>Mental</ion-label>
+              <ion-checkbox slot="start" [(ngModel)]="periciando.mental"></ion-checkbox>
+            </ion-item>
+          </ion-col>
+          <ion-col>
+            <ion-item lines="none">
+              <ion-label>Auditiva</ion-label>
+              <ion-checkbox slot="start" [(ngModel)]="periciando.auditiva"></ion-checkbox>
+            </ion-item>
+          </ion-col>
+          <ion-col>
+            <ion-item lines="none">
+              <ion-label>Visual</ion-label>
+              <ion-checkbox slot="start" [(ngModel)]="periciando.visual"></ion-checkbox>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+
+          <ion-col size-sm="8" size-md="6" size-lg="4">
+            <ion-item>
+              <ion-label position="stacked">Nacionalidade</ion-label>
+              <ionic-selectable placeholder="Selecione" required #NacionalidadeComponent item-content
+                [(ngModel)]="periciando.nacionalidade" name="nacionalidade" itemValueField="nome" itemTextField="nome"
+                [items]="nacionalidade" [canSearch]="true" [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true"
+                searchFailText="Sem dados a mostrar" searchPlaceholder="Pesquisar">
+                <ng-template ionicSelectableHeaderTemplate>
+                  <ion-toolbar>
+                    <ion-buttons start>
+                      <ion-button (click)="NacionalidadeComponent.close()">
+                        <ion-label>Cancelar</ion-label>
+                      </ion-button>
+                    </ion-buttons>
+                    <ion-title>
+                    </ion-title>
+                  </ion-toolbar>
+                </ng-template>
+              </ionic-selectable>
+            </ion-item>
+          </ion-col>
+
+          <ion-col size-sm="8" size-md="6" size-lg="4">
+            <ion-item>
+              <ion-label position="stacked">Naturalidade</ion-label>
+              <ionic-selectable placeholder="Selecione" required #NaturalidadeComponent item-content
+                [(ngModel)]="periciando.naturalidade" name="naturalidade" itemValueField="nome" itemTextField="nome"
+                [items]="naturalidade" [canSearch]="true" [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true"
+                searchFailText="Sem dados a mostrar" searchPlaceholder="Pesquisar">
+                <ng-template ionicSelectableHeaderTemplate>
+                  <ion-toolbar>
+                    <ion-buttons start>
+                      <ion-button (click)="NaturalidadeComponent.close()">
+                        <ion-label>Cancelar</ion-label>
+                      </ion-button>
+                    </ion-buttons>
+                    <ion-title>
+                    </ion-title>
+                  </ion-toolbar>
+                </ng-template>
+              </ionic-selectable>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+
+          <ion-col size-sm="8" size-md="6" size-lg="3">
+            <ion-item>
+              <ion-label position="stacked">Estado civil</ion-label>
+              <ionic-selectable placeholder="Selecione" required #estadoCivilComponent item-content
+                [(ngModel)]="periciando.estado_civil" name="estado_civil" itemValueField="nome" itemTextField="nome"
+                [items]="estadoCivil" [canSearch]="true" [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true"
+                searchFailText="Sem dados a mostrar" searchPlaceholder="Pesquisar">
+                <ng-template ionicSelectableHeaderTemplate>
+                  <ion-toolbar>
+                    <ion-buttons start>
+                      <ion-button (click)="estadoCivilComponent.close()">
+                        <ion-label>Cancelar</ion-label>
+                      </ion-button>
+                    </ion-buttons>
+                    <ion-title>
+                    </ion-title>
+                  </ion-toolbar>
+                </ng-template>
+              </ionic-selectable>
+            </ion-item>
+          </ion-col>
+
+          <ion-col size-sm="8" size-md="6" size-lg="3">
+            <ion-item>
+              <ion-label position="stacked">Profissão</ion-label>
+              <ionic-selectable placeholder="Selecione" required #proficaoComponent item-content
+                [(ngModel)]="periciando.profissao" name="profissao" itemValueField="nome" itemTextField="nome"
+                [items]="proficao" [canSearch]="true" [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true"
+                searchFailText="Sem dados a mostrar" searchPlaceholder="Pesquisar">
+                <ng-template ionicSelectableHeaderTemplate>
+                  <ion-toolbar>
+                    <ion-buttons start>
+                      <ion-button (click)="proficaoComponent.close()">
+                        <ion-label>Cancelar</ion-label>
+                      </ion-button>
+                    </ion-buttons>
+                    <ion-title>
+                    </ion-title>
+                  </ion-toolbar>
+                </ng-template>
+              </ionic-selectable>
+            </ion-item>
+          </ion-col>
+
+          <ion-col size-sm="8" size-md="6" size-lg="3">
+            <ion-item>
+              <ion-label position="stacked">Religão</ion-label>
+              <ionic-selectable placeholder="Selecione" required #religiaoComponent item-content
+                [(ngModel)]="periciando.reliagao" name="reliagao" itemValueField="nome" itemTextField="nome"
+                [items]="religiao" [canSearch]="true" [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true"
+                searchFailText="Sem dados a mostrar" searchPlaceholder="Pesquisar">
+                <ng-template ionicSelectableHeaderTemplate>
+                  <ion-toolbar>
+                    <ion-buttons start>
+                      <ion-button (click)="religiaoComponent.close()">
+                        <ion-label>Cancelar</ion-label>
+                      </ion-button>
+                    </ion-buttons>
+                    <ion-title>
+                    </ion-title>
+                  </ion-toolbar>
+                </ng-template>
+              </ionic-selectable>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+
+          <ion-col size-sm="8" size-md="6" size-lg="4">
+            <ion-item>
+              <ion-label position="stacked">Grau de Instrução</ion-label>
+              <ionic-selectable placeholder="Selecione" required #grauInstrucaoComponent item-content
+                [(ngModel)]="periciando.graude_instrucao" name="graude_instrucao" itemValueField="nome"
+                itemTextField="nome" [items]="grauInstrucao" [canSearch]="true" [shouldFocusSearchbar]="true"
+                [shouldStoreItemValue]="true" searchFailText="Sem dados a mostrar" searchPlaceholder="Pesquisar">
+                <ng-template ionicSelectableHeaderTemplate>
+                  <ion-toolbar>
+                    <ion-buttons start>
+                      <ion-button (click)="grauInstrucaoComponent.close()">
+                        <ion-label>Cancelar</ion-label>
+                      </ion-button>
+                    </ion-buttons>
+                    <ion-title>
+                    </ion-title>
+                  </ion-toolbar>
+                </ng-template>
+              </ionic-selectable>
+            </ion-item>
+          </ion-col>
+
+          <ion-col size-sm="8" size-md="6" size-lg="4">
+            <ion-item>
+              <ion-label position="stacked">Orientação sexual</ion-label>
+              <ionic-selectable placeholder="Selecione" required #orientacaoSexualComponent item-content
+                [(ngModel)]="periciando.orientacao_sexual" name="orientacao_sexual" itemValueField="nome"
+                itemTextField="nome" [items]="orientacaoSexual" [canSearch]="true" [shouldFocusSearchbar]="true"
+                [shouldStoreItemValue]="true" searchFailText="Sem dados a mostrar" searchPlaceholder="Pesquisar">
+                <ng-template ionicSelectableHeaderTemplate>
+                  <ion-toolbar>
+                    <ion-buttons start>
+                      <ion-button (click)="orientacaoSexualComponent.close()">
+                        <ion-label>Cancelar</ion-label>
+                      </ion-button>
+                    </ion-buttons>
+                    <ion-title>
+                    </ion-title>
+                  </ion-toolbar>
+                </ng-template>
+              </ionic-selectable>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+
+          <ion-col size-sm="8" size-md="6">
+            <ion-item>
+              <ion-label>Télefone Celular:</ion-label>
+              <ion-input type="text" [(ngModel)]="periciando.telefone"
+                (ionChange)="formatTelefone(periciando.telefone,'TELEFONE')" id="TELEFONE" placeholder="(00)0000-0000"
+                name="telefone"></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col size-sm="8" size-md="6">
+            <ion-item>
+              <ion-label>Email:</ion-label>
+              <ion-input type="email"  [(ngModel)]="periciando.email" name="email"></ion-input>
+            </ion-item>
+          </ion-col>
+
+        </ion-row>
+        <ion-row>
+          <ion-card-header>
+            <ion-card-title>Obito</ion-card-title>
+          </ion-card-header>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-label position="stacked">Data Provavel:</ion-label>
+              <ion-input type="date" [(ngModel)]="periciando.dataObito" name="dataObito"></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col size-sm="8" size-md="6" size-lg="4">
+            <ion-item>
+              <ion-label position="stacked">Local Provavel</ion-label>
+              <ionic-selectable placeholder="Selecione" required #TipoLocalComponent item-content
+                [(ngModel)]="periciando.local_provavel" name="local_provavel" itemValueField="codigo"
+                itemTextField="tipo_local" [items]="localProvavel" [canSearch]="true" [shouldFocusSearchbar]="true"
+                [shouldStoreItemValue]="true" searchFailText="Sem dados a mostrar" searchPlaceholder="Pesquisar">
+                <ng-template ionicSelectableHeaderTemplate>
+                  <ion-toolbar>
+                    <ion-buttons start>
+                      <ion-button (click)="TipoLocalComponent.close()">
+                        <ion-label>Cancelar</ion-label>
+                      </ion-button>
+                    </ion-buttons>
+                    <ion-title>
+                    </ion-title>
+                  </ion-toolbar>
+                </ng-template>
+              </ionic-selectable>
+            </ion-item>
+          </ion-col>
+          <ion-col size-sm="8" size-md="6" size-lg="4">
+            <ion-item>
+              <ion-label position="stacked">Causa Provavel</ion-label>
+              <ionic-selectable placeholder="Selecione" required #causaProvavelComponent item-content
+                [(ngModel)]="periciando.causas_provavel" name="causas_provavel" itemValueField="nome"
+                itemTextField="nome" [items]="causaProvavel" [canSearch]="true" [shouldFocusSearchbar]="true"
+                [shouldStoreItemValue]="true" searchFailText="Sem dados a mostrar" searchPlaceholder="Pesquisar">
+                <ng-template ionicSelectableHeaderTemplate>
+                  <ion-toolbar>
+                    <ion-buttons start>
+                      <ion-button (click)="causaProvavelComponent.close()">
+                        <ion-label>Cancelar</ion-label>
+                      </ion-button>
+                    </ion-buttons>
+                    <ion-title>
+                    </ion-title>
+                  </ion-toolbar>
+                </ng-template>
+              </ionic-selectable>
+            </ion-item>
+          </ion-col>
+
+
+        </ion-row>
+        <ion-row>
+          <ion-card-header>
+            <ion-card-title>Endereço</ion-card-title>
+          </ion-card-header>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-item lines="none">
+              <ion-label>Mesmo Endereço do local do Fato </ion-label>
+              <ion-checkbox slot="start" [(ngModel)]="periciando.mesmo_endereco_localfato"></ion-checkbox>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size-sm="8" size-md="6" size-lg="4">
+            <ion-item>
+              <ion-label position="stacked">País</ion-label>
+              <ionic-selectable placeholder="Selecione" required #PaisComponent item-content
+                [(ngModel)]="periciando.pais" name="pais" itemValueField="nome" itemTextField="nome" [items]="pais"
+                [canSearch]="true" [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true"
+                searchFailText="Sem dados a mostrar" searchPlaceholder="Pesquisar">
+                <ng-template ionicSelectableHeaderTemplate>
+                  <ion-toolbar>
+                    <ion-buttons start>
+                      <ion-button (click)="PaisComponent.close()">
+                        <ion-label>Cancelar</ion-label>
+                      </ion-button>
+                    </ion-buttons>
+                    <ion-title>
+                    </ion-title>
+                  </ion-toolbar>
+                </ng-template>
+              </ionic-selectable>
+            </ion-item>
+          </ion-col>
+          <ion-col size-sm="8" size-md="6" size-lg="4">
+            <ion-item>
+              <ion-label position="stacked">UF</ion-label>
+              <ionic-selectable placeholder="Selecione" required #UFComponent item-content [(ngModel)]="periciando.uf"
+                name="uf" itemValueField="codigoUF" itemTextField="sigla" [items]="uf" [canSearch]="true"
+                [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true" searchFailText="Sem dados a mostrar"
+                searchPlaceholder="Pesquisar">
+                <ng-template ionicSelectableHeaderTemplate>
+                  <ion-toolbar>
+                    <ion-buttons start>
+                      <ion-button (click)="UFComponent.close()">
+                        <ion-label>Cancelar</ion-label>
+                      </ion-button>
+                    </ion-buttons>
+                    <ion-title>
+                    </ion-title>
+                  </ion-toolbar>
+                </ng-template>
+              </ionic-selectable>
+            </ion-item>
+          </ion-col>
+          <ion-col>
+            <ion-item>
+              <ion-label position="stacked">CEP:</ion-label>
+              <ion-input type="text" [(ngModel)]="periciando.cep" name="cep" required></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+
+          <ion-col size-sm="8" size-md="6" size-lg="4">
+            <ion-item>
+              <ion-label position="stacked">Municipio</ion-label>
+              <ionic-selectable placeholder="Selecione" required #MunicipioComponent item-content
+                [(ngModel)]="periciando.municipio" name="municipio" itemValueField="CodigoBaseMunicipio"
+                itemTextField="Nome" [items]="municipios" [canSearch]="true" [shouldFocusSearchbar]="true"
+                [shouldStoreItemValue]="true" searchFailText="Sem dados a mostrar" searchPlaceholder="Pesquisar"
+                (onChange)="carregaBairros()">
+                <ng-template ionicSelectableHeaderTemplate>
+                  <ion-toolbar>
+                    <ion-buttons start>
+                      <ion-button (click)="MunicipioComponent.close()">
+                        <ion-label>Cancelar</ion-label>
+                      </ion-button>
+                    </ion-buttons>
+                    <ion-title>
+                    </ion-title>
+                  </ion-toolbar>
+                </ng-template>
+              </ionic-selectable>
+            </ion-item>
+          </ion-col>
+          <ion-col size-sm="8" size-md="6" size-lg="4">
+            <ion-item>
+              <ion-label position="stacked">Bairro</ion-label>
+              <ionic-selectable placeholder="Selecione" required #BairroComponent item-content
+                [(ngModel)]="periciando.bairro" name="bairro" itemValueField="codigo" itemTextField="nome_bairro"
+                [items]="bairros" [canSearch]="true" [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true"
+                searchFailText="Sem dados a mostrar" searchPlaceholder="Pesquisar">
+                <ng-template ionicSelectableHeaderTemplate>
+                  <ion-toolbar>
+                    <ion-buttons start>
+                      <ion-button (click)="BairroComponent.close()">
+                        <ion-label>Cancelar</ion-label>
+                      </ion-button>
+                    </ion-buttons>
+                    <ion-title>
+                    </ion-title>
+                  </ion-toolbar>
+                </ng-template>
+              </ionic-selectable>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size-sm="8" size-md="6" size-lg="4">
+            <ion-item>
+              <ion-label position="stacked">Logradouro</ion-label>
+              <ionic-selectable placeholder="Selecione" required #LogradouroComponent item-content
+                [(ngModel)]="periciando.tipo_logradouro" name="tipo_logradouro" itemValueField="idTipoLogradouro"
+                itemTextField="abreviatura" [items]="tipologradouros" [canSearch]="true" [shouldFocusSearchbar]="true"
+                [shouldStoreItemValue]="true" searchFailText="Sem dados a mostrar" searchPlaceholder="Pesquisar">
+                <ng-template ionicSelectableHeaderTemplate>
+                  <ion-toolbar>
+                    <ion-buttons start>
+                      <ion-button (click)="LogradouroComponent.close()">
+                        <ion-label>Cancelar</ion-label>
+                      </ion-button>
+                    </ion-buttons>
+                    <ion-title>
+                    </ion-title>
+                  </ion-toolbar>
+                </ng-template>
+              </ionic-selectable>
+            </ion-item>
+          </ion-col>
+          <ion-col>
+            <ion-item>
+              <ion-label position="stacked">Complemento:</ion-label>
+              <ion-input type="text" [(ngModel)]="periciando.complemento" name="complemento"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-card-header>
+            <ion-card-title>Exames Periciais</ion-card-title>
+          </ion-card-header>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-item lines="none">
+              <ion-label>Exame externo </ion-label>
+              <ion-checkbox slot="start" value="S" [(ngModel)]="periciando.exame_externo"></ion-checkbox>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size-sm="8" size-md="6" size-lg="4">
+            <ion-item>
+              <ion-label position="stacked">Tipo Local</ion-label>
+              <ionic-selectable placeholder="Selecione" required #tipoLocalComponent item-content
+                [(ngModel)]="periciando.tipo_local" name="tipo_local" itemValueField="idTipoLocal" itemTextField="nome"
+                [items]="tipoLocal" [canSearch]="true" [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true"
+                searchFailText="Sem dados a mostrar" searchPlaceholder="Pesquisar">
+                <ng-template ionicSelectableHeaderTemplate>
+                  <ion-toolbar>
+                    <ion-buttons start>
+                      <ion-button (click)="tipoLocalComponent.close()">
+                        <ion-label>Cancelar</ion-label>
+                      </ion-button>
+                    </ion-buttons>
+                    <ion-title>
+                    </ion-title>
+                  </ion-toolbar>
+                </ng-template>
+              </ionic-selectable>
+            </ion-item>
+          </ion-col>
+          <ion-col>
+            <ion-item>
+              <ion-label position="stacked">Descrição do Local</ion-label>
+              <ion-textarea rows="1" cols="20" [(ngModel)]="periciando.descricao_local" name="descricao_local">
+              </ion-textarea>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-label position="stacked">Estado do Periciando</ion-label>
+            <ion-textarea rows="2" cols="20" [(ngModel)]="periciando.estado_periciando" name="estado_periciando">
+            </ion-textarea>
+          </ion-col>
+          <ion-col>
+            <ion-item>
+              <ion-label position="stacked">Internamento:</ion-label>
+              <ion-input type="date" [(ngModel)]="periciando.dataexamen1" name="dataexamen1"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="stacked">Previsão Alta:</ion-label>
+              <ion-input type="date" [(ngModel)]="periciando.dataexamen2" name="dataexamen2"></ion-input>
+            </ion-item>
+          </ion-col>
+
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-item lines="none">
+              <ion-label>acidente do trabalho</ion-label>
+              <ion-checkbox slot="start" value="S" [(ngModel)]="periciando.acidente_trabalho" name="acidente_trabalho">
+              </ion-checkbox>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-button type="submit" (click)="save()">Salvar</ion-button>
+        </ion-row>
+
+      </ion-grid>
+
+    </ion-card-content>
+
+  </ion-card>
+
+</ion-content>

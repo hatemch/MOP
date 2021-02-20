@@ -1,0 +1,290 @@
+<ion-header>
+
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="primary">
+      <ion-button (click)="goBack()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Objetos de Perícia </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-grid>
+    <ion-card>
+      <ion-row>
+        <ion-col>
+          <ion-label>Veiculo</ion-label>
+          <ion-avatar>
+            <img src="assets/imgs/veiculo.png" (click)="goVeiculo()">
+          </ion-avatar>
+        </ion-col>
+        <ion-col>
+          <ion-label>Arma de fogo</ion-label>
+          <ion-avatar>
+            <img src="assets/imgs/arma.png" (click)="goArma()">
+          </ion-avatar>
+        </ion-col>
+        <ion-col>
+          <ion-label>Drogas</ion-label>
+          <ion-avatar>
+            <img src="assets/imgs/drogas.png" (click)="goDrogas()">
+          </ion-avatar>
+        </ion-col>
+        <ion-col>
+          <ion-label>Outros</ion-label>
+          <ion-avatar>
+            <img src="assets/imgs/esc.png" (click)="goOutros()">
+          </ion-avatar>
+        </ion-col>
+      </ion-row>
+    </ion-card>
+  </ion-grid>
+
+
+  <table align="center">
+    <tr>
+      <th>
+        <ion-label>Tipo Objeto</ion-label>
+      </th>
+      <th>
+        <ion-label>Descrição</ion-label>
+      </th>
+      <th>
+        <ion-label>Exames Perícias</ion-label>
+      </th>
+      <th>
+        <ion-label>Opções</ion-label>
+      </th>
+
+    </tr>
+
+    <ng-container *ngIf="armas.length > 0" >
+      <tr *ngFor="let arma of armas">
+
+        <th>
+          <ion-item>
+          <ion-label> Arma de Fogo</ion-label>
+        </ion-item>
+        </th>
+
+        <th>
+          <ion-item>
+          <ion-label>{{arma.descricao}}</ion-label>
+        </ion-item>
+        </th>
+        <th  style="background-color:#FFFFFF">
+          <ion-item>
+          <ion-label>{{arma.nome_examen_requisitado}}</ion-label>
+        </ion-item>
+        </th>
+   
+        <th  style="background-color:#FFFFFF">
+          <ion-item>
+            <!-- <ion-button>
+              Incluir Exame
+              <ion-icon name="text" slot="start"></ion-icon>
+            </ion-button> -->
+            <ion-button (click) ="goToEditArma(arma.codigoArma,arma.numguia)">
+              Editar
+              <ion-icon name="create" slot="start"></ion-icon>
+            </ion-button>
+
+            <ion-button (click)="willDeleteArma(arma.codigoArma,arma.descricao)">
+              Excluir
+              <ion-icon slot="end" name="trash"></ion-icon>
+            </ion-button>
+          </ion-item>
+        </th>
+
+      </tr>
+    </ng-container>
+
+
+
+    <ng-container *ngIf="drogas.length > 0">
+      <tr *ngFor="let droga of drogas">
+
+        <th>
+          <ion-item>
+          <ion-label> Droga</ion-label>
+        </ion-item>
+        </th>
+        <th>
+          <ion-item>
+          <ion-label>{{droga.descricao}}</ion-label>
+        </ion-item>
+        </th>
+        <th  style="background-color:#FFFFFF">
+          <ion-item>
+          <ion-label>{{droga.nome_examen_requisitado}}</ion-label>
+        </ion-item>
+        </th>
+        
+        <th style="background-color:#FFFFFF">
+          <ion-item>
+            <!-- <ion-button>
+              Incluir Exame
+              <ion-icon name="text" slot="start"></ion-icon>
+            </ion-button> -->
+            <ion-button (click) ="goToEditDrogas(droga.codigoDroga,droga.numguia)">
+              Editar
+              <ion-icon name="create" slot="start"></ion-icon>
+            </ion-button>
+
+            <ion-button (click)="willDeleteDroga(droga.codigoDroga,droga.descricao)">
+              Excluir
+              <ion-icon slot="end" name="trash"></ion-icon>
+            </ion-button>
+          </ion-item>
+        </th>
+
+      </tr>
+    </ng-container>
+    
+    <ng-container *ngIf="veiculoGuias.length > 0">
+      <tr *ngFor="let vg of veiculoGuias">
+
+        <th>
+          <ion-item>
+          <ion-label> Veiculo</ion-label>
+        </ion-item>
+        </th>
+        <th>
+          <ion-item>
+          <ion-label>{{vg.descricao}}</ion-label>
+        </ion-item>
+        </th>
+        <th  style="background-color:#FFFFFF">
+          <ion-item>
+          <ion-label>{{vg.nome_examen_requisitado}}</ion-label>
+        </ion-item>
+        </th>
+        
+        
+        <th  style="background-color:#FFFFFF">
+          <ion-item>
+            <!-- <ion-button>
+              Incluir Exame
+              <ion-icon name="text" slot="start"></ion-icon>
+            </ion-button> -->
+            <ion-button (click) ="goToEditVeiculo(vg.codigo,vg.numguia)">
+              Editar
+              <ion-icon name="create" slot="start"></ion-icon>
+            </ion-button>
+
+            <ion-button (click)="willDeleteVeiculo(vg.codigo,vg.descricao)">
+              Excluir
+              <ion-icon slot="end" name="trash"></ion-icon>
+            </ion-button>
+          </ion-item>
+        </th>
+
+      </tr>
+    </ng-container> 
+
+
+    <!------------------------------------------------------------------->
+
+    <ng-container *ngIf="outrosObjetos.length > 0">
+      <tr *ngFor="let outro of outrosObjetos">
+
+        <th>
+          <ion-item>
+          <ion-label> Outros Objetos</ion-label>
+        </ion-item>
+        </th>
+        <th>
+          <ion-item>
+          <ion-label>{{outro.descricao}}</ion-label>
+        </ion-item>
+        </th>
+        <th  style="background-color:#FFFFFF">
+          <ion-item>
+          <ion-label>{{outro.nome_examen_requisitado}}</ion-label>
+        </ion-item>
+        </th>
+    
+        <th style="background-color:#FFFFFF">
+          <ion-item>
+            <!-- <ion-button>
+              Incluir Exame
+              <ion-icon name="text" slot="start"></ion-icon>
+            </ion-button> -->
+            <ion-button (click) ="goToEditOutrosObjestos(outro.codigoObjeto,outro.numguia)">
+              Editar
+              <ion-icon name="create" slot="start"></ion-icon>
+            </ion-button>
+
+            <ion-button (click)="willDeleteOutro(outro.codigo,outro.descricao)">
+              Excluir
+              <ion-icon slot="end" name="trash"></ion-icon>
+            </ion-button>
+          </ion-item>
+        </th>
+
+      </tr>
+    </ng-container>
+
+
+
+
+  </table>
+
+</ion-content>
+
+<!-- FOOTER -->
+
+<ion-footer class="ion-text-center">
+  <div class="ion-padding" style="height: 105px">
+    <ion-tabs>
+      <!-- *ngIf="gpExameLaboratorialLegal.codigo" -->
+      <ion-tab-bar slot="bottom" color="primary">
+        <ion-tab-button routerLink="/menu/incluir-exame-laboratorial/{{gpExameLaboratorialLegal.codigo}}">
+          <ion-icon name="clipboard">
+          </ion-icon>
+          <ion-label>Guia Laboratorial</ion-label>
+        </ion-tab-button>
+        <ion-tab-button
+          routerLink="/menu/detalhes/{{gpExameLaboratorialLegal.codigo}}/{{gpExameLaboratorialLegal.tipo_guia}}">
+          <ion-icon name="clipboard">
+          </ion-icon>
+          <ion-label>Detalhes do Fato</ion-label>
+        </ion-tab-button>
+        <!-- <ion-tab-button
+          routerLink="/menu/outras-pericias/{{gpExameLaboratorialLegal.codigo}}/{{gpExameLaboratorialLegal.tipo_guia}}">
+          <ion-icon name="clipboard">
+          </ion-icon>
+          <ion-label>Outras Perícias</ion-label>
+        </ion-tab-button> -->
+        <ion-tab-button
+          routerLink="/menu/local-pericia/{{gpExameLaboratorialLegal.codigo}}/{{gpExameLaboratorialLegal.tipo_guia}}">
+          <ion-icon name="clipboard">
+          </ion-icon>
+          <ion-label>Local de Perícia</ion-label>
+        </ion-tab-button>
+        <ion-tab-button
+          routerLink="/menu/periciandos/{{gpExameLaboratorialLegal.codigo}}/{{gpExameLaboratorialLegal.tipo_guia}}">
+          <ion-icon name="clipboard">
+          </ion-icon>
+          <ion-label>Periciandos</ion-label>
+        </ion-tab-button>
+        <!-- <ion-tab-button
+          routerLink="/menu/buscar-guia-perica/{{gpExameLaboratorialLegal.codigo}}/{{gpExameLaboratorialLegal.tipo_guia}}">
+          <ion-icon name="search">
+          </ion-icon>
+          <ion-label>Buscar Guia de Perícia</ion-label>
+        </ion-tab-button> -->
+        <ion-tab-button disabled routerLink="/menu/objetos-pericia">
+          <ion-icon name="clipboard">
+          </ion-icon>
+          <ion-label>Objetos de Perícia</ion-label>
+        </ion-tab-button>
+      </ion-tab-bar>
+    </ion-tabs>
+  </div>
+</ion-footer>

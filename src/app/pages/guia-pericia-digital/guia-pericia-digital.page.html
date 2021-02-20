@@ -1,0 +1,100 @@
+<ion-header>
+
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="primary">
+      <ion-button (click)="goBack()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Guia de Perícia</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-grid align="center">
+
+    <ion-row>
+      <ion-col *ngIf="showButtons">
+
+        <ion-avatar>
+          <img src="assets/imgs/esc.png" routerLink="/menu/incluir-exame-medico">
+        </ion-avatar>
+        <ion-label color="primary"><strong>Guia para Exame Médico Legal</strong></ion-label>
+      </ion-col>
+      <ion-col *ngIf="showButtons">
+
+        <ion-avatar>
+          <img src="assets/imgs/esc.png" routerLink="/menu/incluir-exame-laboratorial">
+        </ion-avatar>
+        <ion-label color="primary"><strong>Guia para Exame Pericial e Laboratorial</strong></ion-label>
+      </ion-col>
+      <ion-col>
+
+        <ion-avatar>
+          <img src="assets/imgs/consulta.png" (click)="goToconsultarGuia()">
+        </ion-avatar>
+        <ion-label color="primary"><strong>Consultar Guia de Perícia</strong></ion-label>
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+  <ion-grid *ngIf="guiaPericiaDigitals.length > 0">
+
+    <ngx-datatable class="bootstrap" [rows]="guiaPericiaDigitals" [columnMode]="force" [headerHeight]="40"
+      [footerHeight]="40" rowHeight="auto" [scrollbarH]="true" [limit]="10">
+
+      <ngx-datatable-column name="Referenccia">
+        <ng-template let-column="column" ngx-datatable-header-template> {{ column.name }} </ng-template>
+        <ng-template let-row="row" let-value="nome_guia" ngx-datatable-cell-template>
+          {{row.nome_guia}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Pericia">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.data_registro}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Data Criação">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.data_registro}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Originado por	">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.resgistrado}} </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Situação">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.situacao}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Status">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.situacao}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Processo">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.situcao}}</ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Opções">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <ion-button fill="clear"  (click)="alterarGuia(row)">
+            <ion-icon name="create" color="secondary"></ion-icon>
+          </ion-button>
+          <ion-button (click)="delete(row)" fill="clear" >
+            <ion-icon name="trash" color="secondary"></ion-icon>
+          </ion-button>
+          <ion-button (click)="impresaoGuia(row)" fill="clear" >
+            <ion-icon name="print" color="secondary"></ion-icon>
+          </ion-button>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+
+  </ion-grid>
+
+
+</ion-content>

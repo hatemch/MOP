@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Bem-Vindo(a).</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content  class="ion-text-center" (click)="closeModal()">
+  <ion-row class="ion-justify-content-center ion-align-items-center" style="height: 100%">
+    <ion-col><img src="{{ logoCliente }}"></ion-col>
+  </ion-row>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-row class="ion-padding">
+      <ion-col center class="ion-text-center">
+        <p>Carregando</p>
+      </ion-col>
+      <ion-col center class="ion-text-center">
+        <ion-spinner>spinnerLoading</ion-spinner>
+      </ion-col>
+      <ion-col center class="ion-text-center"><img src="{{ logoApp }}" width="50px" height="50px"></ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col center class="ion-text-center">
+        <h5>Versão: {{ appVersion }}</h5>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-footer>

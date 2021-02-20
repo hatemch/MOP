@@ -1,0 +1,87 @@
+<ion-header>
+
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="primary">
+      <ion-button (click)="goBack()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Consulta de Perícia Exame Medico Legal</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-grid>
+    <ion-row>
+      <ion-col size = 4>
+        <ion-button expand="full" color="primary" [disabled]="permissoes.Pesquisar == 0" routerLink="/menu/incluir-exame-medico" >Incluir</ion-button>
+      </ion-col>
+      <!-- <ion-col  size = 4>
+        <ion-button expand="full" color="primary" [disabled]="permissoes.Pesquisar == 0">Buscar Guia de Perícia
+        </ion-button>
+      </ion-col>
+      <ion-col  size = 4>
+        <ion-button expand="full" color="primary" [disabled]="permissoes.Pesquisar == 0">Buscar Ocorrência SIGIP
+        </ion-button>
+      </ion-col> -->
+    </ion-row> 
+  </ion-grid>
+  <!-- <ion-label position="floating">Infrações</ion-label> -->
+
+
+  <ion-grid *ngIf="gpExamenMedicoLegals.length > 0">
+
+    <ngx-datatable class="bootstrap" [rows]="gpExamenMedicoLegals" [columnMode]="force" [headerHeight]="40"
+      [footerHeight]="40" rowHeight="auto" [scrollbarH]="true" [limit]="10">
+
+      <ngx-datatable-column name="Número da Guia">
+        <ng-template let-column="column" ngx-datatable-header-template> {{ column.name }} </ng-template>
+        <ng-template let-row="row" let-value="nome_guia" ngx-datatable-cell-template>
+          {{row.nome_guia}}
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Data/Hora">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.data_registro}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Numero Procedimento	">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.numero_procedimento}} </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Órgão Requisitante">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.orgao}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Situação">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.situacao}}</ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Opções">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <ion-button routerLink="/menu/incluir-exame-medico/{{row.codigo}}" (click)="registrarAcaoAuditoria(row)"slot="end" fill="clear" [disabled]="permissoes.Pesquisar == 0">
+            <ion-icon name="create" color="secondary"></ion-icon>
+          </ion-button>
+          <ion-button (click)="delete(row.codigo,row.sequencial)" slot="end" fill="clear" [disabled]="permissoes.Pesquisar == 0">
+            <ion-icon name="trash" color="secondary"></ion-icon>
+          </ion-button>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+
+  </ion-grid>
+
+  <!-- 
+  <ion-card *ngIf="showMap" color="light">
+    <iframe [src]="mapURL" width="100%" height="100%" scrolling="no" frameborder="0"></iframe>
+  </ion-card>  
+-->
+  
+
+
+</ion-content>

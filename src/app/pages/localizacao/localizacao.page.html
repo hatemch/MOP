@@ -1,0 +1,180 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="primary">
+      <ion-button (click)="goBack()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Localização Atual dos agentes</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form #form="ngForm" method="post">
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position='stacked'>Órgão</ion-label>
+            <ionic-selectable #segmentoComponent item-content [(ngModel)]="localizacao.segmento" name="segmento"
+              itemValueField="codigo" itemTextField="segmento" [items]="segmentos" [canSearch]="true" [canClear]="true"
+              [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true" searchFailText="Sem dados a mostrar"
+               searchPlaceholder="Pesquisar" (onChange)="CarregaSegmentoGrupos()">
+              <ng-template ionicSelectableHeaderTemplate>
+                <ion-toolbar>
+                  <ion-buttons start>
+                    <ion-button (click)="segmentoComponent.close()">
+                      <ion-label>Cancelar</ion-label>
+                    </ion-button>
+                  </ion-buttons>
+                  <ion-title>
+                  </ion-title>
+                </ion-toolbar>
+              </ng-template>
+            </ionic-selectable>
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-item>
+            <ion-label position='stacked'>Unidade</ion-label>
+            <ionic-selectable #grupoComponent item-content [(ngModel)]="localizacao.grupo" name="grupo"
+              itemValueField="codigo" itemTextField="nome" [items]="grupos" [canSearch]="true" [canClear]="true"
+              [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true" searchFailText="Sem dados a mostrar"
+               searchPlaceholder="Pesquisar" (onChange)="CarregaSegmentoGrupoUsuarios()" disabled ="{{grupos.length == 0}}">
+              <ng-template ionicSelectableHeaderTemplate>
+                <ion-toolbar>
+                  <ion-buttons start>
+                    <ion-button (click)="grupoComponent.close()">
+                      <ion-label>Cancelar</ion-label>
+                    </ion-button>
+                  </ion-buttons>
+                  <ion-title>
+                  </ion-title>
+                </ion-toolbar>
+              </ng-template>
+            </ionic-selectable>
+          </ion-item>
+        </ion-col>
+
+        <ion-col>
+          <ion-item>
+            <ion-label position='stacked'>Usuário</ion-label>
+            <ionic-selectable #usuarioComponent item-content [(ngModel)]="localizacao.usuario" name="usuario"
+              itemValueField="CODIGO" itemTextField="NOME" [items]="users" [canSearch]="true" [canClear]="true"
+              [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true" searchFailText="Sem dados a mostrar"
+               searchPlaceholder="Pesquisar"  disabled ="{{users.length == 0}}">
+              <ng-template ionicSelectableHeaderTemplate>
+                <ion-toolbar>
+                  <ion-buttons start>
+                    <ion-button (click)="usuarioComponent.close()">
+                      <ion-label>Cancelar</ion-label>
+                    </ion-button>
+                  </ion-buttons>
+                  <ion-title>
+                  </ion-title>
+                </ion-toolbar>
+              </ng-template>
+            </ionic-selectable>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size =4>
+          <ion-item lines  = "none">
+            <ion-label> Agentes Online</ion-label>
+            <ion-checkbox slot="start"  [(ngModel)]="localizacao.agenteOnline" name='agenteOnline'></ion-checkbox>
+            
+          </ion-item>
+         
+        </ion-col>
+        <ion-col size =4>
+          <ion-item lines  = "none">
+            <ion-label> Agentes Offline</ion-label>
+            <ion-checkbox slot="start" [(ngModel)]="localizacao.agenteOffline"name='agenteOffline'></ion-checkbox>
+           
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="buttonscenter">
+        <ion-col size="3">
+
+          <ion-button [disabled]="!form.valid || permissoes.Pesquisar == 0" (click)="getLocalizacao()" expand="full">Mapa
+          </ion-button>
+
+        </ion-col>
+      </ion-row>
+
+    </ion-grid>
+  </form>
+
+  <ion-grid *ngIf="activeLeyendAll">
+    <ion-row>
+      <ion-col>
+        <ion-row >
+          <ion-icon color="success" name="locate"></ion-icon>
+          <ion-label>Online</ion-label>
+        </ion-row>
+      </ion-col>
+      <ion-col>
+        <ion-row >
+          <ion-icon color="danger" name="locate"></ion-icon>
+          <ion-label>Offline</ion-label>
+        </ion-row>
+      </ion-col>
+      <!-- <ion-col>
+        <ion-row >
+          <ion-icon color="warning" name="locate"></ion-icon>
+          <ion-label>Bombeiro</ion-label>
+        </ion-row>
+        <ion-row >
+          <ion-icon color="primary" name="locate"></ion-icon>
+          <ion-label>Policia Federal</ion-label>
+        </ion-row>
+        <ion-row >
+          <ion-icon color="tertiary" name="locate"></ion-icon>
+          <ion-label>Policia Rodoviaria</ion-label>
+        </ion-row>
+        <ion-row >
+          <ion-icon color="warning" name="locate"></ion-icon>
+          <ion-label>DETRAN</ion-label>
+        </ion-row>
+      </ion-col>
+      <ion-col>
+        <ion-row >
+          <ion-icon color="success" name="locate"></ion-icon>
+          <ion-label>Policia Civil</ion-label>
+        </ion-row>
+        <ion-row >
+          <ion-icon color="danger" name="locate"></ion-icon>
+          <ion-label>Policia Militar</ion-label>
+        </ion-row>
+        <ion-row>
+          <ion-icon color="dark" name="locate"></ion-icon>
+          <ion-label>SSP/BA</ion-label>
+        </ion-row>
+      </ion-col> -->
+    </ion-row>
+
+  </ion-grid>
+  
+  <ion-grid *ngIf="activeLeyendMarket">
+   
+        <ion-row *ngIf ="activeMarket">
+          <ion-icon color={{color}} name="locate"></ion-icon>
+          <ion-label>{{localizacao.segmento}}</ion-label>
+        </ion-row>
+       
+   
+  </ion-grid>
+
+  <!-- <div *ngIf="mapURL" width="100%" height="100%"> -->
+  <iframe *ngIf="mapURL" [src]="mapURL" width="100%" height="100%" scrolling="no" frameborder="0"></iframe>
+  <!-- </div> -->
+
+
+
+</ion-content>

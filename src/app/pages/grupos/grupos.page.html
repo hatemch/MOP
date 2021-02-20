@@ -1,0 +1,106 @@
+<ion-header>
+
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="primary">
+      <ion-button (click)="goBack()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Unidades</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-grid *ngIf=" grupos.length > 0">
+
+    <ngx-datatable 
+    class="bootstrap"
+    [rows]="grupos" 
+    [columnMode]="'force'" 
+    [headerHeight]="40" 
+    [footerHeight]="40"
+    [rowHeight]="auto" 
+    [scrollbarH]="true" 
+    [limit]="10"
+   
+    >
+
+      <ngx-datatable-column name="Unidade" [sortable]="true" [canAutoResize]="true" name="nome" prop="nome">
+        <!-- <ng-template let-column="column" ngx-datatable-header-template> {{ column.name }} </ng-template> -->
+        <ng-template let-row="row" let-value="nome" ngx-datatable-cell-template>
+          {{row.nome}}
+        </ng-template>
+      </ngx-datatable-column>
+      <!-- <ngx-datatable-column name="Nível">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" let-value="nivel" ngx-datatable-cell-template>{{row.nivel}}</ng-template>
+      </ngx-datatable-column> -->
+      <ngx-datatable-column name="Órgão" [sortable]="true" [canAutoResize]="true" name="Órgão" prop="segmento">
+        <!-- <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template> -->
+        <ng-template let-row="row" let-value="segmento" ngx-datatable-cell-template>{{row.segmento}}</ng-template>
+      </ngx-datatable-column>
+     
+     
+      <ngx-datatable-column name="Opções">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>
+         <ion-button 
+          routerLink="/menu/add-grupo/{{row.codigo}}" 
+          slot="end" 
+          fill="clear" 
+          shape="round" 
+          [disabled]="permissoes.Editar == 0">
+            <ion-icon name="create" color="secondary"></ion-icon>
+        </ion-button>
+        <ion-button
+        (click)="delete( row.codigo , row.nome )"
+        slot="end"
+        fill="clear"
+        shape="round"
+        [disabled]="permissoes.Deletar == 0">
+        <ion-icon name="trash" color="secondary"></ion-icon>
+      </ion-button>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+
+  </ion-grid>
+
+  <!-- <ion-grid>
+    <table>
+      <tr>
+        <th>Grupo</th>-->
+        <!-- <th>Nível</th> -->
+       <!-- <th>Segmento</th>
+        <th>Opções</th>
+      </tr>
+
+      <tr *ngFor="let grupo of grupos">
+        <td>{{grupo.nome}}</td>-->
+        <!-- <td>{{grupo.nivel}}</td> -->
+       <!--<td>{{grupo.segmento}}</td>
+
+        <td>
+          <ion-button routerLink="/menu/add-grupo/{{grupo.codigo}}" slot="end" fill="clear" shape="round" [disabled]="permissoes.Editar == 0">
+            <ion-icon name="create" color="secondary"></ion-icon>
+          </ion-button>
+          <ion-button (click)="delete( grupo.codigo , grupo.nome )" slot="end" fill="clear" shape="round" [disabled]="permissoes.Deletar == 0">
+            <ion-icon name="trash" color="secondary"></ion-icon>
+          </ion-button>
+        </td>
+      </tr>
+
+    </table>
+  </ion-grid> -->
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="secondary" routerLink="/menu/add-grupo" [disabled]="permissoes.Inserir == 0">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>

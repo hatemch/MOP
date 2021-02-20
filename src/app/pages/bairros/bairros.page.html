@@ -1,0 +1,63 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="primary">
+      <ion-button (click)="goBack()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Bairros DETRAN</ion-title>
+  </ion-toolbar>
+</ion-header> 
+
+<ion-content class="ion-padding">
+
+  
+<ion-grid>
+<table>
+  <tr>
+    <!--th >Código</th-->
+    <th>Código Bairro</th>
+    <th>Nome Bairros</th>
+    <th >Nome Município</th>
+    <th >AISP</th>
+    <th >RISP</th>
+    <th >CIPM</th>
+    <th >DT</th>
+    <!-- <th >Codigo Municipio</th> -->
+    <th>Opções</th>
+  </tr>
+
+  <tr *ngFor="let bairro of bairros">
+    <!--td>{{bairro.codigo}}</td-->
+    <td>{{bairro.codigo_bairro}}</td>
+    <td>{{bairro.nome_bairro}}</td>
+    <td>{{bairro.nome_municipio}}</td>
+    <td>{{bairro.aisp}}</td>
+    <td>{{bairro.risp}}</td>
+    <td>{{bairro.cipm}}</td>
+    <td>{{bairro.dt}}</td>
+    <!-- <td>{{bairro.codigo_municipio}}</td> -->
+    <td>
+      <ion-button routerLink="/menu/modif-bairros/{{bairro.codigo}}" slot="start" fill="clear" [disabled]="permissoes.Editar == 0">
+        <ion-icon name="create" color="secondary"></ion-icon>
+      </ion-button>
+      <ion-button (click)="delete( bairro.codigo , bairro.nome_bairro )" slot="end" fill="clear" [disabled]="permissoes.Deletar == 0">
+        <ion-icon name="trash" color="secondary"></ion-icon>
+      </ion-button>
+    </td>
+  </tr> 
+
+</table>
+</ion-grid>
+
+<ion-fab vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab-button color="secondary" routerLink="/menu/modif-bairros" [disabled]="permissoes.Inserir == 0">
+    <ion-icon name="add"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
+
+
+</ion-content>

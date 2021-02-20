@@ -1,0 +1,209 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="primary">
+      <ion-button (click)="goBack()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-title>Relatório Estatístico</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-icon name="ellipsis-horizontal"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+  <!-- ############## Formulario de pesquisa ################ -->
+  <form #form="ngForm" (ngSubmit)="read(form)" method="post">
+    <ion-grid>
+      <ion-row>
+        <ion-col size-xs='12' size-sm='6' size-md='4' size-lg='3'>
+          <ion-item>
+            <ion-label position="stacked">Data Inicial</ion-label>
+            <ion-input [(ngModel)]="modelPesquisa.data1" name="data1" type="Date" display-format="DD/MMMM/YYYY"
+              required></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size-xs='12' size-sm='6' size-md='4' size-lg='3'>
+          <ion-item>
+            <ion-label position="stacked">Data Final</ion-label>
+            <ion-input [(ngModel)]="modelPesquisa.data2" name="data2" type="Date" display-format="DD/MMMM/YYYY"
+              required></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size-xs='12' size-sm='6' size-md='4' size-lg='3'>
+          <ion-list>
+            
+            <ion-item >
+              <ion-label position='stacked'>Órgão</ion-label>
+              <ionic-selectable class="selector" #segmentoComponent item-content [(ngModel)]="modelPesquisa.segmento"
+                name="segmento" itemValueField="segmento" itemTextField="segmento" [items]="segmentos"
+                [canSearch]="true" [canClear]="true" [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true"
+                searchFailText="Sem dados a mostrar" searchPlaceholder="Pesquisar"
+                (onChange)="CarregaSegmentoGrupos()" required>
+                <ng-template ionicSelectableHeaderTemplate>
+                  <ion-toolbar>
+                    <ion-buttons start>
+                      <ion-button (click)="segmentoComponent.close()">
+                        <ion-label>Cancelar</ion-label>
+                      </ion-button>
+                    </ion-buttons>
+                    <ion-title>
+                    </ion-title>
+                  </ion-toolbar>
+                </ng-template>
+              </ionic-selectable>
+            </ion-item>
+          </ion-list>
+          <!-- <ion-item>
+            
+            <ion-label position='stacked'>Órgão</ion-label>
+            <ion-select value='{{modelPesquisa.segmento}}' interface='popover'
+              (ionChange)='changeSelectSegmento($event)' required>
+              <ion-select-option *ngFor='let option of collectionSegmentos' value='{{option.segmento}}'>
+                {{option.segmento}}</ion-select-option>
+            </ion-select>
+          </ion-item> -->
+        </ion-col>
+        <ion-col size-xs='12' size-sm='6' size-md='4' size-lg='3'>
+          <ion-list>
+           
+            <ion-item>
+              <ion-label position='stacked'>Unidade <em><small>Opcional</small></em></ion-label>
+              <ionic-selectable class="selector" #segmentoComponent item-content [(ngModel)]="modelPesquisa.grupo"
+                name="grupo" itemValueField="codigo" itemTextField="nome" [items]="grupos" [canSearch]="true"
+                [canClear]="true" [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true"
+                searchFailText="Sem dados a mostrar" searchPlaceholder="Pesquisar" >
+                <ng-template ionicSelectableHeaderTemplate>
+                  <ion-toolbar>
+                    <ion-buttons start>
+                      <ion-button (click)="segmentoComponent.close()">
+                        <ion-label>Cancelar</ion-label>
+                      </ion-button>
+                    </ion-buttons>
+                    <ion-title>
+                    </ion-title>
+                  </ion-toolbar>
+                </ng-template>
+              </ionic-selectable>
+            </ion-item>
+          </ion-list>
+          <!-- <ion-item>
+            <ion-label position='stacked'>Unidade <em><small>Opcional</small></em></ion-label>
+            <ionic-selectable #grupoComponent item-content [(ngModel)]="modelPesquisa.grupo" name="grupo" itemValueField="CODIGO"
+              itemTextField="NOME" [items]="collectionGrupos" [canSearch]="true" [canClear]="true" [shouldFocusSearchbar]="true"
+              [shouldStoreItemValue]="true" searchFailText="Sem dados a mostrar"
+              placeholder="Unidade(Opcional)" searchPlaceholder="Pesquisar" (onChange)='changeSelect("grupo", $event, "modelPesquisa")'>
+              <ng-template ionicSelectableHeaderTemplate>
+                <ion-toolbar>
+                  <ion-buttons start>
+                    <ion-button (click)="grupoComponent.close()">
+                      <ion-label>Cancelar</ion-label>
+                    </ion-button>
+                  </ion-buttons>
+                  <ion-title>
+                   
+                  </ion-title>
+                </ion-toolbar>
+              </ng-template>
+
+            </ionic-selectable>
+
+          </ion-item> -->
+        </ion-col>
+        <ion-col size-xs='12' size-sm='6' size-md='6' size-lg='6'>
+          <!-- <ion-list> -->
+            <ion-radio-group [(ngModel)]='modelPesquisa.tipo' name='tipo' (ionChange)="collection = []">
+              <ion-list-header class="ion-float-left">
+                <ion-label>Gerar gráfico por:</ion-label>
+              </ion-list-header>
+              <ion-item lines='none' class="ion-float-left">
+                <ion-label>Unidade</ion-label>
+                <ion-radio slot='start' value='G'></ion-radio>
+              </ion-item>
+              <ion-item lines='none' class="ion-float-left">
+                <ion-label>Usuário</ion-label>
+                <ion-radio slot='start' value='U'></ion-radio>
+              </ion-item>
+              <ion-item lines='none' class="ion-float-left">
+                <ion-label>Tipo de Consulta</ion-label>
+                <ion-radio slot='start' value='T'></ion-radio>
+              </ion-item>
+            </ion-radio-group>
+          <!-- </ion-list> -->
+        </ion-col>
+        <ion-col size-xs='12' size-sm='6' size-md='4' size-lg='6'>
+          <br>
+          <ion-button type="submit" expand="full" color="primary"
+            [disabled]="!form.valid || permissoes.Pesquisar == 0">
+            Pesquisar
+          </ion-button>
+        </ion-col>
+        
+       </ion-row>
+      <ion-row>
+        
+      </ion-row> 
+    </ion-grid>
+  </form>
+
+  <!-- #################### Gráfico ######################### -->
+  <div [hidden]="modelPesquisa.tipo != 'T'  ||  collection?.length == 0">
+    <ion-grid>
+      <ion-row>
+        <ion-col size-md="9">
+          <ion-title color="primary">{{ subtitle }}</ion-title>
+          <!-- <div class="chart-container" style="position: relative; height:80vw;"> -->
+            <div class="chart-container" style="position: relative; height:25vw;">
+            <canvas #canvasChart></canvas>
+          </div>
+        </ion-col>
+        <ion-col size-md="3">
+          <table *ngIf="collection?.length > 0">
+            <tr>
+              <th>Nome</th>
+              <th>Quantidade de consultas</th>
+            </tr>
+            <tr *ngFor='let row of collection; let indice=index'>
+              <td>{{ row.nome }}</td>
+              <td>
+                <span>{{ row.total }}</span>
+              </td>
+            </tr>
+          </table>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <div [hidden]="modelPesquisa.tipo == 'T'">
+
+    <ion-grid *ngIf="collection?.length > 0">
+
+      <ngx-datatable class="bootstrap" [rows]="collection" [columnMode]="'force'" [headerHeight]="40"
+        [footerHeight]="40" rowHeight="auto" [scrollbarH]="true" [limit]="10">
+
+        <ngx-datatable-column name="Nome">
+          <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+          <ng-template let-row="row" ngx-datatable-cell-template>{{row.nome}}</ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Quantidade de consultas">
+          <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+          <ng-template let-row="row" ngx-datatable-cell-template>{{row.total}}</ng-template>
+        </ngx-datatable-column>
+      </ngx-datatable>
+
+    </ion-grid>
+
+  </div>
+
+</ion-content>

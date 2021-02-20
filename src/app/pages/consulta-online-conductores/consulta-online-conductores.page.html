@@ -1,0 +1,416 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="primary">
+      <ion-button (click)="goBack()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Condutores</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form #form="ngForm" (ngSubmit)="getConductor()" method="post">
+    <ion-card>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-label>CPF</ion-label>
+              <ion-input [(ngModel)]="consultaOnlineConductor.cpf" name="cpf" type="text" id="cpf"
+                (ionChange)="formatCPF(consultaOnlineConductor.cpf,'cpf')" placeholder="999.999.999-99"></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col>
+            <ion-button type="submit" [disabled]="permissoes.Pesquisar == 0">PESQUISAR</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card>
+  </form>
+  <ion-grid *ngIf="consultaOnlineConductores.length > 0">
+    <ion-card>
+
+      <ion-card-header>
+        <ion-card-title>Dados do Condutor</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+
+        <ion-grid>
+
+          <ion-row>
+            <ion-col size-sm="8" size-md="6" size-lg="4">
+              
+              <ion-item>
+                <ion-label position='stacked'><strong>Nome</strong></ion-label>
+                <ion-input readonly type="text" [(ngModel)]="consultaOnlineConductores[0].nome" name="nome">
+                </ion-input>
+              </ion-item>
+
+            </ion-col>
+
+            <ion-col size-sm="8" size-md="6" size-lg="4">
+              
+              <ion-item>
+                <ion-label position='stacked'><strong>CPF</strong></ion-label>
+                <ion-input readonly type="text" maxlength="14" [(ngModel)]="consultaOnlineConductores[0].cpf" name="cpf"
+                  placeholder="999.999.999-99">
+                </ion-input>
+              </ion-item>
+
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col size-sm="8" size-md="6" size-lg="4">
+              
+              <ion-item>
+                <ion-label position='stacked'><strong>Data de Nascimento</strong></ion-label>
+                <ion-input readonly type="text" [(ngModel)]="consultaOnlineConductores[0].nascimento" name="nascimento"
+                  placeholder="888888888-88">
+                </ion-input>
+              </ion-item>
+
+            </ion-col>
+
+            <ion-col size-sm="8" size-md="6" size-lg="4">
+              
+              <ion-item>
+                <ion-label position='stacked'><strong>Sexo</strong></ion-label>
+                <ion-input readonly type="text" [(ngModel)]="consultaOnlineConductores[0].sexo" name="sexo">
+                </ion-input>
+              </ion-item>
+
+            </ion-col>
+
+            <ion-col size-sm="8" size-md="6" size-lg="4">
+              
+              <ion-item>
+                <ion-label position='stacked'><strong>Naturalidade</strong></ion-label>
+                <ion-input readonly type="text" [(ngModel)]="consultaOnlineConductores[0].naturalidade"
+                  name="naturalidade">
+                </ion-input>
+              </ion-item>
+
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col size-sm="8" size-md="6" size-lg="3">
+              
+              <ion-item>
+                <ion-label position='stacked'><strong>Mãe</strong></ion-label>
+                <ion-input readonly type="text" [(ngModel)]="consultaOnlineConductores[0].mae" name="mae">
+                </ion-input>
+              </ion-item>
+
+            </ion-col>
+            
+            <ion-col size-sm="8" size-md="6" size-lg="3">
+             
+              <ion-item>
+                <ion-label position='stacked'><strong>Tipo Documento</strong></ion-label>
+                <ion-input readonly type="text" [(ngModel)]="consultaOnlineConductores[0].tipodocumento"
+                  name="tipodocumento">
+                </ion-input>
+              </ion-item>
+
+            </ion-col>
+
+            <ion-col size-sm="8" size-md="6" size-lg="3">
+
+              <ion-item>
+                
+                <ion-label position='stacked'><strong>Nº Docoumento</strong></ion-label>
+                <ion-input readonly type="text" [(ngModel)]="consultaOnlineConductores[0].numerodocumento"
+                  name="numerodocumento">
+                </ion-input>
+              </ion-item>
+
+            </ion-col>
+           
+            <ion-col size-sm="8" size-md="6" size-lg="3">
+
+              <ion-item>
+                <ion-label position='stacked'><strong>Órgão Emissor</strong></ion-label>
+                <ion-input readonly type="text" [(ngModel)]="consultaOnlineConductores[0].orgao" name="orgao">
+                </ion-input>
+              </ion-item>
+
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col size-sm="8" size-md="6" size-lg="3">
+             
+              <ion-item>
+                <ion-label position='stacked'><strong>Registro</strong></ion-label>
+                <ion-input readonly type="text" [(ngModel)]="consultaOnlineConductores[0].registro" name="registro">
+                </ion-input>
+              </ion-item>
+            </ion-col>
+
+            <ion-col size-sm="8" size-md="6" size-lg="3">
+            
+              <ion-item>
+                <ion-label position='stacked'><strong>UF Registro</strong></ion-label>
+                <ion-input readonly type="text" [(ngModel)]="consultaOnlineConductores[0].ufcondutor"
+                  name="ufcondutor">
+                </ion-input>
+              </ion-item>
+
+            </ion-col>
+
+            <ion-col size-sm="8" size-md="6" size-lg="3">
+
+              <ion-item>
+                <ion-label position='stacked'><strong>Categoria</strong></ion-label>
+                <ion-input readonly type="text" [(ngModel)]="consultaOnlineConductores[0].categoria"
+                  name="categoria">
+                </ion-input>
+              </ion-item>
+
+            </ion-col>
+            <ion-col size-sm="8" size-md="6" size-lg="3">
+
+              <ion-item>
+                <ion-label position='stacked'><strong>Validade</strong></ion-label>
+                <ion-input readonly type="text" [(ngModel)]="consultaOnlineConductores[0].validade" name="validade">
+                </ion-input>
+              </ion-item>
+
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col size-sm="8" size-md="6" size-lg="3">
+              
+              <ion-item>
+                <ion-label position='stacked'><strong>Endereço</strong></ion-label>
+                <ion-input readonly type="text" [(ngModel)]="consultaOnlineConductores[0].endereco" name="endereco">
+                </ion-input>
+              </ion-item>
+
+            </ion-col>
+
+            <ion-col size-sm="8" size-md="6" size-lg="3">
+              
+              <ion-item>
+                <ion-label position='stacked'><strong>Complemento</strong></ion-label>
+                <ion-input readonly type="text" [(ngModel)]="consultaOnlineConductores[0].complemento"
+                  name="complemento">
+                </ion-input>
+              </ion-item>
+
+            </ion-col>
+
+            <ion-col size-sm="8" size-md="6" size-lg="3">
+
+              <ion-item>
+                <ion-label position='stacked'><strong>Bairro</strong></ion-label>
+                <ion-input readonly type="text" [(ngModel)]="consultaOnlineConductores[0].bairro"
+                  name="bairro">
+                </ion-input>
+              </ion-item>
+
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col size-sm="8" size-md="6" size-lg="3">
+              
+              <ion-item>
+                <ion-label position='stacked'><strong>Município</strong></ion-label>
+                <ion-input readonly type="text" [(ngModel)]="consultaOnlineConductores[0].municipio" name="municipio">
+                </ion-input>
+              </ion-item>
+
+            </ion-col>
+            <ion-col size-sm="8" size-md="6" size-lg="3">
+              
+              <ion-item>
+                <ion-label position='stacked'><strong>UF</strong></ion-label>
+                <ion-input readonly type="text" [(ngModel)]="consultaOnlineConductores[0].ufendereco"
+                  name="ufendereco">
+                </ion-input>
+              </ion-item>
+
+            </ion-col>
+            <ion-col size-sm="8" size-md="6" size-lg="3">
+
+              <ion-item>
+                <ion-label position='stacked'><strong>CEP</strong></ion-label>
+                <ion-input readonly type="text" [(ngModel)]="consultaOnlineConductores[0].cep"
+                  name="cep">
+                </ion-input>
+              </ion-item>
+
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col size-sm="8" size-md="6" size-lg="3">
+              
+              <ion-item>
+                <ion-label position='stacked'><strong>Descrição CNH</strong></ion-label>
+                <ion-input readonly type="text" [(ngModel)]="consultaOnlineConductores[0].descricaocnh" name="descricaocnh">
+                </ion-input>
+              </ion-item>
+
+            </ion-col>
+            <ion-col size-sm="8" size-md="6" size-lg="3">
+              
+              <ion-item>
+                <ion-label position='stacked'><strong>1º Habilitação</strong></ion-label>
+                <ion-input readonly type="text" [(ngModel)]="consultaOnlineConductores[0].primeira"
+                  name="primeira">
+                </ion-input>
+              </ion-item>
+
+            </ion-col>
+            <ion-col size-sm="8" size-md="6" size-lg="3">
+
+              <ion-item>
+                <ion-label position='stacked'><strong>Puntuação Atual</strong></ion-label>
+                <ion-input readonly type="text" [(ngModel)]="consultaOnlineConductores[0].pontos"
+                  name="pontos">
+                </ion-input>
+              </ion-item>
+
+            </ion-col>
+
+            <ion-col size-sm="8" size-md="6" size-lg="3">
+
+              <ion-item>
+                <ion-label position='stacked'><strong>Bloqueio</strong></ion-label>
+                <ion-input readonly type="text" [(ngModel)]="consultaOnlineConductores[0].bloqueio"
+                  name="bloqueio">
+                </ion-input>
+              </ion-item>
+
+            </ion-col>
+          </ion-row>
+
+        </ion-grid>
+
+      </ion-card-content>
+    </ion-card>
+
+  </ion-grid>
+
+</ion-content>
+
+
+
+
+
+
+
+
+
+
+<!-- <ngx-datatable class="bootstrap" [rows]="consultaOnlineConductores" [columnMode]="'force'" [headerHeight]="40"
+[footerHeight]="40" rowHeight="auto" [scrollbarH]="true" [limit]="10">
+
+<ngx-datatable-column name="CPF">
+  <ng-template let-column="column" ngx-datatable-header-template> {{ column.name }} </ng-template>
+  <ng-template let-row="row" ngx-datatable-cell-template>{{row.cpf}}</ng-template>
+</ngx-datatable-column>
+<ngx-datatable-column name="Registro">
+  <ng-template let-column="column" ngx-datatable-header-template> {{ column.name }} </ng-template>
+  <ng-template let-row="row" ngx-datatable-cell-template>{{row.registro}}</ng-template>
+</ngx-datatable-column>
+<ngx-datatable-column name="UF Registro">
+  <ng-template let-column="column" ngx-datatable-header-template> {{ column.name }} </ng-template>
+  <ng-template let-row="row" ngx-datatable-cell-template>{{row.ufendereco}}</ng-template>
+</ngx-datatable-column>
+<ngx-datatable-column name="Nome">
+  <ng-template let-column="column" ngx-datatable-header-template> {{ column.name }} </ng-template>
+  <ng-template let-row="row" ngx-datatable-cell-template>{{row.nome}}</ng-template>
+</ngx-datatable-column>
+<ngx-datatable-column name="Data de Nascimento">
+  <ng-template let-column="column" ngx-datatable-header-template> {{ column.name }} </ng-template>
+  <ng-template let-row="row" ngx-datatable-cell-template>{{row.nascimento}}</ng-template>
+</ngx-datatable-column>
+<ngx-datatable-column name="Sexo">
+  <ng-template let-column="column" ngx-datatable-header-template> {{ column.name }} </ng-template>
+  <ng-template let-row="row" ngx-datatable-cell-template>{{row.sexo}}</ng-template>
+</ngx-datatable-column>
+<ngx-datatable-column name="Naturalidade">
+  <ng-template let-column="column" ngx-datatable-header-template> {{ column.name }} </ng-template>
+  <ng-template let-row="row" ngx-datatable-cell-template>{{row.naturalidade}}</ng-template>
+</ngx-datatable-column>
+<ngx-datatable-column name="Mãe">
+  <ng-template let-column="column" ngx-datatable-header-template> {{ column.name }} </ng-template>
+  <ng-template let-row="row" ngx-datatable-cell-template>{{row.mae}}</ng-template>
+</ngx-datatable-column>
+<ngx-datatable-column name="Categoria">
+  <ng-template let-column="column" ngx-datatable-header-template> {{ column.name }} </ng-template>
+  <ng-template let-row="row" ngx-datatable-cell-template>{{row.categoria}}</ng-template>
+</ngx-datatable-column>
+<ngx-datatable-column name="Validade">
+  <ng-template let-column="column" ngx-datatable-header-template> {{ column.name }} </ng-template>
+  <ng-template let-row="row" ngx-datatable-cell-template>{{row.validade}}</ng-template>
+</ngx-datatable-column>
+<ngx-datatable-column name="Tipo Documento">
+  <ng-template let-column="column" ngx-datatable-header-template> {{ column.name }} </ng-template>
+  <ng-template let-row="row" ngx-datatable-cell-template>{{row.tipodocumento}}</ng-template>
+</ngx-datatable-column>
+<ngx-datatable-column name="Número do Documento">
+  <ng-template let-column="column" ngx-datatable-header-template> {{ column.name }} </ng-template>
+  <ng-template let-row="row" ngx-datatable-cell-template>{{row.numerodocumento}}</ng-template>
+</ngx-datatable-column>
+<ngx-datatable-column name="Órgão Emissor">
+  <ng-template let-column="column" ngx-datatable-header-template> {{ column.name }} </ng-template>
+  <ng-template let-row="row" ngx-datatable-cell-template>{{row.orgao}}</ng-template>
+</ngx-datatable-column>
+<ngx-datatable-column name="Endereço">
+  <ng-template let-column="column" ngx-datatable-header-template> {{ column.name }} </ng-template>
+  <ng-template let-row="row" ngx-datatable-cell-template>{{row.endereco}}</ng-template>
+</ngx-datatable-column>
+<ngx-datatable-column name="Complemento">
+  <ng-template let-column="column" ngx-datatable-header-template> {{ column.name }} </ng-template>
+  <ng-template let-row="row" ngx-datatable-cell-template>{{row.complemento}}</ng-template>
+</ngx-datatable-column>
+<ngx-datatable-column name="Bairro">
+  <ng-template let-column="column" ngx-datatable-header-template> {{ column.name }} </ng-template>
+  <ng-template let-row="row" ngx-datatable-cell-template>{{row.bairro}}</ng-template>
+</ngx-datatable-column>
+<ngx-datatable-column name="Município">
+  <ng-template let-column="column" ngx-datatable-header-template> {{ column.name }} </ng-template>
+  <ng-template let-row="row" ngx-datatable-cell-template>{{row.municipio}}</ng-template>
+</ngx-datatable-column>
+<ngx-datatable-column name="UF">
+  <ng-template let-column="column" ngx-datatable-header-template> {{ column.name }} </ng-template>
+  <ng-template let-row="row" ngx-datatable-cell-template>{{row.ufcondutor}}</ng-template>
+</ngx-datatable-column>
+<ngx-datatable-column name="CEP">
+  <ng-template let-column="column" ngx-datatable-header-template> {{ column.name }} </ng-template>
+  <ng-template let-row="row" ngx-datatable-cell-template>{{row.cep}}</ng-template>
+</ngx-datatable-column>
+<ngx-datatable-column name="Descrição CNH">
+  <ng-template let-column="column" ngx-datatable-header-template> {{ column.name }} </ng-template>
+  <ng-template let-row="row" ngx-datatable-cell-template>{{row.descricaocnh}}</ng-template>
+</ngx-datatable-column>
+<ngx-datatable-column name="Primeira Habilitação">
+  <ng-template let-column="column" ngx-datatable-header-template> {{ column.name }} </ng-template>
+  <ng-template let-row="row" ngx-datatable-cell-template>{{row.primeira}}</ng-template>
+</ngx-datatable-column>
+<ngx-datatable-column name="Pontuação Atual">
+  <ng-template let-column="column" ngx-datatable-header-template> {{ column.name }} </ng-template>
+  <ng-template let-row="row" ngx-datatable-cell-template>{{row.pontos}}</ng-template>
+</ngx-datatable-column>
+<ngx-datatable-column name="Bloqueio">
+  <ng-template let-column="column" ngx-datatable-header-template> {{ column.name }} </ng-template>
+  <ng-template let-row="row" ngx-datatable-cell-template>{{row.bloqueio}}</ng-template>
+</ngx-datatable-column>
+<ngx-datatable-column name="PGU">
+  <ng-template let-column="column" ngx-datatable-header-template> {{ column.name }} </ng-template>
+  <ng-template let-row="row" ngx-datatable-cell-template>{{row.pgu}}</ng-template>
+</ngx-datatable-column>
+
+</ngx-datatable> -->

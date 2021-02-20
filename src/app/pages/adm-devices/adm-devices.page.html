@@ -1,0 +1,122 @@
+<ion-header>
+
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="primary">
+      <ion-button (click)="goBack()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>ADM Devices</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form #form="ngForm" (ngSubmit)="pesquisar(form)"  method="post" >
+
+<ion-card>
+
+  <ion-card-header>
+    <ion-card-title>Devices</ion-card-title>
+  </ion-card-header>
+
+  <ion-card-content>
+
+  
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+
+            <ion-item>
+              <ion-label position="floating">PIM</ion-label>
+              <ion-input type="text" required  [(ngModel)]="device.pim" name="devicePim" >
+              </ion-input>
+            </ion-item>
+
+          </ion-col>
+          <ion-col>
+
+            <ion-item>
+              <ion-label position="floating"  >IMEI</ion-label>
+              <ion-input type="text" required [(ngModel)]="device.imei" name="deviceImei" >
+              </ion-input>
+            </ion-item>
+
+          </ion-col>
+         </ion-row>
+          </ion-grid>
+  </ion-card-content>
+</ion-card>
+
+<ion-row>
+  <ion-col>
+    <ion-button expand="block" type="submit" [disabled]="permissoes.Pesquisar == 0">Pesquisar</ion-button>
+  </ion-col>
+</ion-row>
+
+</form>
+
+<ion-grid *ngIf="showTable && devices.length > 0">
+
+  <ngx-datatable 
+  class="bootstrap"
+  [rows]="devices" 
+  [columnMode]="'force'" 
+  [headerHeight]="40" 
+  [footerHeight]="40"
+  rowHeight="auto" 
+  [scrollbarH]="true" 
+  [limit]="10">
+
+    <ngx-datatable-column name="PIM">
+      <ng-template let-column="column" ngx-datatable-header-template> {{ column.name }} </ng-template>
+      <ng-template let-row="row" let-value="pim" ngx-datatable-cell-template>
+        {{row.pim}}
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="IMEI">
+      <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+      <ng-template let-row="row" ngx-datatable-cell-template>{{row.imei}}</ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Órgão">
+      <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+      <ng-template let-row="row" ngx-datatable-cell-template>{{row.segmento}}</ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Unidade">
+      <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+      <ng-template let-row="row" ngx-datatable-cell-template>{{row.grupo}}</ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Propietário">
+      <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+      <ng-template let-row="row" ngx-datatable-cell-template>{{row.usuario}}</ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Linha">
+      <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+      <ng-template let-row="row" ngx-datatable-cell-template>{{row.linha}}</ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Opções">
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        <ion-button (click)="delete(row.codigo, row.imei, form)" slot="end" fill="clear" shape="round" [disabled]="permissoes.Deletar == 0">
+          <ion-icon name="trash" color="secondary"></ion-icon>
+        </ion-button>
+        <ion-button routerLink="/menu/cadastro-adm-devices/{{row.codigo}}" slot="end" fill="clear" shape="round" [disabled]="permissoes.Editar == 0">
+          <ion-icon name="create" color="secondary"></ion-icon>
+        </ion-button>
+      </ng-template>
+    </ngx-datatable-column>
+  </ngx-datatable>
+
+</ion-grid>
+
+
+<ion-fab horizontal="end" vertical="bottom" slot="fixed">
+      
+  <ion-fab-button color="primary" (click)="NewDevice()" [disabled]="permissoes.Inserir == 0">
+    <ion-icon ios="ios-add" md="md-add"></ion-icon>
+  </ion-fab-button>      
+
+</ion-fab>
+
+</ion-content>

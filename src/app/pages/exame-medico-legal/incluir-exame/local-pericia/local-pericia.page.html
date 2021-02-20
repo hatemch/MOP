@@ -1,0 +1,275 @@
+<ion-header>
+
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="primary">
+      <ion-button (click)="goToGuia()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Local de Perícia</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <form #form="ngForm" (ngSubmit)="buttomEnd()" method="post">
+
+    <ion-card>
+
+      <ion-card-content>
+        <ion-grid>
+
+          <ion-row>
+
+            <ion-col>
+              <ion-label position="floating" *ngIf="form.value.tipo_local">Tipo Local:*</ion-label>
+              <ion-label position="floating" *ngIf="!form.value.tipo_local" color="danger">Tipo Local*</ion-label>
+              <ionic-selectable class="selector" required #tipoLocalComponent item-content
+                [(ngModel)]="localpericia.tipo_local" name="tipo_local" itemValueField="codigo"
+                itemTextField="tipo_local" [items]="tipolocales" [canSearch]="true" [canClear]="true"
+                [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true" searchFailText="Sem dados a mostrar"
+                searchPlaceholder="Pesquisar">
+                <ng-template ionicSelectableHeaderTemplate>
+                  <ion-toolbar>
+                    <ion-buttons start>
+                      <ion-button (click)="tipoLocalComponent.close()">
+                        <ion-label>Cancelar</ion-label>
+                      </ion-button>
+                    </ion-buttons>
+                    <ion-title>
+                    </ion-title>
+                  </ion-toolbar>
+                </ng-template>
+              </ionic-selectable>
+            </ion-col>
+
+            <ion-col>
+              <ion-label position="floating">UF:</ion-label>
+              <ion-select class="selector" [(ngModel)]="localpericia.uf" name="uf" placeholder="Bahia" disabled>
+                <ion-select-option value="Bahia" selected="true">Bahia</ion-select-option>
+              </ion-select>
+            </ion-col>
+
+            <ion-col>
+              <ion-label position="floating">CEP:</ion-label>
+              <ion-input class="selector" type="text" [(ngModel)]="localpericia.cep" name="cep" id="cep"
+                (ionChange)="formatCEP(localpericia.cep,'cep')">
+              </ion-input>
+            </ion-col>
+
+          </ion-row>
+
+          <ion-row>
+
+            <ion-col>
+              <ion-label position="floating" *ngIf="form.value.municipio">Município:*</ion-label>
+              <ion-label position="floating" *ngIf="!form.value.municipio" color="danger">Município:*</ion-label>
+
+              <ionic-selectable class="selector" required #municipio item-content [(ngModel)]="localpericia.municipio"
+                name="municipio" itemValueField="codigo" itemTextField="nome" [items]="municipios" [canSearch]="true"
+                [canClear]="true" [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true"
+                searchFailText="Sem dados a mostrar" searchPlaceholder="Pesquisar" (onChange)="GetBairros()">
+                <ng-template ionicSelectableHeaderTemplate>
+                  <ion-toolbar>
+                    <ion-buttons start>
+                      <ion-button (click)="municipio.close()">
+                        <ion-label>Cancelar</ion-label>
+                      </ion-button>
+                    </ion-buttons>
+                    <ion-title>
+                    </ion-title>
+                  </ion-toolbar>
+                </ng-template>
+              </ionic-selectable>
+            </ion-col>
+
+            <ion-col>
+              <ion-label position="floating" *ngIf="form.value.bairro">Bairro:*</ion-label>
+              <ion-label position="floating" *ngIf="!form.value.bairro" color="danger">Bairro:*</ion-label>
+              <ionic-selectable class="selector" required #bairro item-content [(ngModel)]="localpericia.bairro"
+                name="bairro" itemValueField="codigo_bairro" itemTextField="nome_bairro" [items]="bairros"
+                [canSearch]="true" [canClear]="true" [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true"
+                searchFailText="Sem dados a mostrar" searchPlaceholder="Pesquisar">
+                <ng-template ionicSelectableHeaderTemplate>
+                  <ion-toolbar>
+                    <ion-buttons start>
+                      <ion-button (click)="bairro.close()">
+                        <ion-label>Cancelar</ion-label>
+                      </ion-button>
+                    </ion-buttons>
+                    <ion-title>
+                    </ion-title>
+                  </ion-toolbar>
+                </ng-template>
+              </ionic-selectable>
+            </ion-col>
+
+          </ion-row>
+
+          <ion-row>
+
+            <ion-col>
+              <ion-label position="floating" *ngIf="form.value.logradouro">Lograduro*:</ion-label>
+              <ion-label position="floating" *ngIf="!form.value.logradouro" color="danger">Lograduro*:</ion-label>
+              <ionic-selectable class="selector" required #logradouro item-content [(ngModel)]="localpericia.logradouro"
+                name="logradouro" itemValueField="idTipoLogradouro" itemTextField="nome" [items]="tipologradouros"
+                [canSearch]="true" [canClear]="true" [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true"
+                searchFailText="Sem dados a mostrar" searchPlaceholder="Pesquisar">
+                <ng-template ionicSelectableHeaderTemplate>
+                  <ion-toolbar>
+                    <ion-buttons start>
+                      <ion-button (click)="logradouro.close()">
+                        <ion-label>Cancelar</ion-label>
+                      </ion-button>
+                    </ion-buttons>
+                    <ion-title>
+                    </ion-title>
+                  </ion-toolbar>
+                </ng-template>
+              </ionic-selectable>
+            </ion-col>
+
+            <ion-col>
+              <ion-label position="floating">Complemento:</ion-label>
+              <ion-input class="selector" type="text" [(ngModel)]="localpericia.complemento" name="complemento">
+              </ion-input>
+            </ion-col>
+
+          </ion-row>
+
+          <ion-row>
+
+            <ion-col>
+              <ion-label position="floating">Ponto de Referência:</ion-label>
+              <ion-input class="selector" type="text" [(ngModel)]="localpericia.ponto_referencia"
+                name="ponto_referencia">
+              </ion-input>
+            </ion-col>
+
+          </ion-row>
+
+          <ion-row>
+
+            <ion-col>
+              <ion-label position="floating">Latitude:</ion-label>
+              <ion-input class="selector" type="text" [(ngModel)]="localpericia.latitude" name="latitude">
+              </ion-input>
+            </ion-col>
+
+            <ion-col>
+              <ion-label position="floating">Longitude:</ion-label>
+              <ion-input class="selector" type="text" [(ngModel)]="localpericia.longitude" name="longitude">
+              </ion-input>
+            </ion-col>
+
+            <!-- <ion-col>
+              <ion-button class="buttomLocal" (click)="obterLocal()">Obter Localização</ion-button>
+            </ion-col> -->
+
+          </ion-row>
+
+        </ion-grid>
+
+      </ion-card-content>
+    </ion-card>
+
+
+    <ion-row>
+      <ion-col *ngIf="!isEditing" style="text-align: center;">
+        <ion-button type="submit" [disabled]="!form.valid">Incluir</ion-button>
+      </ion-col>
+
+      <ion-col *ngIf="isEditing" style="text-align: center;">
+        <ion-button (click)="buttomEnd()" [disabled]="!form.valid">Atualizar</ion-button>
+      </ion-col>
+    </ion-row>
+
+  </form>
+
+  <ion-grid *ngIf="localpericias.length > 0">
+
+    <ngx-datatable class="bootstrap" [rows]="localpericias" [columnMode]="force" [headerHeight]="40" [footerHeight]="40"
+      rowHeight="auto" [scrollbarH]="true" [limit]="10">
+
+      <ngx-datatable-column name="Tipo Local">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.nome_tipo_local}}</ng-template>
+      </ngx-datatable-column>
+      <!-- <ngx-datatable-column name="Descrição">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template><span
+            (mouseenter)="showDescricao(row.descricao_infracao, $event)"
+            (mouseleave)="hiddeDescricao(row.descricao_infracaoCurta, $event)">{{row.descricao_infracaoCurta}}</span>
+        </ng-template>
+      </ngx-datatable-column> -->
+      <ngx-datatable-column name="Descrição" width="550">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.descricao}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Edit" width="60">
+        <ng-template let-column="column" ngx-datatable-header-template></ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <ion-button (click)="edit(row)" slot="end" fill="clear" [disabled]="permissoes.Editar == 0">
+            <ion-icon name="md-create" color="secondary"></ion-icon>
+          </ion-button>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Deletar" width="60">
+        <ng-template let-column="column" ngx-datatable-header-template></ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <ion-button (click)="alertdelete(row)" slot="end" fill="clear" [disabled]="permissoes.Deletar == 0">
+            <ion-icon name="trash" color="secondary"></ion-icon>
+          </ion-button>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+
+  </ion-grid>
+
+</ion-content>
+
+<!-- FOOTER -->
+
+<ion-footer class="ion-text-center">
+  <div class="ion-padding" style="height: 105px">
+    <ion-tabs *ngIf="localpericia.numguia">
+      <ion-tab-bar slot="bottom" color="primary">
+        <ion-tab-button (click)="goToGuia()">
+          <ion-icon name="clipboard">
+          </ion-icon>
+          <ion-label>{{nomeGuia}}</ion-label>
+        </ion-tab-button>
+        <ion-tab-button routerLink="/menu/detalhes/{{numguia}}/{{localpericia.tipo_guia}}">
+          <ion-icon name="clipboard">
+          </ion-icon>
+          <ion-label>Detalhes do Fato</ion-label>
+        </ion-tab-button>
+        <ion-tab-button *ngIf="showOutrasPericias" routerLink="/menu/outras-pericias/{{numguia}}/{{localpericia.tipo_guia}}">
+          <ion-icon name="clipboard">
+          </ion-icon>
+          <ion-label>Outras Perícias</ion-label>
+        </ion-tab-button>
+        <ion-tab-button disabled>
+          <ion-icon name="clipboard">
+          </ion-icon>
+          <ion-label>Local de Perícia</ion-label>
+        </ion-tab-button>
+        <ion-tab-button routerLink="/menu/periciandos/{{numguia}}/{{localpericia.tipo_guia}}">
+          <ion-icon name="clipboard">
+          </ion-icon>
+          <ion-label>Periciandos</ion-label>
+        </ion-tab-button>
+        <ion-tab-button *ngIf="showObjetosPericia" (click)="goObjetosPericia()">
+          <ion-icon name="clipboard">
+          </ion-icon>
+          <ion-label>Objetos de Perícia</ion-label>
+        </ion-tab-button>
+      </ion-tab-bar>
+    </ion-tabs>
+  </div>
+</ion-footer>
+
+<!-- 9L -->

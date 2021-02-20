@@ -1,0 +1,49 @@
+form, input, optgroup, select {
+  font-size: small;
+}
+// form{
+//   margin: 20px;
+// }
+
+th {
+  font-size: small;
+  font-weight: lighter;
+  //padding-left: 1cm;
+ // padding-right: 1cm;
+}
+
+td {
+  font-size: small;
+}
+
+.selector {
+  background-color: #ffffff;
+  border: solid 0.55px rgba(121, 121, 121, 0.4);
+  border-radius: 5px;
+  color: #000002;
+  height: 45px;
+  justify-content: center; 
+}
+
+.buttonscenter{
+  justify-content: center;
+}
+
+.popover-content.sc-ion-popover-md {
+  width: 1000px !important;
+  max-width: 95% !important;
+  height: auto;
+  contain: content;
+}
+
+.alert-wrapper.sc-ion-alert-md {
+  width: 600px;
+  min-width: 100%;
+  max-width: 100%;
+  height: auto;
+  contain: content;
+}
+
+.icon {
+    text-align: center;
+}

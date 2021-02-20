@@ -1,0 +1,180 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="primary">
+      <ion-button (click)="goBack()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Usuários DETRAN</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <!------------------------------------------------------------------------------------->
+  <ion-card-content>
+    <form #form="ngForm" (ngSubmit)="save(form)" method="post">
+      <!--form #form="ngForm" method="post"-->
+      <ion-grid>
+        <ion-col>
+          <ion-row>
+            <ion-col size-sm="6" size-md="6" size-lg="6" >
+              <ion-item>
+                <ion-label position="floating">Nome</ion-label>
+                <ion-input type="text" name="nomePesquisar" [(ngModel)]="nomePesquisar" required>
+                </ion-input>
+                
+              </ion-item>      
+            </ion-col>
+            <ion-col   size-sm="6" size-md="6" size-lg="6">
+              <ion-item>
+                <ion-label position="floating">Unidade</ion-label>
+                <ion-input  type="text" [disabled]= 'showUnidade'name="unidadePesquisar" [(ngModel)]="user.nomegrupo" required>
+                </ion-input>
+              </ion-item>
+              
+            </ion-col>
+            <ion-col size-sm="2">
+              <ion-button expand="block" color="primary" (click)="GetTableData(form, '')" [disabled]="permissoes.Pesquisar == 0">Pesquisar
+              </ion-button>
+            </ion-col>
+            <ion-col size-sm="2">
+              <ion-button expand="block" [disabled]="permissoes.Pesquisar == 0" (click)='GetTableData(form,"X")'>Excel
+                <ion-icon name="download"></ion-icon>
+              </ion-button>
+            </ion-col>
+          </ion-row>
+
+        </ion-col>
+
+
+      </ion-grid>
+    </form>
+  </ion-card-content>
+  <!------------------------------------------------------------------------------------->
+
+  <!-- <ion-grid>
+    <table>
+      <tr>
+        <th>Código</th>
+        <th>Nome</th>
+        <th>CPF</th>
+        <th>PIM</th>
+        <th>IMEI</th>
+        <th>RG</th>
+        <th>UF</th>
+        <th>Município</th>
+        <th>Código Pessoa</th>
+        <th>Número Lote</th>
+        <th>Opções</th>
+      </tr>
+
+      <tr *ngFor="let userDet of userDets">
+        <td>{{userDet.codigo}}</td>
+        <td>{{userDet.nome}}</td>
+        <td>{{userDet.cpf}}</td>
+        <td>{{userDet.pim}}</td>
+        <td>{{userDet.imei}}</td>
+        <td>{{userDet.rg}}</td>
+        <td>{{userDet.uf}}</td>
+        <td>{{userDet.municipio}}</td>
+        <td>{{userDet.codigo_pessoa}}</td>
+        <td>{{userDet.numero_lote}}</td>
+
+        <td>
+          <ion-button
+            (click)="delete( userDet.codigo , userDet.nome )"
+            slot="end"
+            fill="clear"
+            shape="round"
+            [disabled]="permissoes.Deletar == 0"
+          >
+            <ion-icon name="trash" color="secondary"></ion-icon>
+          </ion-button>
+        </td>
+      </tr>
+    </table>
+  </ion-grid> -->
+
+  <!--------------------------------Devide Table------------------------------------------------------->
+  <ion-grid *ngIf="showTable && userDets.length > 0">
+
+    <ngx-datatable class="bootstrap" [rows]="userDets" [columnMode]="'force'" [headerHeight]="40" [footerHeight]="40"
+      rowHeight="auto" [scrollbarH]="true" [limit]="10">
+
+      <!--ngx-datatable-column name="Código">
+        <ng-template let-column="column" ngx-datatable-header-template> {{ column.name }} </ng-template>
+        <ng-template let-row="row" let-value="codigo" ngx-datatable-cell-template>
+          {{row.codigo}}
+        </ng-template>
+      </ngx-datatable-column-->
+      <ngx-datatable-column name="Nome">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.nome}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="CPF">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" let-value="cpf" ngx-datatable-cell-template>{{row.cpf}}</ng-template>
+      </ngx-datatable-column>
+      <!--ngx-datatable-column name="PIM">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" let-value="pim" ngx-datatable-cell-template>{{row.pim}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="IMEI">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" let-value="imei" ngx-datatable-cell-template>{{row.imei}}</ng-template>
+      </ngx-datatable-column-->
+      <ngx-datatable-column name="RG">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" let-value="rg" ngx-datatable-cell-template>{{row.rg}}</ng-template>
+      </ngx-datatable-column>
+      <!--ngx-datatable-column name="UF">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" let-value="uf" ngx-datatable-cell-template>{{row.uf}}</ng-template>
+      </ngx-datatable-column-->
+      <ngx-datatable-column name="Município">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" let-value="municipio" ngx-datatable-cell-template>{{row.municipio}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Unidade">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" let-value="unidade" ngx-datatable-cell-template>{{row.unidade}}</ng-template>
+      </ngx-datatable-column>
+      <!--ngx-datatable-column name="Código Pessoa">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" let-value="codigo_pessoa" ngx-datatable-cell-template>{{row.codigo_pessoa}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Número Lote">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" let-value="numero_lote" ngx-datatable-cell-template>{{row.numero_lote}}</ng-template>
+      </ngx-datatable-column-->
+
+      <ngx-datatable-column name="Opções">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <ion-button (click)="delete( row.codigo , row.nome )" slot="end" fill="clear" shape="round"
+            [disabled]="permissoes.Deletar == 0">
+            <ion-icon name="trash" color="secondary"></ion-icon>
+          </ion-button>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+
+  </ion-grid>
+  <!--------------------------------------------------------------------------------------------------->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="secondary" routerLink="/menu/add-user-detran" [disabled]="permissoes.Inserir == 0">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+  <!-- OPTIONS
+
+ <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab-button color="secondary" routerLink="/menu/add-perfis" [disabled]="permissoes.Inserir == 0">
+    <ion-icon name="add"></ion-icon>
+  </ion-fab-button>
+</ion-fab> -->
+</ion-content>

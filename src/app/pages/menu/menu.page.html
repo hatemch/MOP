@@ -1,0 +1,58 @@
+<ion-split-pane >
+  <ion-menu contentId="content">
+    
+
+    <ion-card class="ion-text-center" color="secundary">
+      <ion-card-header>
+        <img src="/assets/imgs/logo.png" class="custom-avatar" />
+        <ion-card-title>{{ NomeUsuarioSistema }} </ion-card-title>
+        <!-- <ion-card-subtitle>Suporte ID: {{CodigoUsuarioSuporte}}</ion-card-subtitle>         -->
+      </ion-card-header>
+      <ion-card-content class="ion-text-center ion-text-wrap">
+        Você está conectado no  <strong> {{AppName}}</strong>, sua unidade atual é
+        <strong> {{usuario.nomegrupo}}</strong> e seu perfil atual é <strong> {{usuario.perfil}}</strong>. 
+        Caso precise de suporte, favor contactar os Supervisores da sua Unidade.
+        
+        <!--
+              ou
+              <button href="https://wa.me/5561982049030" secondary clear item-right>
+                <ion-icon name="call"></ion-icon>
+                WhatApp
+              </button>
+
+
+               [routerLink]="MenuItems.Route" 
+              -->
+      </ion-card-content>
+    </ion-card>
+    <ion-content>
+      <ion-list>
+        <ion-menu-toggle auto-hide="false" *ngFor="let MenuItems of SideMenu">
+          <ion-item routerDirection="root" [class.active-item]="selectedPath.startsWith(MenuItems.Route)" (click)="itemSelected(MenuItems)">
+            <ion-icon color="primary" name="{{ MenuItems.Icon }}"></ion-icon>
+            <ion-label>
+              {{ MenuItems.Name }}
+            </ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+          <ion-item tappable (click)="Sair()" routerLink="/login" routerDirection="root">
+            <ion-icon color="primary" name="log-out" slot="start"></ion-icon>
+            <ion-label>Sair</ion-label>
+          </ion-item>
+      </ion-list>
+
+      
+
+    </ion-content>
+    <!--
+    <ion-item padding class="ion-text-center" lines="none">
+      <img src="/assets/imgs/LgMOP.png">
+    </ion-item>
+    -->
+    <ion-footer class="ion-padding" class="ion-text-center">
+     {{appVersion}}
+    </ion-footer>
+
+  </ion-menu>
+  <ion-router-outlet id="content" main></ion-router-outlet>
+</ion-split-pane>

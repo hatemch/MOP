@@ -1,0 +1,281 @@
+<ion-header>
+
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="primary">
+      <ion-button (click)="goBack()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Consulta Infrações</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <!-- <ion-label position="floating">Infrações</ion-label> -->
+  <form #form="ngForm" (ngSubmit)="CarregaInfracoesUsuario(form)" method="post">
+    <!-- <fieldset> -->
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position='stacked'>Órgão</ion-label>
+            <ionic-selectable #segmentoComponent item-content [(ngModel)]="infracao.Segmento" name="Segmento"
+              itemValueField="codigo" itemTextField="segmento" [items]="segmentos" [canSearch]="true" [canClear]="true"
+              [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true" searchFailText="Sem dados a mostrar"
+              placeholder="Órgão" searchPlaceholder="Pesquisar" (onChange)="CarregaSegmentoGrupos()">
+              <ng-template ionicSelectableHeaderTemplate>
+                <ion-toolbar>
+                  <ion-buttons start>
+                    <ion-button (click)="segmentoComponent.close()">
+                      <ion-label>Cancelar</ion-label>
+                    </ion-button>
+                  </ion-buttons>
+                  <ion-title>
+                  </ion-title>
+                </ion-toolbar>
+              </ng-template>
+            </ionic-selectable>
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-item>
+            <ion-label position='stacked'>Unidade</ion-label>
+            <ionic-selectable #grupoComponent item-content [(ngModel)]="infracao.Grupo" name="Grupo"
+              itemValueField="codigo" itemTextField="nome" [items]="grupos" [canSearch]="true" [canClear]="true"
+              [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true" searchFailText="Sem dados a mostrar"
+              placeholder="Unidade" searchPlaceholder="Pesquisar" (onChange)="CarregaSegmentoGrupoUsuarios()">
+              <ng-template ionicSelectableHeaderTemplate>
+                <ion-toolbar>
+                  <ion-buttons start>
+                    <ion-button (click)="grupoComponent.close()">
+                      <ion-label>Cancelar</ion-label>
+                    </ion-button>
+                  </ion-buttons>
+                  <ion-title>
+                  </ion-title>
+                </ion-toolbar>
+              </ng-template>
+            </ionic-selectable>
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-item>
+            <ion-label position='stacked'>Usuário</ion-label>
+            <ionic-selectable #usuarioComponent item-content [(ngModel)]="infracao.usuario" name="usuario"
+              itemValueField="codigo" itemTextField="nome" [items]="users" [canSearch]="true" [canClear]="true"
+              [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true" searchFailText="Sem dados a mostrar"
+              placeholder="Usuário" searchPlaceholder="Pesquisar">
+              <ng-template ionicSelectableHeaderTemplate>
+                <ion-toolbar>
+                  <ion-buttons start>
+                    <ion-button (click)="usuarioComponent.close()">
+                      <ion-label>Cancelar</ion-label>
+                    </ion-button>
+                  </ion-buttons>
+                  <ion-title>
+                  </ion-title>
+                </ion-toolbar>
+              </ng-template>
+            </ionic-selectable>
+          </ion-item>
+        </ion-col>
+
+        <ion-col>
+          <ion-item>
+            <ion-label position='stacked'>Status DETRAN</ion-label>
+            <ionic-selectable #usuarioComponent item-content [(ngModel)]="infracao.ndetran" name="ndetran"
+              itemValueField="id" itemTextField="nome" [items]="statusDetran" [canSearch]="true" [canClear]="true"
+              [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true" searchFailText="Sem dados a mostrar"
+              placeholder="Status DETRAN" searchPlaceholder="Pesquisar">
+              <ng-template ionicSelectableHeaderTemplate>
+                <ion-toolbar>
+                  <ion-buttons start>
+                    <ion-button (click)="statusDetran.close()">
+                      <ion-label>Cancelar</ion-label>
+                    </ion-button>
+                  </ion-buttons>
+                  <ion-title>
+                  </ion-title>
+                </ion-toolbar>
+              </ng-template>
+            </ionic-selectable>
+          </ion-item>
+        </ion-col>
+
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-label position="floating">Data Inicio</ion-label>
+          <ion-input class="selector" (ionChange)="dataInicio($event)" type="Date" [(ngModel)]="infracao.DataInicial" name="DataInicial"
+            displayFormat="DD/MM/YYYY" required>
+          </ion-input>
+        </ion-col>
+        <ion-col>
+          <ion-label position="floating">Data Fim</ion-label>
+          <ion-input class="selector" [disabled]="disabledata" type="Date" [(ngModel)]="infracao.DataFinal" name="DataFinal"
+           displayFormat="DD/MM/YYYY" required>
+          </ion-input>
+        </ion-col>
+        <ion-col>
+          <ion-label position="floating">Hora Inicio</ion-label>
+          <ion-input class="selector" [disabled]="disabledata" type="time" [(ngModel)]="infracao.HoraInicial" name="HoraInicial" displayFormat="HH:mm">
+          </ion-input>
+        </ion-col>
+        <ion-col>
+          <ion-label position="floating">Hora Fim</ion-label>
+          <ion-input class="selector" [disabled]="disabledata" type="time" [(ngModel)]="infracao.HoraFinal" name="HoraFinal" displayFormat="HH:mm">
+          </ion-input>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size-md="4" size-lg="4"> 
+          <label for="name">Placa</label>
+          <ion-input class="selector" [(ngModel)]="infracao.placa" type="text" name="placa" maxlength="7"
+            pattern="[A-Za-z0-9._%+-]{2,}"></ion-input>
+        </ion-col>
+        <ion-col size-md="4" size-lg="4">
+          <label for="name">Código Infração</label>
+          <ion-input class="selector" [(ngModel)]="infracao.codigo_infracao" type="text" name="codigo_infracao"
+            pattern="[0-9]{2,}"></ion-input>
+        </ion-col>
+        <ion-col size-md="4" size-lg="4">
+        <ion-item>
+          <ion-label position='stacked'>Município</ion-label>
+          <ionic-selectable #municipioComponent item-content [(ngModel)]="infracao.Municipio" name="Municipio"
+            itemValueField="codigo" itemTextField="nome" [items]="municipios" [canSearch]="true" [canClear]="true"
+            [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true" searchFailText="Sem dados a mostrar"
+            placeholder="Municipio" searchPlaceholder="Pesquisar">
+            <ng-template ionicSelectableHeaderTemplate>
+              <ion-toolbar>
+                <ion-buttons start>
+                  <ion-button (click)="municipioComponent.close()">
+                    <ion-label>Cancelar</ion-label>
+                  </ion-button>
+                </ion-buttons>
+                <ion-title>
+                </ion-title>
+              </ion-toolbar>
+            </ng-template>
+          </ionic-selectable>
+        </ion-item>
+      </ion-col>
+      </ion-row>
+    <!-- </fieldset> -->
+
+    <!-- <ion-grid class=""> -->
+    <ion-row class="buttonscenter" >
+      <ion-col size="2">
+        <ion-button expand="full" color="primary" (click)="CarregaInfracoesUsuario(form)" [disabled]="permissoes.Pesquisar == 0 || !form.valid">Pesquisar</ion-button>
+      </ion-col>
+      <ion-col size="2">
+        <ion-button expand="full" color="primary" (click)="showprint(form)" [disabled]="permissoes.Pesquisar == 0 || !showTable || !form.valid">Imprimir </ion-button>
+      </ion-col>
+      <ion-col size="2">
+        <ion-button expand="full" color="primary" (click)="mapa(form)" [disabled]="permissoes.Pesquisar == 0 || !form.valid">Mapa </ion-button>
+      </ion-col>
+    </ion-row>
+  <!-- </ion-grid> -->
+
+  </form>
+
+  <ion-grid *ngIf="showTable && Infracoes.length > 0">
+
+    <ngx-datatable 
+    class="bootstrap"
+    [rows]="Infracoes" 
+    [columnMode]="force" 
+    [headerHeight]="40" 
+    [footerHeight]="40"
+    rowHeight="auto" 
+    [scrollbarH]="true" 
+    [limit]="10">
+
+      <ngx-datatable-column name="Auto">
+        <ng-template let-column="column" ngx-datatable-header-template> {{ column.name }} </ng-template>
+        <ng-template let-row="row" let-value="NumeroAuto" ngx-datatable-cell-template>
+          {{row.auto}}
+        </ng-template>
+      </ngx-datatable-column>
+      <!--ngx-datatable-column name="Código">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.codigo}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Desdobramento">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.desdobramento_infracao}}</ng-template>
+      </ngx-datatable-column-->
+      <ngx-datatable-column name="Status DETRAN">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.ndetran}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Descrição">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template><span (mouseenter)="showDescricao(row.descricao_infracao, $event)" (mouseleave)="hiddeDescricao(row.descricao_infracaoCurta, $event)">{{row.descricao_infracaoCurta}}</span> </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Data Infração">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.data_ocorrencia}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Hora Infração">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.hora_ocorrencia}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Local">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.local_ocorrencia}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Município">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.nome_municipio}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Usuário">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.usuario}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Placa">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.placa}}</ng-template>
+      </ngx-datatable-column>
+      <!--ngx-datatable-column name="Latitude">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.latitude}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Longitude">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.longitude}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="PIM">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.pim}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="IMEI">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.emei}}</ng-template>
+      </ngx-datatable-column-->
+      <ngx-datatable-column name="Opções">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <ion-button (click)="showprintone(row)" slot="end" fill="clear" [disabled]="permissoes.Pesquisar == 0">
+            <ion-icon name="print" color="secondary"></ion-icon>
+          </ion-button>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+
+  </ion-grid>
+
+<!-- 
+  <ion-card *ngIf="showMap" color="light">
+    <iframe [src]="mapURL" width="100%" height="100%" scrolling="no" frameborder="0"></iframe>
+  </ion-card>  
+-->
+    <iframe  *ngIf="mapURL" [src]="mapURL" width="100%" height="100%" scrolling="no" frameborder="0"></iframe>
+
+  
+
+</ion-content>

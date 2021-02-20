@@ -1,0 +1,94 @@
+<ion-header>
+
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="primary">
+      <ion-button (click)="goBack()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Antecedentes</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form #form="ngForm" (ngSubmit)="search(form)" method="post">
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Nome</ion-label>
+            <ion-input type="text" [(ngModel)]="antecedente.nome" name="nome">
+            </ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">RG</ion-label>
+            <ion-input type="text" [(ngModel)]="antecedente.rg" name="rg">
+            </ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <br>
+          <ion-button expand="block" type="submit" [disabled]="permissoes.Pesquisar == 0">Pesquisar</ion-button>
+        </ion-col>
+      </ion-row>
+       
+    </ion-grid>
+  </form>
+
+  <ion-grid *ngIf="antecedentes.length > 0">
+
+    <ngx-datatable class="bootstrap" [rows]="antecedentes" [columnMode]="'force'" [headerHeight]="40"
+      [footerHeight]="40" rowHeight="auto" [scrollbarH]="true" [limit]="10">
+
+      <ngx-datatable-column name="RG">
+        <ng-template let-column="column" ngx-datatable-header-template> {{ column.name }} </ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.rg}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Nome">
+        <ng-template let-column="column" ngx-datatable-header-template> {{ column.name }} </ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.nome}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Dt. Nascimento">
+        <ng-template let-column="column" ngx-datatable-header-template> {{ column.name }} </ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.nascimento}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Dt. Obito">
+        <ng-template let-column="column" ngx-datatable-header-template> {{ column.name }} </ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.obito}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Mae">
+        <ng-template let-column="column" ngx-datatable-header-template> {{ column.name }} </ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.mae}}</ng-template>
+      </ngx-datatable-column>
+      <!-- <ngx-datatable-column name="Pai">
+        <ng-template let-column="column" ngx-datatable-header-template> {{ column.name }} </ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.pai}}</ng-template>
+      </ngx-datatable-column> -->
+      <ngx-datatable-column name="Inquerito">
+        <ng-template let-column="column" ngx-datatable-header-template> {{ column.name }} </ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.inquerito}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Processo">
+        <ng-template let-column="column" ngx-datatable-header-template> {{ column.name }} </ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.processo}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Mandado">
+        <ng-template let-column="column" ngx-datatable-header-template> {{ column.name }} </ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.mandado}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Jecrim">
+        <ng-template let-column="column" ngx-datatable-header-template> {{ column.name }} </ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.jecrim}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Termo">
+        <ng-template let-column="column" ngx-datatable-header-template> {{ column.name }} </ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.termo}}</ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+  </ion-grid>
+</ion-content>

@@ -1,0 +1,8 @@
+{
+  "name": "MOP",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}
+

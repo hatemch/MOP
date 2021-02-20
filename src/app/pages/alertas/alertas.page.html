@@ -1,0 +1,144 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="primary">
+      <ion-button (click)="goBack()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Alertas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+
+  <form #form="ngForm" method="post">
+    <ion-grid>
+      <ion-row>
+        <ion-button routerLink="/menu/addalertas" slot="end" color="primary" [disabled]="permissoes.Inserir == 0">
+          <ion-icon name="add" color="secondary"> </ion-icon>Novo
+        </ion-button>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label>Data Inicio</ion-label>
+            <ion-input type="Date" ngModel name="DataInicio" displayFormat="DD/MM/YYYY" required>
+            </ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-item>
+            <ion-label>Data Fim</ion-label>
+            <ion-input type="Date" ngModel name="DataFim" displayFormat="DD/MM/YYYY" required>
+            </ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-button color="primary" [disabled]="!form.valid || permissoes.Pesquisar == 0"
+            (click)="GetTableData(form)">Pesquisar
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+
+  <!-----------------------------NGXTable---------------------------------------->
+  <ion-grid *ngIf=" alertas.length > 0">
+
+    <ngx-datatable 
+    class="bootstrap"
+    [rows]="alertas" 
+    [columnMode]="'force'" 
+    [headerHeight]="40" 
+    [footerHeight]="40"
+    rowHeight="auto" 
+    [scrollbarH]="true" 
+    [limit]="10">
+
+      <ngx-datatable-column name="Origem">
+        <ng-template let-column="column" ngx-datatable-header-template> {{ column.name }} </ng-template>
+        <ng-template let-row="row" let-value="tipoDestino" ngx-datatable-cell-template>
+          {{row.usuario_origem}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Destino">
+        <ng-template let-column="column" ngx-datatable-header-template> {{ column.name }} </ng-template>
+        <ng-template let-row="row" let-value="tipoDestino" ngx-datatable-cell-template>
+          {{row.tipoDestino}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Data do Alerta">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" let-value="dataMensagem" ngx-datatable-cell-template>{{row.dataMensagem}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Tipo">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" let-value="tipo" ngx-datatable-cell-template>{{row.tipo}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Mensagem">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" let-value="mensagem" ngx-datatable-cell-template>{{row.mensagem}}</ng-template>
+      </ngx-datatable-column>
+     
+     
+      <!-- <ngx-datatable-column name="Opções">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <ion-button
+          (click)="delete( row.codigo , row.nome )"
+          slot="end"
+          fill="clear"
+          shape="round"
+          [disabled]="permissoes.Deletar == 0">
+          <ion-icon name="trash" color="secondary"></ion-icon>
+        </ion-button>
+        </ng-template>
+      </ngx-datatable-column> -->
+    </ngx-datatable>
+
+  </ion-grid>
+  <!----------------------------------------------------------------------------->
+
+  <!-- <ion-card *ngIf="selected">
+    <table>
+      <tr text-center>
+        <th style="width: 4rem;">
+          Destino
+        </th>
+        <th style="width: 20rem;">
+          Data do Alerta
+        </th>
+        <th style="width: 10rem;">
+          Tipo
+        </th>
+        <th style="width: 65rem;">
+          Mensagem
+        </th>
+      </tr>
+      <tr *ngFor="let alerta of alertas" align="center">
+
+        <td>
+          {{alerta.tipoDestino}}
+        </td>
+        <td>
+          {{alerta.dataMensagem}}
+        </td>
+        <td>
+          {{alerta.tipo}}
+        </td>
+        <td>
+          {{alerta.mensagem}}
+        </td>
+      </tr>
+    </table>
+  </ion-card> -->
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="secondary" routerLink="/menu/add-alerta" [disabled]="permissoes.Inserir == 0">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

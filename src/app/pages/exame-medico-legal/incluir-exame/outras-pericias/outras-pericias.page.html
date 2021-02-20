@@ -1,0 +1,114 @@
+<ion-header>
+
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="primary">
+      <ion-button (click)="goToGuia()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Outras Perícias</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-grid>
+    <ion-row>
+      <ion-col size=4>
+        <ion-button style="text-transform: capitalize;" color="primary" [disabled]="permissoes.Inserir == 0"
+          routerLink="/menu/incluir-outras-pericias/{{outraPericia.numguia}}/{{outraPericia.tipo_guia}}">
+          + Incluir Outras Perícias</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid *ngIf="outrasPericias.length > 0">
+
+    <ngx-datatable class="bootstrap" [rows]="outrasPericias" [columnMode]="force" [headerHeight]="40"
+      [footerHeight]="40" rowHeight="auto" [scrollbarH]="true" [limit]="10">
+
+      <ngx-datatable-column name="Tipo">
+        <ng-template let-column="column" ngx-datatable-header-template> {{ column.name }} </ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.nome_tipo}}</ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Descrição">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.descricao}}</ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Exames Perícias">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.nome_examen_requisitado}} </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Incluir">
+        <ng-template let-column="column" ngx-datatable-header-template></ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <ion-button style="text-transform: capitalize;" (click)="incluirExamen(row)" [disabled]="permissoes.Inserir == 0">
+            Incluir Exame
+          </ion-button>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Edit" width="60">
+        <ng-template let-column="column" ngx-datatable-header-template></ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <ion-button (click)="EditOutraPericia(row)" slot="end" fill="clear" [disabled]="permissoes.Editar == 0">
+            <ion-icon name="create" color="secondary"></ion-icon>
+          </ion-button>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Deletar" width="60">
+        <ng-template let-column="column" ngx-datatable-header-template></ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <ion-button (click)="alertDeletar(row)" slot="end" fill="clear" [disabled]="permissoes.Deletar == 0">
+            <ion-icon name="trash" color="secondary"></ion-icon>
+          </ion-button>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+
+  </ion-grid>
+
+</ion-content>
+
+<ion-footer class="ion-text-center">
+  <div class="ion-padding" style="height: 105px">
+    <ion-tabs *ngIf="outraPericia.numguia">
+      <ion-tab-bar slot="bottom" color="primary">
+        <ion-tab-button (click)="goToGuia()">
+          <ion-icon name="clipboard">
+          </ion-icon>
+          <ion-label>{{nomeGuia}}</ion-label>
+        </ion-tab-button>
+        <ion-tab-button routerLink="/menu/detalhes/{{outraPericia.numguia}}/{{outraPericia.tipo_guia}}">
+          <ion-icon name="clipboard">
+          </ion-icon>
+          <ion-label>Detalhes do Fato</ion-label>
+        </ion-tab-button>
+        <ion-tab-button disabled>
+          <ion-icon name="clipboard">
+          </ion-icon>
+          <ion-label>Outras Perícias</ion-label>
+        </ion-tab-button>
+        <ion-tab-button routerLink="/menu/local-pericia/{{outraPericia.numguia}}/{{outraPericia.tipo_guia}}">
+          <ion-icon name="clipboard">
+          </ion-icon>
+          <ion-label>Local de Perícia</ion-label>
+        </ion-tab-button>
+        <ion-tab-button routerLink="/menu/periciandos/{{outraPericia.numguia}}/{{outraPericia.tipo_guia}}">
+          <ion-icon name="clipboard">
+          </ion-icon>
+          <ion-label>Periciandos</ion-label>
+        </ion-tab-button>
+      </ion-tab-bar>
+    </ion-tabs>
+  </div>
+</ion-footer>
+
+<!-- 9L -->

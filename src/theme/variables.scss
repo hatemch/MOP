@@ -1,0 +1,167 @@
+// Ionic Variables and Theming. For more info, please see:
+// http://ionicframework.com/docs/theming/
+
+/** Ionic CSS Variables **/
+:root {
+  --ion-color-primary: #41729F;
+  --ion-color-primary-rgb: 95,8,235;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255,255,255;
+  --ion-color-primary-shade: #274472;
+  --ion-color-primary-tint: #5885AF;
+
+  --ion-color-secondary: #274472;
+  --ion-color-secondary-rgb: 12,209,232;
+  --ion-color-secondary-contrast: #ffffff;
+  --ion-color-secondary-contrast-rgb: 255,255,255;
+  --ion-color-secondary-shade: #0bb8cc;
+  --ion-color-secondary-tint: #5885AF;
+
+  --ion-color-tertiary: #7044ff;
+  --ion-color-tertiary-rgb: 112,68,255;
+  --ion-color-tertiary-contrast: #ffffff;
+  --ion-color-tertiary-contrast-rgb: 255,255,255;
+  --ion-color-tertiary-shade: #633ce0;
+  --ion-color-tertiary-tint: #7e57ff;
+
+  --ion-color-success: #10dc60;
+  --ion-color-success-rgb: 16,220,96;
+  --ion-color-success-contrast: #ffffff;
+  --ion-color-success-contrast-rgb: 255,255,255;
+  --ion-color-success-shade: #0ec254;
+  --ion-color-success-tint: #28e070;
+
+  --ion-color-warning: #ffce00;
+  --ion-color-warning-rgb: 255,206,0;
+  --ion-color-warning-contrast: #ffffff;
+  --ion-color-warning-contrast-rgb: 255,255,255;
+  --ion-color-warning-shade: #e0b500;
+  --ion-color-warning-tint: #ffd31a;
+
+  --ion-color-danger: #f04141;
+  --ion-color-danger-rgb: 245,61,61;
+  --ion-color-danger-contrast: #ffffff;
+  --ion-color-danger-contrast-rgb: 255,255,255;
+  --ion-color-danger-shade: #d33939;
+  --ion-color-danger-tint: #f25454;
+
+  --ion-color-dark: #222428;
+  --ion-color-dark-rgb: 34,34,34;
+  --ion-color-dark-contrast: #ffffff;
+  --ion-color-dark-contrast-rgb: 255,255,255;
+  --ion-color-dark-shade: #1e2023;
+  --ion-color-dark-tint: #383a3e;
+
+  --ion-color-medium: #989aa2;
+  --ion-color-medium-rgb: 152,154,162;
+  --ion-color-medium-contrast: #ffffff;
+  --ion-color-medium-contrast-rgb: 255,255,255;
+  --ion-color-medium-shade: #86888f;
+  --ion-color-medium-tint: #a2a4ab;
+
+  --ion-color-light: #f4f5f8;
+  --ion-color-light-rgb: 244,244,244;
+  --ion-color-light-contrast: #000000;
+  --ion-color-light-contrast-rgb: 0,0,0;
+  --ion-color-light-shade: #d7d8da;
+  --ion-color-light-tint: #f5f6f9;
+}
+
+ // ==== CSS FOR THE SIZE LEFT MENU
+
+ @media screen and (min-width: 1024px) { //If [device width] is greater than or equal to 1024px, then do {…}
+ .split-pane-visible >.split-pane-side {
+  min-width: 22%!important;
+  max-width: 27%!important;
+  }
+}
+@media screen and (max-width: 1024px) { //If [device width] is less than or equal to 1024px, then do {…}
+  .split-pane-visible >.split-pane-side {
+    min-width: 15%!important;
+    max-width: 20%!important;
+   }
+ }
+// ==== END CSS FOR THE SIZE LEFT MENU
+
+.title{
+  background: rgb(236, 198, 72);
+  width: 100%;
+  height: 70px;
+}
+
+th{
+  background: #41729F;
+  font-size: 14px;
+  border: thin solid #f5f5f2;
+  color: white;
+  width: 3%;
+  height:1cm;
+  padding-left: 3cm;
+  text-align: center
+}
+
+td{
+  
+  background: rgb(250, 250, 250);
+  font-size: 14px;
+  border: thin solid #f5f5f2;
+  width: 5%;
+  height:2cm;
+  text-align: center;
+  color: black;
+}
+.content-item{
+  border: outset;
+  color: black;
+}
+//NGX DATATABLE (CONSULTA INFRAÇAO)
+.ngx-datatable.bootstrap {
+  font-size: small;
+  margin: 0 30px;
+  width: auto;
+}
+
+datatable-header-cell.datatable-header-cell.sortable.resizeable { //header with white border
+  border: thin solid #f5f5f2;
+}
+
+.ngx-datatable.fixed-header .datatable-header .datatable-header-inner { // header blue and letters white
+  background: #41729F;
+  color: white;
+}
+
+// INPUTS AND SELECTS (ALL)
+.selectoraper {
+  background-color: #ffffff;
+  border: solid 1.2px rgba(50, 50, 121, 0.4);
+  border-radius: 5px;
+  color: #000002;
+  height: 45px;
+  justify-content: center; 
+}
+
+//BUTTONS CENTER (ALL)
+.buttonscenter{
+  justify-content: center;
+}
+
+.alert-radio-label.sc-ion-alert-md {
+  // padding-left: 52px;
+  // padding-right: 26px;
+  padding: top 0px;
+  padding-bottom: 0px;
+  // flex: 1;
+  // color: var(--ion-color-step-850, #262626);
+  // font-size: 16px;
+  // text-overflow: ellipsis;
+  white-space: pre-line !important;
+}
+
+.alert-wrapper.sc-ion-alert-md {
+  --min-width: 290px;
+}
+
+img, ion-icon{
+  cursor: pointer;
+}
+

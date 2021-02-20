@@ -1,0 +1,154 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="primary">
+      <ion-button (click)="goBack()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Rastreabilidade</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form #form="ngForm" (ngSubmit)="CarregaInfracoesUsuario(form, $event)" method="post">
+    <ion-grid>
+      <ion-row>
+        <ion-col col-4>
+          <ion-label position='floating'>Órgão:</ion-label>
+          <ion-item lines="none">
+
+            <ionic-selectable class="selectoraper" #segmentoComponent item-content
+              [(ngModel)]="rastreabilidade.segmento" name="segmento" itemValueField="codigo" itemTextField="segmento"
+              [items]="segmentos" [canSearch]="true" [canClear]="true" [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true"
+              searchFailText="Sem dados a mostrar" searchPlaceholder="Pesquisar" (onChange)="CarregaSegmentoGrupos()"
+              required>
+              <ng-template ionicSelectableHeaderTemplate>
+                <ion-toolbar>
+                  <ion-buttons start>
+                    <ion-button (click)="segmentoComponent.close()">
+                      <ion-label>Cancelar</ion-label>
+                    </ion-button>
+                  </ion-buttons>
+                  <ion-title>
+                  </ion-title>
+                </ion-toolbar>
+              </ng-template>
+            </ionic-selectable>
+          </ion-item>
+        </ion-col>
+        <ion-col col-4>
+          <ion-label position='floating'>Unidade:</ion-label>
+          <ion-item lines="none">
+
+            <ionic-selectable class="selectoraper" #grupoComponent item-content [(ngModel)]="rastreabilidade.grupo"
+              name="grupo" itemValueField="codigo" itemTextField="nome" [items]="grupos" [canSearch]="true" [canClear]="true"
+              [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true" searchFailText="Sem dados a mostrar"
+              searchPlaceholder="Pesquisar" (onChange)="CarregaSegmentoGrupoUsuarios()"
+              disabled="{{grupos.length == 0}}" required>
+              <ng-template ionicSelectableHeaderTemplate>
+                <ion-toolbar>
+                  <ion-buttons start>
+                    <ion-button (click)="grupoComponent.close()">
+                      <ion-label>Cancelar</ion-label>
+                    </ion-button>
+                  </ion-buttons>
+                  <ion-title>
+                  </ion-title>
+                </ion-toolbar>
+              </ng-template>
+            </ionic-selectable>
+          </ion-item>
+        </ion-col>
+        <ion-col col-4>
+          <ion-label position='floating'>Usuário:</ion-label>
+          <ion-item lines="none">
+
+            <ionic-selectable class="selectoraper" #usuarioComponent item-content [(ngModel)]="rastreabilidade.usuario"
+              name="usuario" itemValueField="codigo" itemTextField="nome" [items]="users" [canSearch]="true" [canClear]="true"
+              [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true" searchFailText="Sem dados a mostrar"
+              searchPlaceholder="Pesquisar" disabled="{{users.length == 0}}" (onChange)="CarregaData(form, $event);"
+              required>
+              <ng-template ionicSelectableHeaderTemplate>
+                <ion-toolbar>
+                  <ion-buttons start>
+                    <ion-button (click)="usuarioComponent.close()">
+                      <ion-label>Cancelar</ion-label>
+                    </ion-button>
+                  </ion-buttons>
+                  <ion-title>
+                  </ion-title>
+                </ion-toolbar>
+              </ng-template>
+            </ionic-selectable>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-4>
+          <ion-label>Data Inicial</ion-label>
+          <ion-item lines ="none">
+            
+            <ionic-selectable  class="selectoraper" #dateComponent item-content [(ngModel)]="rastreabilidade.data_posicao2" name="DataPosicao"
+              itemValueField="dt_posicao" itemTextField="dt_posicao2" [items]="Datagrup" [canSearch]="true" [canClear]="true" disabled="{{Datagrup.length == 0}}"
+              [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true" searchFailText="Sem dados a mostrar"
+               searchPlaceholder="Pesquisar" required>
+              <ng-template ionicSelectableHeaderTemplate>
+                <ion-toolbar>
+                  <ion-buttons start>
+                    <ion-button (click)="dateComponent.close()">
+                      <ion-label>Cancelar</ion-label>
+                    </ion-button>
+                  </ion-buttons>
+                  <ion-title>
+                  </ion-title>
+                </ion-toolbar>
+              </ng-template>
+            </ionic-selectable>
+          </ion-item>
+        </ion-col>
+        <!-- <ion-col col-4>
+          <ion-label>Data Inicio</ion-label>
+          <ion-input type="Date" class="selectoraper" name="dataInicial" [(ngModel)]="rastreabilidade.dataInicial"
+            displayFormat="DD/MM/YYYY">
+          </ion-input>
+        </ion-col>
+        <ion-col col-4>
+          <ion-label>Data Fim</ion-label>
+          <ion-input type="Date" class="selectoraper" name="dataFinal" [(ngModel)]="rastreabilidade.dataFinal"
+            displayFormat="DD/MM/YYYY">
+          </ion-input>
+        </ion-col> -->
+        <ion-col col-2>
+          <ion-label>Hora Inicial</ion-label>
+          <ion-input class="selectoraper" type="time" [(ngModel)]="rastreabilidade.horaInicial" name="HoraInicial"
+            displayFormat="HH:mm"> </ion-input>
+        </ion-col>
+        <ion-col col-2>
+          <ion-label>Hora Final</ion-label>
+          <ion-input class="selectoraper" type="time" [(ngModel)]="rastreabilidade.horaFinal" name="HoraFinal"
+            displayFormat="HH:mm"> </ion-input>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <ion-row class="buttonscenter">
+      <ion-col size="3">
+        <ion-button color="primary" [disabled]="!form.valid || permissoes.Pesquisar == 0" (click)="getLocalizacao()" expand="full">
+          Pesquisar
+        </ion-button>
+      </ion-col>
+    </ion-row>
+
+  </form>
+
+  <!-- <iframe *ngIf="rastreabilidades.length > 0 && mapURL" [src]="mapURL" width="100%" height="80%" scrolling="no"
+    frameborder="0"></iframe> -->
+
+  <ion-card color="light" [hidden]="rastreabilidades.length == 0">
+    <div id="map" style="width: 100%; height: 400px;"></div>
+  </ion-card>
+
+</ion-content>

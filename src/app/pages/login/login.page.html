@@ -1,0 +1,65 @@
+<ion-content >
+  <div class="upper-part">
+    <ion-grid>
+      <ion-row class="ion-text-center" class="ion-justify-content-center">
+        <ion-col size-sm="10" size-md="8" size-lg="6" size-xl="4">
+          <div class="ion-text-center">
+            <img src="/assets/imgs/logo.png" width="50%" height="50%" >
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <div class="text-logo">
+            <h1 class="ion-text-center">{{AppName}}</h1>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <ion-row class="ion-justify-content-center">
+    <ion-col size-sm="9" size-md="7" size-lg="5" size-xl="3">
+      <div class="lower-part">
+        <div class="ion-padding-horizontal external-container">
+          <form #form="ngForm" (ngSubmit)="AuthLogin(form)" method="post">
+            <ion-item>
+              <ion-label position="floating">Login</ion-label>
+              <ion-input #Login ngModel type="text" name="Login"
+              pattern="[A-Za-z0-9._%+-]{2,}"
+              placeholder="Nome do Usuário" required></ion-input>
+              
+            </ion-item>
+
+            <ion-item  >
+              <ion-label position="floating">Senha</ion-label>
+              <ion-input #Senha ngModel type="password" name="Senha" 
+                placeholder="Sua Senha" required ></ion-input>
+            </ion-item>
+
+            <ion-button class="sign-up-btn" expand="block"  [disabled]="!form.valid" type="submit">Entrar</ion-button>
+          </form>
+
+          <!-- <ion-button class="sign-up-btn" expand="block" [routerLink]="['/register']">Criar Conta</ion-button> -->
+
+          <!-- <p class="ion-text-right">
+            <a [routerLink]="['/recuperasenha']" [state]="{param: 123}">
+              Esqueceu a senha?
+            </a>
+          </p> -->
+        </div>
+      </div>
+    </ion-col>
+  </ion-row>
+
+
+</ion-content>
+<!--
+<ion-footer class="ion-padding">
+  <ion-toolbar>
+    <ion-label class="ion-text-justify ion-text-wrap">
+      O {{ NomeUsuarioSistema }} foi o último usuário a autenticar no sistema neste dispositivo.
+    </ion-label>
+  </ion-toolbar>
+</ion-footer>
+-->

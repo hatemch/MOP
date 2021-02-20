@@ -1,0 +1,115 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Busca de pessoa para inclusão</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <form #form="ngForm" method="post">
+
+    <ion-card>
+
+      <ion-card-content>
+        <ion-grid>
+          <ion-row>
+            <ion-col size-sm="8" size-md="6">
+              <ion-item>
+                <ion-label position="floating">Nome</ion-label>
+                <ion-input type="text" maxlength="14" [(ngModel)]="formPesquisaPessoas.nome" name="nome">
+                </ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col size-sm="8" size-md="6">
+              <ion-item>
+                <ion-label position="floating">Documento</ion-label>
+                <ion-input type="text" maxlength="14" [(ngModel)]="formPesquisaPessoas.cpf" name="cpf" required>
+                </ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col size-sm="8" size-md="6">
+              <ion-item>
+                <ion-label position="floating">Filiaçao</ion-label>
+                <ion-input type="text" maxlength="14" [(ngModel)]="formPesquisaPessoas.filiacao" name="filiacao">
+                </ion-input>
+              </ion-item>
+
+            </ion-col>
+            <ion-col size-sm="8" size-md="6">
+              <ion-item>
+                <ion-label position="floating">Data de nacimento</ion-label>
+                <ion-input type="date" [(ngModel)]="formPesquisaPessoas.data_nacimento" name="data_nacimento">
+                </ion-input>
+              </ion-item>
+            </ion-col>
+
+          </ion-row>
+          <ion-row>
+            <ion-item lines="none">
+              <ion-label>Servidor SSP/Ba</ion-label>
+            </ion-item>
+          </ion-row>
+          <ion-row>
+            <ion-col size-sm="8" size-md="6">
+              <ion-item>
+                <ion-label position="floating">Matricula:</ion-label>
+                <ion-input type="text" [(ngModel)]="formPesquisaPessoas.matricula" name="matricula">
+                </ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col size-sm="8" size-md="6">
+              <ion-item lines="none">
+                <ion-button (click)="buscar()" [disabled]="formPesquisaPessoas.cpf?.length == 0" >BUSCAR</ion-button>
+                <ion-button>BUSCAR SIIDA</ion-button>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+      </ion-card-content>
+    </ion-card>
+  </form>
+
+
+
+
+  <ion-grid>
+    <ion-row>
+      <ion-item lines="none">
+        <ion-label>Resultados da busca</ion-label>
+      </ion-item>
+    </ion-row>
+    <ngx-datatable class="bootstrap" [rows]="pessoas" columnMode="flex" headerHeight="40" footerHeight="40"
+      rowHeight="auto" scrollbarH="true" [limit]="10">
+
+      <ngx-datatable-column name="Nome" [flexGrow]="2">
+        <ng-template let-column="column" ngx-datatable-header-template> {{ column.name }} </ng-template>
+        <ng-template let-row="row" let-value="nome_guia" ngx-datatable-cell-template>
+          {{row.nome}}
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Descriçao" [flexGrow]="6">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <strong>RG:</strong> {{ row.numerodocumento }},
+          <strong>CPF:</strong> {{ row.cpf }} ,
+          <strong>Data Nascimento:</strong> {{ row.nascimento }} ,
+          <strong>Filiaçao:</strong> {{ row.mae }},
+          <strong>Sexo:</strong> {{ row.sexo }},
+          <strong>Matrícula:</strong>
+        </ng-template>
+      </ngx-datatable-column>
+
+
+      <ngx-datatable-column name="Opções" [flexGrow]="2">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <ion-button (click)="seleccionarPessoa(row)" size="small">Inlcuir Periciando</ion-button>
+        </ng-template>
+
+      </ngx-datatable-column>
+    </ngx-datatable>
+  </ion-grid>
+
+</ion-content>

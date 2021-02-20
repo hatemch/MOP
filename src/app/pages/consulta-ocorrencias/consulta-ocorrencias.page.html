@@ -1,0 +1,431 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="primary">
+      <ion-button (click)="goBack()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Consulta Ocorrências</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form #form="ngForm" method="post">
+    <ion-grid>
+      <ion-row>
+        <ion-col size-sm="3" size-xs="12">
+          <ion-label>Data Inicial</ion-label>
+          <ion-input class="selector" type="Date" [(ngModel)]="consulOcurrencia.DataInicial" name="DataInicial"
+            displayFormat="DD/MM/YYYY" required>
+          </ion-input>
+        </ion-col>
+        <ion-col size-sm="3" size-xs="12">
+          <ion-label>Data Final</ion-label>
+          <ion-input class="selector" type="Date" [(ngModel)]="consulOcurrencia.DataFinal" name="DataFinal"
+            displayFormat="DD/MM/YYYY" required>
+          </ion-input>
+        </ion-col>
+        <ion-col size-sm="3" size-xs="12">
+          <ion-label position="floating">Usuário:</ion-label>
+          <ion-item>
+            <ionic-selectable class="selector" #usuarioComponent item-content [(ngModel)]="consulOcurrencia.usuario" name="Usarios"
+              itemValueField="CODIGO" itemTextField="NOME" [items]="Usarios" [canSearch]="true" [canClear]="true"
+              [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true" searchFailText="Sem dados a mostrar"
+               searchPlaceholder="Pesquisar">
+              <ng-template ionicSelectableHeaderTemplate>
+                <ion-toolbar>
+                  <ion-buttons start>
+                    <ion-button (click)="usuarioComponent.close()">
+                      <ion-label>Cancelar</ion-label>
+                    </ion-button>
+                  </ion-buttons>
+                  <ion-title>
+                  </ion-title>
+                </ion-toolbar>
+              </ng-template>
+            </ionic-selectable>
+          </ion-item>
+        </ion-col>
+
+        <ion-col size-sm="3" size-xs="12">
+          <ion-label position="floating">Município:</ion-label>
+          <ion-item>
+            <ionic-selectable class="selector" #municipioComponent item-content [(ngModel)]="consulOcurrencia.CodigoMunicipio" name="CodigoMunicipio"
+              itemValueField="CodigoBaseMunicipio" itemTextField="Nome" [items]="MunicipiosUF" [canSearch]="true" [canClear]="true"
+              [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true" searchFailText="Sem dados a mostrar"
+               searchPlaceholder="Pesquisar" (onChange)="GetBairros(form)">
+              <ng-template ionicSelectableHeaderTemplate>
+                <ion-toolbar>
+                  <ion-buttons start>
+                    <ion-button (click)="municipioComponent.close()">
+                      <ion-label>Cancelar</ion-label>
+                    </ion-button>
+                  </ion-buttons>
+                  <ion-title>
+                  </ion-title>
+                </ion-toolbar>
+              </ng-template>
+            </ionic-selectable>
+          </ion-item>
+        </ion-col>
+        </ion-row>
+
+      <ion-row>
+        <ion-col size-sm="3" size-xs="12">
+          <ion-label position="floating">Bairros:</ion-label>
+          <ion-item>
+            <ionic-selectable class="selector" #bairrosComponent item-content [(ngModel)]="consulOcurrencia.codigo_bairro" name="Bairros"
+              itemValueField="codigo_bairro" itemTextField="nome_bairro" [items]="Bairros" [canSearch]="true" [canClear]="true"
+              [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true" searchFailText="Sem dados a mostrar"
+               searchPlaceholder="Pesquisar" (onChange)="Getall(form)">
+              <ng-template ionicSelectableHeaderTemplate>
+                <ion-toolbar>
+                  <ion-buttons start>
+                    <ion-button (click)="bairrosComponent.close()">
+                      <ion-label>Cancelar</ion-label>
+                    </ion-button>
+                  </ion-buttons>
+                  <ion-title>
+                  </ion-title>
+                </ion-toolbar>
+              </ng-template>
+            </ionic-selectable>
+          </ion-item>
+        </ion-col>
+
+        <ion-col size-sm="3" size-xs="12">
+          <ion-label position="floating">AISP:</ion-label>
+          <ion-select *ngIf="!oneAisp" class="selector" [(ngModel)]="consulOcurrencia.aisp" name="AISP" cancelText="Desistir"
+            doneText="Confirmar" placeholder="AISP..." (ionChange)="Getrisp(form)" disabled="{{aisp.length == 0}}">
+            <ion-select-option value="{{Itens.aisp}}" *ngFor="let Itens of aisp">{{Itens.aisp}}
+            </ion-select-option>
+          </ion-select>
+          <ion-input readonly *ngIf="oneAisp" class="selector" [(ngModel)]="oneAisp" type="text" name="AISP">
+          </ion-input>
+        </ion-col>
+
+        <ion-col size-sm="2" size-xs="12">
+          <ion-label position="floating">RISP:</ion-label>
+          <ion-select *ngIf="!oneRisp" class="selector" [(ngModel)]="consulOcurrencia.risp" name="RISP"
+            cancelText="Desistir" doneText="Confirmar" placeholder="RISP..." (ionChange)="Getcipm(form)"
+            disabled="{{risp.length == 0}}">
+            <ion-select-option value="{{Itens.risp}}" *ngFor="let Itens of risp">{{Itens.risp}}
+            </ion-select-option>
+          </ion-select>
+          <ion-input readonly *ngIf="oneRisp" class="selector" [(ngModel)]="oneRisp" type="text" name="RISP"
+            (ionChange)="Getcipm(form)"></ion-input>
+        </ion-col>
+
+        <ion-col size-sm="2" size-xs="12">
+          <ion-label position="floating">CIPM:</ion-label>
+          <ion-select *ngIf="!oneCipm" class="selector" [(ngModel)]="consulOcurrencia.cipm" name="CIPM"
+            cancelText="Desistir" doneText="Confirmar" placeholder="CIPM..." (ionChange)="Getdt(form)" disabled="{{cipm.length == 0}}">
+            <ion-select-option value="{{Itens.cipm}}" *ngFor="let Itens of cipm">{{Itens.cipm}}
+            </ion-select-option>
+          </ion-select>
+          <ion-input readonly *ngIf="oneCipm" class="selector" [(ngModel)]="oneCipm" type="text" name="CIPM" (ionChange)="Getdt(form)">
+          </ion-input>
+        </ion-col>
+
+        <ion-col size-sm="2" size-xs="12">
+          <ion-label position="floating">DT:</ion-label>
+          <ion-select *ngIf="!oneDt" class="selector" [(ngModel)]="consulOcurrencia.dt" name="DT" cancelText="Desistir"
+            doneText="Confirmar" placeholder="DT..." disabled="{{dt.length == 0}}">
+            <ion-select-option value="{{Itens.dt}}" *ngFor="let Itens of dt">{{Itens.dt}}
+            </ion-select-option>
+          </ion-select>
+          <ion-input readonly *ngIf="oneDt" class="selector" [(ngModel)]="oneDt" type="text" name="DT"></ion-input>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <ion-row class="buttonscenter">
+      <ion-col size="2">
+        <ion-button color="primary" [disabled]="!form.valid || permissoes.Pesquisar == 0"
+          (click)="GetTableData(form,'')" expand="full">
+          Pesquisar
+        </ion-button>
+      </ion-col>
+      <ion-col size="2">
+        <ion-button color="primary" [disabled]="!form.valid || permissoes.Pesquisar == 0"
+          (click)="GetTableData(form,'X')" expand="full">
+          Mapa
+        </ion-button>
+      </ion-col>
+      <ion-col size="2">
+        <ion-button color="primary" [disabled]="!form.valid || permissoes.Pesquisar == 0" (click)="printtable(form,'')" expand="full">
+          Imprimir
+        </ion-button>
+      </ion-col>
+    </ion-row>
+
+  </form>
+
+  <ion-grid *ngIf="showTable && consultaOcurrencias.length > 0 ">
+
+    <ngx-datatable class="bootstrap" [rows]="consultaOcurrencias" [columnMode]="'force'" [headerHeight]="40"
+      [footerHeight]="40" rowHeight="auto" [scrollbarH]="true" [limit]="10">
+
+      <ngx-datatable-column name="Data fato" width="100">
+        <ng-template let-column="column" ngx-datatable-header-template> {{ column.name }} </ng-template>
+        <ng-template let-row="row" let-value="DataFato" ngx-datatable-cell-template>
+          {{row.data_fato}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="BO" width="100">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.bo}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Observações" width="160">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.obs}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Município" width="150">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.Nome}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Bairro" width="150">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.nome_bairro}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="AISP" width="70">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.aisp}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="RISP" width="150">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.risp}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="CIPM" width="90">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.cipm}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="DT" width="60">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.dt}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Logradouro">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.logradouro}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Tipo Local">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.tipo_local}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Ponto de Referência">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.ponto_referencia}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Situação" width="100">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.situacao}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Usuário">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.nomeusuario}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Latitude">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.latitude}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Longitude">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.longitude}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Opções">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <!-- <ion-button  slot="end" fill="clear" shape="round"> -->
+          <ion-button (click)="showmapone(row)" slot="end" fill="clear" shape="round" [disabled]="permissoes.Pesquisar == 0">
+            <ion-icon name="pin" color="secondary"></ion-icon>
+          </ion-button>
+          <ion-button (click)="showprintone(row)" slot="end" fill="clear" shape="round" [disabled]="permissoes.Pesquisar == 0">
+            <ion-icon name="print" color="secondary"></ion-icon>
+          </ion-button>
+          <ion-button (click)="showpic(row)" slot="end" fill="clear" shape="round" [disabled]="permissoes.Pesquisar == 0">
+            <ion-icon name="camera" color="secondary"></ion-icon>
+          </ion-button>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+
+  </ion-grid>
+
+  <iframe *ngIf="showMapa" [src]="mapURL" width="100%" height="100%" scrolling="no" frameborder="0"></iframe>
+
+  <ion-grid *ngIf="showpictures" style="height: 100%">
+    <ion-row class="ion-align-items-center">
+      <ion-col>
+        <ion-list>
+          <ion-item *ngFor="let item of pictures">
+            <ion-label hidden>
+              <h2>{{item.codigo}}</h2>
+            </ion-label>
+            <img src="data:image/jpeg;base64,{{item.foto}}">
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+    <ion-row class="buttonscenter">
+      <ion-col size="2">
+        <ion-button color="primary" [disabled]="!form.valid || permissoes.Pesquisar == 0" (click)="fecharfotos()">
+          Fechar
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- <ion-card *ngIf="showTable">
+    <table>
+      <tr text-center>
+        <th style="width: 9rem;">
+          Data fato
+        </th>
+        <th style="width: 4rem;">
+          BO
+        </th>
+        <th style="width: 15rem;">
+          Observações
+        </th>
+        <th style="width: 9rem;">
+          Município
+        </th>
+        <th style="width: 9rem;">
+          Bairro
+        </th>
+        <th style="width: 3rem;">
+          AISP
+        </th>
+        <th style="width: 5rem;">
+          RISP
+        </th>
+        <th style="width: 3rem;">
+          CIPM
+        </th>
+        <th style="width: 3rem;">
+          DT
+        </th>
+        <th style="width: 10rem;">
+          Logradouro
+        </th>
+        <th style="width: 4rem;">
+          Tipo Local
+        </th>
+        <th style="width: 9rem;">
+          Ponto de Referência
+        </th>
+        <th style="width: 10rem;">
+          Situação
+        </th>
+        <th style="width: 10rem;">
+          Usuário
+        </th>
+        <th style="width: 10rem;">
+          Latitude
+        </th>
+        <th style="width: 10rem;">
+          Longitude
+        </th>
+        <th style="width: 10rem;">
+          Opções
+        </th>
+      </tr>
+      <tr id="{{sa.codigo}}" *ngFor="let sa of consultaOcurrencias" align="center">
+
+        <td >
+          {{sa.data_fato}}
+        </td>
+        <td>
+          {{sa.bo}}
+        </td>
+        <td>
+          {{sa.obs}}
+        </td>
+        <td>
+          {{sa.Nome}}
+        </td>
+        <td>
+          {{sa.nome_bairro}}
+        </td>
+        <td>
+          {{sa.aisp}}
+        </td>
+        <td>
+          {{sa.risp}}
+        </td>
+        <td>
+          {{sa.cipm}}
+        </td>
+        <td>
+          {{sa.dt}}
+        </td>
+        <td>
+          {{sa.logradouro}}
+        </td>
+        <td>
+          {{sa.tipo_local}}
+        </td>
+        <td>
+          {{sa.ponto_referencia}}
+        </td>
+        <td>
+          {{sa.situacao}}
+        </td>
+        <td>
+          {{sa.nomeusuario}}
+        </td>
+        <td>
+          {{sa.latitude}}
+        </td>
+        <td>
+          {{sa.longitude}}
+        </td>
+        <td>
+          <ion-button  fill="clear" shape="round">
+            <ion-icon name="pin" color="secondary"></ion-icon>
+          </ion-button>
+          <ion-button fill="clear" shape="round">
+            <ion-icon name="print" color="secondary"></ion-icon>
+          </ion-button>
+          <ion-button fill="clear" shape="round">
+            <ion-icon name="camera" color="secondary"></ion-icon>
+          </ion-button>
+        </td>
+      </tr>
+
+    </table>
+  </div>
+
+
+  </ion-card> -->
+  <!--  <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
+    <li [ngClass]="{disabled:pager.currentPage === 1}">
+      <a (click)="setpage(1)">Primeiro</a>
+    </li>
+    <li [ngClass]="{disabled:pager.currentPage === 1}">
+      <a (click)="setpage(pager.currentPage - 1)">
+        Anterior</a>
+    </li>
+    <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+      <a (click)="setpage(page)">{{page}}</a>
+    </li>
+
+    <li *ngIf="(pager.totalPages - pager.startPage) > 5 ">
+      <a (click)="setpage(pager.startPage + 5)">...</a>
+    </li>
+    <li *ngIf="(pager.totalPages - pager.startPage) > 5">
+      <a (click)="setpage(pager.totalPages)">{{pager.totalPages}}</a>
+    </li>
+
+    <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+      <a (click)="setpage(pager.currentPage + 1)">Próxima</a>
+    </li>
+    <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+      <a (click)="setpage(pager.totalPages)">último</a>
+    </li>
+  </ul> -->
+
+</ion-content>

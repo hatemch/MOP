@@ -1,0 +1,238 @@
+<ion-header>
+
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="primary">
+      <ion-button (click)="goToGuia()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Periciandos</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <!-- <form #form="ngForm" (ngSubmit)="pesquisarPericiando(form)" method="post">
+
+    <ion-card>
+
+      <ion-card-header>
+        <ion-card-title>Busca de pessoa para inclusaõ</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-item lines='none'>
+          <ion-label><br>Filtros da busca<br></ion-label>
+        </ion-item>
+
+        <ion-grid>
+          <ion-row>
+            <ion-col size-sm="8" size-md="6">
+              <ion-item>
+                <ion-label position="floating">Nome</ion-label>
+                <ion-input type="text" maxlength="14" [(ngModel)]="periciando.nome" name="nome" required></ion-input>
+
+              </ion-item>
+
+            </ion-col>
+            <ion-col size-sm="8" size-md="6" >
+              <ion-item>
+                <ion-label position="floating">Documento</ion-label>
+                <ion-input type="text" maxlength="14" [(ngModel)]="periciando.cpf" name="cpf" required></ion-input>
+              </ion-item>
+            </ion-col>
+
+          </ion-row>
+
+          <ion-row>
+            <ion-col size-sm="8" size-md="6">
+              <ion-item>
+                <ion-label position="floating">Filiaçao</ion-label>
+                <ion-input type="text" maxlength="14" [(ngModel)]="periciando.filiacao" name="filiacao" required>
+                </ion-input>
+              </ion-item>
+
+            </ion-col>
+            <ion-col size-sm="8" size-md="6" >
+              <ion-item>
+                <ion-label position="floating">Data de nacimento</ion-label>
+                <ion-input type="date" [(ngModel)]="periciando.data_nacimento" name="data_nacimento" required>
+                </ion-input>
+              </ion-item>
+            </ion-col>
+
+          </ion-row>
+          <ion-row>
+            <ion-item lines="none">
+              <ion-label>Servidor SSP/Ba</ion-label>
+            </ion-item>
+          </ion-row>
+          <ion-row>
+            <ion-col size-sm="8" size-md="6" >
+              <ion-item>
+                <ion-label position="floating">Matricula:</ion-label>
+                <ion-input type="number" min=0 [(ngModel)]="periciando.matricula" name="matricula" required></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col size-sm="8" size-md="6" >
+              <ion-item lines="none">
+                <ion-button (click)="buscar()">BUSCAR</ion-button>
+              </ion-item>
+              <ion-item lines="none">
+                <ion-button>BUSCAR SIIDA</ion-button>
+              </ion-item>
+
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+      </ion-card-content>
+    </ion-card>
+  </form> -->
+  <!-- <ion-grid>
+    <ion-row>
+      <ion-item lines="none">
+        <ion-label>Resultados da busca</ion-label>
+      </ion-item>
+    </ion-row>
+    <ngx-datatable *ngIf="showTablePesquisa" class="bootstrap" [rows]="periciandos" [columnMode]="force" [headerHeight]="40" [footerHeight]="40"
+      rowHeight="auto" [scrollbarH]="true" [limit]="10">
+
+      <ngx-datatable-column name="Nome">
+        <ng-template let-column="column" ngx-datatable-header-template> {{ column.name }} </ng-template>
+        <ng-template let-row="row" let-value="nome_guia" ngx-datatable-cell-template>
+          {{row.nome}}
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Descriçao">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.descricao}}</ng-template>
+      </ngx-datatable-column>
+
+
+      <ngx-datatable-column name="Opções">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <ion-button routerLink="/menu/incluir-periciando/{{periciando.numguia}}/{{row.codigo}}" slot="end" fill="clear"
+            [disabled]="permissoes.Pesquisar == 0">
+            <ion-icon name="create" color="secondary"></ion-icon>
+          </ion-button>
+          <ion-button (click)="delete(row.codigo,row.sequencial)" slot="end" fill="clear"
+            [disabled]="permissoes.Pesquisar == 0">
+            <ion-icon name="trash" color="secondary"></ion-icon>
+          </ion-button>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+  </ion-grid> -->
+  <ion-grid>
+    <ion-row>
+      <ion-item lines="none">
+        <ion-label>Periciandos já incluídos na guia:</ion-label>
+      </ion-item>
+    </ion-row>
+    <ngx-datatable class="bootstrap" [rows]="periciandos" [columnMode]="force" [headerHeight]="40" [footerHeight]="40"
+      rowHeight="auto" [scrollbarH]="true" [limit]="10">
+
+      <ngx-datatable-column name="Envolvimento">
+        <ng-template let-column="column" ngx-datatable-header-template> {{ column.name }} </ng-template>
+        <ng-template let-row="row" let-value="nome_guia" ngx-datatable-cell-template>
+          {{row.envolvimento}}
+        </ng-template>
+      </ngx-datatable-column>
+
+      <!-- <ngx-datatable-column name="Tipo">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.tipo}}</ng-template>
+      </ngx-datatable-column> -->
+
+      <ngx-datatable-column name="Nome">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.nome}}</ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Descrição">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.descricao}}</ng-template>
+      </ngx-datatable-column>
+      <!-- <ngx-datatable-column name="Exames Periciais">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.exame_externo}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <ion-button slot="end" fill="clear" [disabled]="permissoes.Pesquisar == 0">Exames Periciais </ion-button>
+        </ng-template>
+      </ngx-datatable-column> -->
+
+      <ngx-datatable-column name="Opções">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <ion-button routerLink="/menu/incluir-periciando/{{periciando.numguia}}/{{row.codigo}}/{{periciando.tipo_guia}}" slot="end"
+            fill="clear" [disabled]="permissoes.Pesquisar == 0">
+            <ion-icon name="create" color="secondary"></ion-icon>
+          </ion-button>
+          <ion-button (click)="delete(row.codigo,row.sequencial)" slot="end" fill="clear"
+            [disabled]="permissoes.Pesquisar == 0">
+            <ion-icon name="trash" color="secondary"></ion-icon>
+          </ion-button>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+    <ion-row>
+      <ion-button routerLink="/menu/incluir-periciando/{{periciando.numguia}}/{{periciando.tipo_guia}}">Inlcuir Periciando</ion-button>
+    </ion-row>
+  </ion-grid>
+  <ion-grid>
+    <ion-row>
+      <ion-button>Salvar Rascunho</ion-button>
+      <ion-button>Concluir</ion-button>
+    </ion-row>
+  </ion-grid>
+
+
+</ion-content>
+<!-- FOOTER -->
+
+<ion-footer class="ion-text-center">
+  <div class="ion-padding" style="height: 105px">
+    <ion-tabs *ngIf="periciando.numguia">
+      <ion-tab-bar slot="bottom" color="primary">
+        <ion-tab-button (click)="goToGuia()">
+          <ion-icon name="clipboard">
+          </ion-icon>
+          <ion-label>{{nomeGuia}}</ion-label>
+        </ion-tab-button>
+        <ion-tab-button routerLink="/menu/detalhes/{{periciando.numguia}}/{{periciando.tipo_guia}}">
+          <ion-icon name="clipboard">
+          </ion-icon>
+          <ion-label>Detalhes do Fato</ion-label>
+        </ion-tab-button>
+        <ion-tab-button *ngIf="showOutrasPericias" routerLink="/menu/outras-pericias/{{numguia}}/{{periciando.tipo_guia}}">
+          <ion-icon name="clipboard">
+          </ion-icon>
+          <ion-label>Outras Perícias</ion-label>
+        </ion-tab-button>
+        <ion-tab-button routerLink="/menu/local-pericia/{{periciando.numguia}}/{{periciando.tipo_guia}}">
+          <ion-icon name="clipboard">
+          </ion-icon>
+          <ion-label>Local de Perícia</ion-label>
+        </ion-tab-button>
+        <ion-tab-button disabled>
+          <ion-icon name="clipboard">
+          </ion-icon>
+          <ion-label>Periciandos</ion-label>
+        </ion-tab-button>
+        <ion-tab-button *ngIf="showObjetosPericia" (click)="goObjetosPericia()">
+          <ion-icon name="clipboard">
+          </ion-icon>
+          <ion-label>Objetos de Perícia</ion-label>
+        </ion-tab-button>
+      </ion-tab-bar>
+    </ion-tabs>
+  </div>
+</ion-footer>
+
+<!-- 9L -->

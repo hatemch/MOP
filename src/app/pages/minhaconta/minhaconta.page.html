@@ -1,0 +1,98 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="primary">
+      <ion-button (click)="goBack()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Minha Conta</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <!--
+    Use a documentação para construir os componestes
+    https://ionicframework.com/docs/api/action-sheet
+  -->
+  <form #form="ngForm" (ngSubmit)="GravarDados(form);" method="post">
+    <ion-item>
+      <ion-avatar slot="start">                
+        <img name="Foto" #imgresult [src]="Foto" value="" (click)="selectImage()"> 
+      </ion-avatar>            
+      <ion-label> {{ Nome }} {{ SobreNome }} </ion-label>
+    </ion-item>
+    <input #inputcamera class="inputUpload" type="file" accept="image/*" capture="camera" />
+
+
+    <ion-item>
+      <ion-label position="floating">Nome:</ion-label>
+      <ion-input ngModel type="text" placeholder="Primeiro Nome" name="Nome" required value="{{ Nome  }}"> </ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Sobrenome:</ion-label>
+      <ion-input ngModel type="text" placeholder="Informe Sobrenome " name="SobreNome" required
+        value="{{ SobreNome  }}"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Email:</ion-label>
+      <ion-input #email ngModel type="email" name="email"
+        pattern="[A-Za-z0-9._%+-]{2,}@[a-zA-Z-_.]{2,}[.]{1}[a-zA-Z]{2,}" required value="{{ Email  }}">
+      </ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Celular:</ion-label>
+      <ion-input ngModel type="tel" placeholder="Informe Número Celular " name="Celular" required
+        value="{{ Celular  }}"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">IMEI:</ion-label>
+      <ion-input ngModel type="text" placeholder="Informe Número de IMEI do Celular" name="IMEI" required
+        value="{{ IMEI  }}">
+      </ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Senha:</ion-label>
+      <ion-input ngModel type="password" placeholder="Digite a Senha" name="Senha" required>
+      </ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">ReSenha:</ion-label>
+      <ion-input ngModel type="password" placeholder="Repita a Senha" name="ReSenha" required>
+      </ion-input>
+    </ion-item>
+    <!--
+    <h3 *ngIf="images.length == 0" class="ion-text-center">Please Select Image!</h3>
+ 
+    <ion-list>
+      <ion-item *ngFor="let img of images; index as pos" text-wrap>
+        <ion-thumbnail slot="start">
+          <ion-img [src]="img.path"></ion-img>
+        </ion-thumbnail>
+        <ion-label>
+          {{ img.name }}
+        </ion-label>
+        <ion-button slot="end" fill="clear" (click)="startUpload(img)">
+          <ion-icon slot="icon-only" name="cloud-upload"></ion-icon>
+        </ion-button>
+        <ion-button slot="end" fill="clear" (click)="deleteImage(img, pos)">
+          <ion-icon slot="icon-only" name="trash"></ion-icon>
+        </ion-button>
+      </ion-item>
+    </ion-list>
+
+  -->
+
+    <ion-button type="submit" [disabled]="!form.valid" expand="full" color="danger">Atualizar</ion-button>
+
+
+  </form>
+
+</ion-content>
+<!--
+<ion-footer>
+  <ion-toolbar color="primary">
+    <ion-button fill="clear" expand="full" color="light" (click)="selectImage()">
+      <ion-icon slot="start" name="camera"></ion-icon>
+      Select Image</ion-button>
+  </ion-toolbar>
+</ion-footer>
+-->

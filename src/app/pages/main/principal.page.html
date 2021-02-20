@@ -1,0 +1,65 @@
+<ion-header>
+
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+
+    <!-- <ion-buttons slot="primary">
+        <ion-button>
+          <ion-icon slot="icon-only" name="help"></ion-icon>
+        </ion-button>
+      </ion-buttons> -->
+    <ion-title>{{AppName}} </ion-title>
+  </ion-toolbar>
+
+</ion-header>
+<ion-content class="ion-fullscreen  ion-padding">
+  <ion-header class="ion-translucent">
+    <ion-toolbar>
+      <ion-searchbar placeholder="Pesquisar" (ionInput)="getItems($event)"></ion-searchbar>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-grid *ngIf="menuOption == '99'">
+    <ion-item-divider>
+      <h1 style="color: black;">Utilidades</h1>
+    </ion-item-divider>
+    <ion-row class="ion-justify-content-center align-items-center">
+      <ion-col *ngFor="let item of items" class="ion-padding" size="3">
+        <div class="ion-text-center">
+          <img src="{{item.Icon}}" height="150px" width="150px" (click)="itemSelected(item)">
+          <ion-label>
+            <h4>
+              {{item.Name}}
+            </h4>
+          </ion-label>
+        </div>
+      </ion-col>
+    </ion-row>
+    <!-- <ion-row class="ion-justify-content-center align-items-center">
+          <ion-col class="ion-padding" size="4" size-sm *ngFor="let item of items" class="col"
+            (click)="itemSelected(item)">
+            <div>
+              <img src="{{item.Icon}}" height="150px" width="150px">
+              <ion-label class="label">
+                {{item.Name}}
+              </ion-label>
+            </div>
+          </ion-col>
+        </ion-row> -->
+  </ion-grid>
+
+  <ion-list *ngIf="menuOption != '99'">
+    <ion-item *ngFor="let item of items" (click)="itemSelected(item)">
+      <ion-avatar slot="start">
+        <img src="{{item.Icon}}">
+      </ion-avatar>
+      <ion-label>
+        <h1>{{item.Name}}</h1>
+        <ion-label class="ion-text-justify ion-text-wrap">{{item.Details}}</ion-label>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+</ion-content>

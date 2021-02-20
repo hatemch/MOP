@@ -1,0 +1,86 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="primary">
+      <ion-button (click)="goBack()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-title>{{ title }}</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-icon name="ellipsis-horizontal"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+  <ion-toolbar color="secondary" *ngIf="subtitle">
+    <ion-title size="small">Para o perfil {{ subtitle }}</ion-title>
+  </ion-toolbar>
+
+</ion-header>
+
+
+<ion-content>
+  <!-- #################### Listagem de Perfis ##################### -->
+  <ion-list lines="none">
+    <ion-radio-group class="background-par" value="{{perfil}}">
+      <ion-list-header>
+        <ion-label>Selecione o perfil</ion-label>
+      </ion-list-header>
+      <ion-item *ngFor="let perfil of collectionPerfis">
+        <ion-label>{{perfil.nome}}</ion-label>
+        <ion-radio (ionFocus)="mostrarPermissoesDoPerfil(perfil)" slot="start" value="{{perfil.codigo}}">
+        </ion-radio>
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+
+  <!-- #################### Listagem de Permissoes ##################### -->
+  <div class="ion-padding">
+    <ion-grid fixed="trues">
+      <ion-row *ngFor="let item of collection">
+        <ion-col size="12">
+          <ion-item color="light" lines="full">
+            <!-- <ion-label><strong>Módulo:</strong> {{ item.Name }} <small>{{item.Details}}</small></ion-label> -->
+            <ion-label><strong>Módulo:</strong> {{ item.Name }}</ion-label>
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-item lines="none">
+            <ion-toggle (ngModelChange)="salvarPermissaoPesquisar(item, $event)" color="primary" value="Pesquisar"
+              slot="start" [(ngModel)]="item.Pesquisar" name="Pesquisar" [disabled]="permissoes.Inserir == 0"></ion-toggle>
+            <ion-label>Pesquisar</ion-label>
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-item lines="none">
+            <ion-toggle (ngModelChange)="salvarPermissaoInserir(item, $event)" color="primary" value="Inserir"
+              slot="start" [(ngModel)]="item.Inserir" name="Inserir" [disabled]="permissoes.Inserir == 0"></ion-toggle>
+            <ion-label>Inserir</ion-label>
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-item lines="none">
+            <ion-toggle (ngModelChange)="salvarPermissaoEditar(item, $event)" color="primary" value="Editar"
+              slot="start" [(ngModel)]="item.Editar" name="Editar" [disabled]="permissoes.Inserir == 0"></ion-toggle>
+            <ion-label>Editar</ion-label>
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-item lines="none">
+            <ion-toggle (ngModelChange)="salvarPermissaoDeletar(item, $event)" color="primary" value="Deletar"
+              slot="start" [(ngModel)]="item.Deletar" name="Deletar" [disabled]="permissoes.Inserir == 0"></ion-toggle>
+            <ion-label>Deletar</ion-label>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+  </div>
+
+</ion-content>

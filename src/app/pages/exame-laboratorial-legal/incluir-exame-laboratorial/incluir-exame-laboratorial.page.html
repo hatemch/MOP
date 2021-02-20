@@ -1,0 +1,289 @@
+<ion-header>
+
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="primary">
+      <ion-button (click)="goBack()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Nova Guia</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-button (click)="openBuscaOcorrencia()" [disabled]="gpExameLaboratorialLegal.codigo > 0">Busca ocorrência
+          (SIGIP)
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <form #form="ngForm" (ngSubmit)="save(form)" method="post">
+
+    <ion-card>
+
+      <ion-card-header>
+        <ion-card-title>Dados Guia</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-label position="floating" *ngIf="form.value.nome_guia">Nº da Guia:*</ion-label>
+                <ion-label position="floating" *ngIf="!form.value.nome_guia" color="danger">Nº da Guia*</ion-label>
+                <ion-input type="text" readonly [(ngModel)]="gpExameLaboratorialLegal.nome_guia" name="nome_guia">
+                </ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col>
+
+              <ion-item>
+                <ion-label position="floating" *ngIf="form.value.resgistrado">Registrado Por*:</ion-label>
+                <ion-label position="floating" *ngIf="!form.value.resgistrado" color="danger">Registrado Por*:
+                </ion-label>
+                <ion-input type="text" [(ngModel)]="gpExameLaboratorialLegal.resgistrado" name="resgistrado" readonly>
+                </ion-input>
+              </ion-item>
+
+
+            </ion-col>
+          </ion-row>
+          <ion-row>
+
+
+            <ion-col>
+              <ion-item>
+                <ion-label position="floating" *ngIf="form.value.numero_procedimento">Nº do Procedimento:*</ion-label>
+                <ion-label position="floating" *ngIf="!form.value.numero_procedimento" color="danger">Nº do
+                  Procedimento*</ion-label>
+                <ion-input type="number" maxlength="14" [(ngModel)]="gpExameLaboratorialLegal.numero_procedimento"
+                  name="numero_procedimento" required>
+                </ion-input>
+              </ion-item>
+            </ion-col>
+
+            <ion-col>
+              <ion-item>
+                <ion-label position="floating" *ngIf="form.value.situacao">Situação:*</ion-label>
+                <ion-label position="floating" *ngIf="!form.value.situacao" color="danger">Situação:*</ion-label>
+                <ion-input type="text" [(ngModel)]="gpExameLaboratorialLegal.situacao" name="situacao" readonly>
+                </ion-input>
+              </ion-item>
+            </ion-col>
+
+            <ion-col>
+              <ion-item>
+                <ion-label position="floating" *ngIf="form.value.unidade">Unidade Requisitante:*</ion-label>
+                <ion-label position="floating" *ngIf="!form.value.unidade" color="danger">Unidade Requisitante*
+                </ion-label>
+                <ion-input type="text" [(ngModel)]="gpExameLaboratorialLegal.unidade" name="unidade" readonly>
+                </ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+
+
+            <ion-col>
+              <ion-list>
+                <ion-item>
+                  <ion-label position="floating" *ngIf="form.value.data_registro">Data/Hora do Registro*:</ion-label>
+                  <ion-label position="floating" *ngIf="!form.value.data_registro" color="danger">Data/Hora do
+                    Registro*:
+                  </ion-label>
+
+                  <ion-input type="text" [(ngModel)]="gpExameLaboratorialLegal.data_registro" readonly
+                    name="data_registro">
+                  </ion-input>
+
+                </ion-item>
+              </ion-list>
+
+
+            </ion-col>
+            <ion-col>
+              <ion-list>
+                <ion-item>
+                  <ion-label position="floating" *ngIf="form.value.sigilosa">Sigilosa*:</ion-label>
+                  <ion-label position="floating" *ngIf="!form.value.sigilosa" color="danger">Sigilosa*:</ion-label>
+                  <ion-select (ionFocus)="tempMessage()"required [(ngModel)]="gpExameLaboratorialLegal.sigilosa" name="sigilosa">
+                    <ion-select-option value="S">Sim</ion-select-option>
+                    <ion-select-option value="N">Não</ion-select-option>
+                  </ion-select>
+                </ion-item>
+              </ion-list>
+            </ion-col>
+            <ion-col>
+              <ion-list>
+                <ion-item>
+                  <ion-label position="floating" *ngIf="form.value.orgao">Orgao Requisitante:*</ion-label>
+                  <ion-label position="floating" *ngIf="!form.value.orgao" color="danger">Orgao Requisitante:*
+                  </ion-label>
+                  <ion-input type="text" [(ngModel)]="gpExameLaboratorialLegal.orgao" name="orgao" readonly>
+                  </ion-input>
+                </ion-item>
+              </ion-list>
+            </ion-col>
+
+          </ion-row>
+
+          <ion-row>
+
+            <ion-col>
+
+              <ion-list>
+
+                <ion-item>
+                  <ion-label position="floating" *ngIf="form.value.destino_lado">Destino do Laudo:*:</ion-label>
+                  <ion-label position="floating" *ngIf="!form.value.destino_lado" color="danger">Destino do Laudo:*:
+                  </ion-label>
+
+                  <ionic-selectable required #destino_ladoComponent item-content
+                    [(ngModel)]="gpExameLaboratorialLegal.destino_lado" name="destino_lado" itemValueField="nome"
+                    itemTextField="nome" [items]="grupos" [canSearch]="true" [canClear]="true"
+                    [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true" searchFailText="Sem dados a mostrar"
+                    searchPlaceholder="Pesquisar">
+                    <ng-template ionicSelectableHeaderTemplate>
+                      <ion-toolbar>
+                        <ion-buttons start>
+                          <ion-button (click)="destino_ladoComponent.close()">
+                            <ion-label>Cancelar</ion-label>
+                          </ion-button>
+                        </ion-buttons>
+                        <ion-title>
+                        </ion-title>
+                      </ion-toolbar>
+                    </ng-template>
+                  </ionic-selectable>
+                </ion-item>
+              </ion-list>
+
+            </ion-col>
+            <ion-col>
+              <ion-list>
+                <ion-item>
+                  <ion-label position="floating" *ngIf="form.value.autoridade">Autoridade Requisitante *:</ion-label>
+                  <ion-label position="floating" *ngIf="!form.value.autoridade" color="danger">Autoridade Requisitante
+                    *:
+                  </ion-label>
+                  <ion-input (ionFocus)="CodependencyMessage()"type="text" [(ngModel)]="gpExameLaboratorialLegal.autoridade" name="autoridade" readonly>
+                  </ion-input>
+                </ion-item>
+
+              </ion-list>
+            </ion-col>
+
+          </ion-row>
+
+        </ion-grid>
+
+      </ion-card-content>
+    </ion-card>
+
+
+    <ion-row>
+      <ion-col>
+        <ion-button expand="block" type="submit" >Salvar</ion-button>
+      </ion-col>
+    </ion-row>
+  </form>
+  <ion-grid>
+
+    <!-- [columns]="columns" -->
+    <ngx-datatable class="bootstrap" [rows]="guiasAsociadas" [columnMode]="'force'" [headerHeight]="40"
+      [footerHeight]="40" rowHeight="auto" [scrollbarH]="true" [limit]="10">
+
+
+      <ngx-datatable-column name="Tipo" *ngIf="showChecks">
+        <ng-template let-column="column" ngx-datatable-header-template> {{ column.name }} </ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          {{row.tipo_guia}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Numero">
+        <ng-template let-column="column" ngx-datatable-header-template> {{ column.name }} </ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          {{row.nome_guia}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Data Emissão">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.data_registro}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Opções">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <ion-button routerLink="" slot="end" fill="clear" [disabled]="permissoes.Pesquisar == 0">Aproveitar dados
+
+          </ion-button>
+          <ion-button (click)="delete(row.codigo,row.nome_guia)" slot="end" fill="clear"
+            [disabled]="permissoes.Pesquisar == 0">
+            <ion-icon name="trash" color="secondary"></ion-icon>
+          </ion-button>
+        </ng-template>
+      </ngx-datatable-column>
+
+    </ngx-datatable>
+
+  </ion-grid>
+</ion-content>
+
+<!-- FOOTER -->
+
+<ion-footer class="ion-text-center">
+  <div class="ion-padding" style="height: 105px">
+    <ion-tabs *ngIf="gpExameLaboratorialLegal.codigo">
+      <ion-tab-bar slot="bottom" color="primary">
+        <ion-tab-button disabled>
+          <ion-icon name="clipboard">
+          </ion-icon>
+          <ion-label>Guia Laboratorial</ion-label>
+        </ion-tab-button>
+        <ion-tab-button
+          routerLink="/menu/detalhes/{{gpExameLaboratorialLegal.codigo}}/{{gpExameLaboratorialLegal.tipo_guia}}">
+          <ion-icon name="clipboard">
+          </ion-icon>
+          <ion-label>Detalhes do Fato</ion-label>
+        </ion-tab-button>
+        <!-- <ion-tab-button
+          routerLink="/menu/outras-pericias/{{gpExameLaboratorialLegal.codigo}}/{{gpExameLaboratorialLegal.tipo_guia}}">
+          <ion-icon name="clipboard">
+          </ion-icon>
+          <ion-label>Outras Perícias</ion-label>
+        </ion-tab-button> -->
+        <ion-tab-button
+          routerLink="/menu/local-pericia/{{gpExameLaboratorialLegal.codigo}}/{{gpExameLaboratorialLegal.tipo_guia}}">
+          <ion-icon name="clipboard">
+          </ion-icon>
+          <ion-label>Local de Perícia</ion-label>
+        </ion-tab-button>
+        <ion-tab-button
+          routerLink="/menu/periciandos/{{gpExameLaboratorialLegal.codigo}}/{{gpExameLaboratorialLegal.tipo_guia}}">
+          <ion-icon name="clipboard">
+          </ion-icon>
+          <ion-label>Periciandos</ion-label>
+        </ion-tab-button>
+        <ion-tab-button
+          routerLink="/menu/buscar-guia-perica/{{gpExameLaboratorialLegal.codigo}}/{{gpExameLaboratorialLegal.tipo_guia}}">
+          <ion-icon name="search">
+          </ion-icon>
+          <ion-label>Buscar Guia de Perícia</ion-label>
+        </ion-tab-button>
+        <ion-tab-button (click)="goObjetosPericia()">
+          <ion-icon name="clipboard">
+          </ion-icon>
+          <ion-label>Objetos de Perícia</ion-label>
+        </ion-tab-button>
+      </ion-tab-bar>
+    </ion-tabs>
+  </div>
+</ion-footer>

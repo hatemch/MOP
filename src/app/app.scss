@@ -1,0 +1,18 @@
+// App Styles
+// ------------------------------------------------ ----------------------------
+// Coloque aqui as regras de estilo que você deseja aplicar a todo o aplicativo. Estes
+// os estilos são para o aplicativo inteiro e não apenas para um componente. Além disso, este
+// o arquivo pode conter mixins Sass, funções e classes de espaço reservado para serem importadas
+// e usado em todo o aplicativo.
+
+.alert-danger {
+    color: #721c24;
+    background: #f8d7da;
+    border-color: #f5c6cb;
+    margin-bottom: 5px;
+    font-size: 0.8em;
+}
+
+.container-error-message {
+    padding: 3px;
+}

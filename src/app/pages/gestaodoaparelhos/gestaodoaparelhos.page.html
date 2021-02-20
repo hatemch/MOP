@@ -1,0 +1,99 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="primary">
+      <ion-button (click)="goBack()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Gestão de Aparelhos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form #form="ngForm" method="post">
+    <ion-grid>
+      <ion-row>
+        <ion-col col-12>
+          <ion-item>
+            <ion-label>Matrícula</ion-label>
+            <ion-input type="text" [(ngModel)] = "matricula" name="matricula" required>
+            </ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col col-12>
+          <ion-button color="primary" [disabled]="!form.valid || permissoes.Pesquisar == 0"
+            (click)="GetTableData(form)">Pesquisar
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+
+  <ion-grid *ngIf="selected">
+    <ion-row>
+      <ion-label style="color: rgb(204, 115, 32); size: 15px;">Usuário</ion-label>
+    </ion-row>
+    <ion-label>Nome</ion-label>
+    <ion-input type="text" [(ngModel)]="nome" name="nome"></ion-input>
+    <ion-label>Matrícula</ion-label>
+    <ion-input type="text" [(ngModel)]="matricula" name="matricula"></ion-input>
+    <ion-row>
+      <ion-label style="color: rgb(204, 115, 32); size: 15px;">Devices</ion-label>
+    </ion-row>
+    <ion-card>
+      <table>
+        <tr text-center>
+          <th style="width: 65rem;">
+            PIM
+          </th>
+          <th style="width: 65rem;">
+            IMEI
+          </th>
+          <th style="width: 10rem;">
+            Linha
+          </th>
+          <th style="width: 10rem;">
+            Particular?
+          </th>
+          <th style="width: 10rem;">
+            Bloqueado?
+          </th>
+          <th style="width: 10rem;">
+            Opções
+          </th>
+        </tr>
+        <tr id="{{sa.codigo}}" *ngFor="let sa of data">
+
+          <td>
+            {{sa.PIM}}
+          </td>
+          <td>
+            {{sa.IMEI}}
+          </td>
+          <td>
+            {{sa.TELEFONE}}
+          </td>
+          <td>
+            {{sa.PARTICULAR}}
+          </td>
+          <td>
+            {{sa.BLOQUEIO}}
+          </td>
+           <td>
+          <ion-button routerLink="/menu/cadastro-adm-devices/{{sa.CODIGO_DEVICE}}" slot="end" fill="clear" shape="round" [disabled]="permissoes.Editar == 0">
+            <ion-icon name="create" color="secondary">EDITAR</ion-icon>
+          </ion-button> 
+        </td> 
+        </tr>
+      </table>
+    </ion-card>
+  </ion-grid>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="secondary" (click)="NewDevice()" [disabled]="permissoes.Inserir == 0">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

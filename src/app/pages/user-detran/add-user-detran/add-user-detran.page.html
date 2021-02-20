@@ -1,0 +1,114 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="primary">
+      <ion-button (click)="goBack()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title >Ativação Usuário DETRAN</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Ativação</ion-card-title>
+    </ion-card-header>
+
+        <!------------------------------------------------------------------------------------->
+  <ion-card-content>
+    <form #form="ngForm" (ngSubmit)="save(form)" method="post">
+      <!--form #form="ngForm" method="post"-->
+      <ion-grid>
+            <ion-row>
+              <ion-col>
+                <ion-item>
+                  <ion-label position="floating">Nome</ion-label>
+                  <ion-input
+                    type="text"
+                    [(ngModel)]="userDet.nome"
+                    name="nomePesquisar"
+                  >
+                  </ion-input>
+                </ion-item>
+              </ion-col>
+              <ion-col>
+                <ion-item>
+                  <ion-label position="floating">Login</ion-label>
+                  <ion-input
+                    type="text"
+                    [(ngModel)]="userDet.login"
+                    name="loginPesquisar"
+                  >
+                  </ion-input>
+                </ion-item>
+              </ion-col>
+              <ion-col>
+                <ion-button
+               
+                  color="primary"
+                  expand="block"
+                  (click)="GetTableData(form)"
+                  >Pesquisar</ion-button
+                >
+              </ion-col>
+            </ion-row>
+          
+ 
+
+
+  <!------------------------------------------------------------------------------------->
+        
+            <ion-list *ngIf="userDets.length > 0" >
+              <ion-label position='floating'>Usuários</ion-label>
+              <ion-item  >
+                
+                <ionic-selectable [disabled]="!userDets" required #usuarioComponent item-content [(ngModel)]="userDet.codigo" name="userDet"
+                  itemValueField="codigo" itemTextField="nome" [items]="userDets" [canSearch]="true" [canClear]="true"
+                  [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true" searchFailText="Sem dados a mostrar"
+                   searchPlaceholder="Pesquisar" placeholder="Selecione">
+                  <ng-template ionicSelectableHeaderTemplate>
+                    <ion-toolbar>
+                      <ion-buttons start>
+                        <ion-button (click)="usuarioComponent.close()">
+                          <ion-label>Cancelar</ion-label>
+                        </ion-button>
+                      </ion-buttons>
+                      <ion-title>
+                      </ion-title>
+                    </ion-toolbar>
+                  </ng-template>
+                </ionic-selectable>
+              </ion-item>
+              <!-- <ion-item>
+                <ion-label position="floating">Usuários</ion-label>
+                <ion-select required [(ngModel)]="userDet" name="userDet" placeholder="Usuário..." cancelText="Desistir" doneText="Confirmar">
+                  <ion-select-option *ngFor="let user of userDets" value="{{user.codigo}}">{{user.nome}}</ion-select-option>
+                </ion-select>
+              </ion-item> -->
+            </ion-list>
+         
+
+          <ion-row>
+            <ion-col>
+              <ion-button (click)="goBack()" expand="block" color="secondary">Cancelar</ion-button>
+            </ion-col>
+            <ion-col>
+              <ion-button expand="block" type="submit" >Salvar</ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </form>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="light" (click)="CarregaInfracoesUsuario(form, $event)">
+    <ion-icon ios="ios-search" md="md-search"></ion-icon>
+    </ion-fab-button>
+  </ion-fab> -->
+  
+</ion-content>

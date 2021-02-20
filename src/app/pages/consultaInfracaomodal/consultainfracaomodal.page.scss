@@ -1,0 +1,28 @@
+ion-icon {
+    &[class*="custom-"] {
+      mask-size: contain;
+      mask-position: 50% 50%;
+      mask-repeat: no-repeat;
+      background: currentColor;
+      width: 1em;
+      height: 1em;
+    }
+  
+}
+
+.label{
+  justify-content: center;
+  display: flex!important;
+ align-items: center!important;
+}
+
+.col{
+  background: white;
+  border: think solid red;
+  
+}
+
+.clearme{
+  clear: both !important;
+  align-items: center
+}

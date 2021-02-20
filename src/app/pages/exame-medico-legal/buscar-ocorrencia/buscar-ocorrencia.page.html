@@ -1,0 +1,183 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Busca Ocorrência - SIGIP</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form action="" [formGroup]="form">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="3">
+          <ion-item>
+            <ion-label position='floating' class='ion-text-wrap'>Tipo</ion-label>
+            <ion-select formControlName='Tipo' name='Tipo' interface='popover'>
+              <ion-select-option value='PC'>PC</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-label position='floating' class='ion-text-wrap'>Número da Ocorrência</ion-label>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ionic-selectable #numeroOcorrencia item-content formControlName="NumeroUnidade" name="NumeroUnidade"
+              itemValueField="id_sigip" itemTextField="unidade" [items]="unidades" [canSearch]="true" [canClear]="true"
+              [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true" searchFailText="Sem dados a mostrar"
+              searchPlaceholder="Pesquisar">
+              <ng-template ionicSelectableHeaderTemplate>
+                <ion-toolbar>
+                  <ion-buttons start>
+                    <ion-button (click)="numeroOcorrencia.close()">
+                      <ion-label>Cancelar</ion-label>
+                    </ion-button>
+                  </ion-buttons>
+                  <ion-title>
+                  </ion-title>
+                </ion-toolbar>
+              </ng-template>
+            </ionic-selectable>
+          </ion-item>
+         
+        </ion-col>
+
+        <ion-col>
+          <ion-item>
+            <ion-input type='text' formControlName='NumeroTipo' name='NumeroTipo' placeholder="Tipo">
+            </ion-input>
+          </ion-item>
+        </ion-col>
+
+        <ion-col>
+          <ion-item>
+            <ion-input type='text' formControlName='NumeroAno' name='NumeroAno' placeholder="Ano"></ion-input>
+            {{ form.errors }}
+          </ion-item>
+
+          <div class="alert-danger" *ngIf="form.get('NumeroAno').invalid && (form.get('NumeroAno').dirty || form.get('NumeroAno').touched)">
+            <div class="container-error-message" *ngIf="form.get('NumeroAno').errors.required">
+              O ano é requerido
+            </div>
+          </div>
+        </ion-col>
+
+        <ion-col>
+          <ion-item>
+            <ion-input type='text' formControlName='NumeroSequencial' name='NumeroSequencial' placeholder="Seqüencial">
+            </ion-input>
+          </ion-item>
+          <div class="alert-danger" *ngIf="form.get('NumeroSequencial').invalid && (form.get('NumeroSequencial').dirty || form.get('NumeroSequencial').touched)">
+            <div class="container-error-message" *ngIf="form.get('NumeroSequencial').errors.required">
+              O Seqüencial é requerido
+            </div>
+          </div>
+        </ion-col>
+
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-label position='floating' class='ion-text-wrap'>Período Registro</ion-label>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="4">
+          <ion-item>
+            <ion-input type='date' formControlName='DataRegistroInicio' name='DataRegistroInicio'></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size="4">
+          <ion-item>
+            <ion-input type='date' formControlName='DataRegistroFim' name='DataRegistroFim'></ion-input>
+          </ion-item>
+          <div class="alert-danger" *ngIf="form.get('DataRegistroFim').invalid && (form.get('DataRegistroFim').dirty || form.get('DataRegistroFim').touched)">
+            <div class="container-error-message" *ngIf="form.get('DataRegistroFim').errors.required">
+              O data é requerido
+            </div>
+          </div>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-label position='floating' class='ion-text-wrap'>Período Fato</ion-label>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="4">
+          <ion-item>
+            <ion-input type='date' formControlName='DataFatoInicio' name='DataFatoInicio'></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size="4">
+          <ion-item>
+            <ion-input type='date' formControlName='DataFatoFim' name='DataFatoFim'></ion-input>
+          </ion-item>
+          <div class="alert-danger" *ngIf="form.get('DataFatoFim').invalid && (form.get('DataFatoFim').dirty || form.get('DataFatoFim').touched)">
+            <div class="container-error-message" *ngIf="form.get('DataFatoFim').errors.required">
+              O data é requerido
+            </div>
+          </div>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position='floating' class='ion-text-wrap'>Nome Passoa</ion-label>
+            <ion-input type='text' formControlName='PessoaEnvolvida' name='PessoaEnvolvida'></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-button (click)="BuscarPessoa()" #btnBuscar 
+            [disabled]="(!form.valid || ( 
+                          ( form.get('NumeroUnidade').value == null || form.get('NumeroUnidade').value == '')
+                          && form.get('DataRegistroInicio').value == '' 
+                          && form.get('DataFatoInicio').value == '' 
+                        ))">
+            Buscar
+          </ion-button>
+        </ion-col>
+      </ion-row>
+
+    </ion-grid>
+  </form>
+
+  <ion-grid *ngIf="Pessoas?.length > 0">
+    <ion-row>
+      <table style="width: 100%;">
+        <thead>
+          <tr>
+            <th>Número</th>
+            <th>Data Fato</th>
+            <th>Pessoas Envolvidas</th>
+            <th>Tipoficação</th>
+            <th>Opções</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let pessoa of Pessoas">
+            <td>{{ pessoa.numero }}</td>
+            <td>{{ pessoa.dt_fato }}</td>
+            <td>{{ pessoa.envolvidos }}</td>
+            <td>{{ pessoa.tipificacao }}</td>
+            <td>
+              <ion-button (click)="importarPessoas(pessoa)">Selecionar</ion-button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </ion-row>
+  </ion-grid>
+</ion-content>

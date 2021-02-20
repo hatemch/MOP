@@ -1,0 +1,40 @@
+<ion-tabs>
+  <ion-tab-bar slot ="bottom">
+    <ion-tab-button tab="incluir-exame" (click)="goToIncluir()">
+      <ion-label>
+        Incluir Exame
+      </ion-label>
+
+    </ion-tab-button>
+
+    <ion-tab-button tab="detalhes" (click)="goToDetalhes()" [disabled]="!guiaID">
+      <ion-label>
+        Detalhes de Fato
+      </ion-label>
+
+    </ion-tab-button>
+
+    <ion-tab-button tab="periciandos" (click)="goToPericiandos()" >
+      <ion-label>
+        Periciandos
+      </ion-label>
+
+    </ion-tab-button>
+
+    <ion-tab-button tab="outros" (click)="goToOutros()" >
+      <ion-label>
+       Outras Pericias
+      </ion-label>
+
+    </ion-tab-button>
+
+    <ion-tab-button tab="local-pericia" (click)="goToLocal()" >
+      <ion-label>
+       Local de Perícia
+      </ion-label>
+
+    </ion-tab-button>
+
+  </ion-tab-bar>
+
+</ion-tabs>

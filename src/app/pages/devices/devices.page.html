@@ -1,0 +1,110 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Devices</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <!--
+  <ion-button expand="block" routerLink="/menu/second/details" routerDirection="forward">
+      Mostrar Detalhes 
+    </ion-button>
+  -->
+
+  <!--
+    Use a documentação para construir os componestes
+    https://ionicframework.com/docs/api/action-sheet
+  -->
+
+  
+  <form #form="ngForm" (ngSubmit)="Gravar(form, $event)" method="post">
+
+    <ion-item>
+      <ion-label position="floating">PIN:</ion-label>
+      <ion-input ngModel type="text" placeholder="Informe PIN" name="pin" required value="{{ pin  }}">
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">IMEI:</ion-label>
+      <ion-input ngModel type="text" placeholder="Informe IMEI" name="imei" required value="{{ imei  }}">
+      </ion-input>
+    </ion-item>
+
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">LINHA:</ion-label>
+            <ion-input ngModel type="tel" placeholder="Informe a Linha" name="linha" required value="{{ linha  }}">
+            </ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-item>
+            <ion-label>Linha é particular?</ion-label>
+            <ion-checkbox ngModel name="linhaparticular" isChecked="false" color="primary"></ion-checkbox>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <ion-list>
+      <ion-item>
+        <ion-label position="floating">Seguimento:</ion-label>
+        <ion-select ngModel name="seguimento" placeholder="Selecione o Seguimento..."
+          (ionChange)="PopulaGrupos(form, $event);">
+          <ion-select-option *ngFor="let seg of segs">{{seg.segmento}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
+
+    <ion-list>
+      <ion-item>
+        <ion-label position="floating">Unidade:</ion-label>
+        <ion-select ngModel name="grupo" placeholder="Selecione o Unidade..." (ionChange)="PopulaUsuarios(form, $event);">
+          <ion-select-option *ngFor="let grp of groups">{{grp.nome}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
+
+    <ion-list>
+      <ion-item>
+        <ion-label position="floating">Usuário:</ion-label>
+        <ion-select ngModel name="usuario" placeholder="Selecione o Usuário...">
+          <ion-select-option *ngFor="let user of users">{{user.usuario}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
+
+    <ion-list>
+      <ion-item>
+        <ion-label position="floating">Sistema Operacional:</ion-label>
+        <ion-select ngModel name="sistema" placeholder="Selecione o Sistema Operacional...">
+          <ion-select-option *ngFor="let os of sysos">{{os.nome}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
+
+    <ion-fab vertical="botton" horizontal="top" slot="fixed">
+      <section>
+        <ion-button color="warning" (click)="Pesquisar(form, $event)">Pesquisar</ion-button>
+        <ion-button color="success" (click)="Adicionar(form, $event)">Adicionar</ion-button>
+        <ion-button type="submit" color="danger">Gravar</ion-button>
+      </section>
+    </ion-fab>
+  </form>
+  
+</ion-content>
+
+<ion-footer>
+  <ion-item>
+    Usuário Logado: {{NomeUsuarioLogado}}
+  </ion-item>
+</ion-footer>

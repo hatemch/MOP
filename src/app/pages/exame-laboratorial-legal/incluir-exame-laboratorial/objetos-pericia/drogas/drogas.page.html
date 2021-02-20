@@ -1,0 +1,221 @@
+<ion-header>
+
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="primary">
+      <ion-button (click)="goBack()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Incluir Droga</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content class="ion-padding">
+
+  <form #form="ngForm" (ngSubmit)="save(form)" method="post">
+
+    <ion-card>
+
+      <ion-card-header>
+        <ion-card-title>Dados de Drogas</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+             
+              <ion-item>
+                <ion-label position="floating" >Tipo Droga:</ion-label>
+            
+
+                <ionic-selectable required #TipoDroga item-content
+                name="tipo_droga" itemValueField="idTipoDroga" [(ngModel)]="droga.tipo_droga"
+                  itemTextField="descricao" [items]="tiposDrogas" [canSearch]="true" [canClear]="true"
+                  [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true" searchFailText="Sem dados a mostrar"
+                  searchPlaceholder="Pesquisar">
+                  <ng-template ionicSelectableHeaderTemplate>
+                    <ion-toolbar>
+                      <ion-buttons start>
+                        <ion-button (click)="TipoDroga.close()">
+                          <ion-label>Cancelar</ion-label>
+                        </ion-button>
+                      </ion-buttons>
+                      <ion-title>
+                      </ion-title>
+                    </ion-toolbar>
+                  </ng-template>
+                </ionic-selectable>
+              </ion-item>
+            </ion-col>
+            <ion-col>
+             
+              <ion-item>
+                <ion-label position="floating" >Unidade de Medida:</ion-label>
+            
+
+                <ionic-selectable required #UnidadeMedida item-content
+                name="unidade_medida" itemValueField="idUnidadeMedida" [(ngModel)]="droga.unidade_medida"
+                  itemTextField="sigla" [items]="unidades" [canSearch]="true" [canClear]="true"
+                  [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true" searchFailText="Sem dados a mostrar"
+                  searchPlaceholder="Pesquisar">
+                  <ng-template ionicSelectableHeaderTemplate>
+                    <ion-toolbar>
+                      <ion-buttons start>
+                        <ion-button (click)="UnidadeMedida.close()">
+                          <ion-label>Cancelar</ion-label>
+                        </ion-button>
+                      </ion-buttons>
+                      <ion-title>
+                      </ion-title>
+                    </ion-toolbar>
+                  </ng-template>
+                </ionic-selectable>
+              </ion-item>
+            </ion-col>
+           
+
+            <ion-col>
+              <ion-item>
+                <ion-label position="floating">Quantidade:</ion-label>
+
+                <ion-input type="number" name="quantidade" [(ngModel)]="droga.quantidade">
+                </ion-input>
+              </ion-item>
+            </ion-col>
+
+          </ion-row>
+
+      
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-label position="floating">Descrição:</ion-label>
+
+                <ion-input type="text" name="descricao" [(ngModel)]="droga.descricao" required>
+                </ion-input>
+              </ion-item>
+            </ion-col>
+
+          </ion-row>
+
+        </ion-grid>
+
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+
+      <ion-card-header *ngIf="!opcaoIncluir">
+        <ion-card-title>Exames Periciais</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-header *ngIf="opcaoIncluir">
+        <ion-card-title>Incluir Exames</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-grid>
+
+          <ion-row *ngIf="!opcaoIncluir">
+
+            <ion-col size="6">
+              <ion-label position="floating">Tipo Local:</ion-label>
+              <ionic-selectable class="selector" required #tipoLocal item-content [(ngModel)]="droga.tipo_local"
+                name="tipo_local" itemValueField="codigo" itemTextField="tipo_local" [items]="tipolocales" [canSearch]="true"
+                [canClear]="true" [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true"
+                searchFailText="Sem dados a mostrar" searchPlaceholder="Pesquisar">
+                <ng-template ionicSelectableHeaderTemplate>
+                  <ion-toolbar>
+                    <ion-buttons start>
+                      <ion-button (click)="tipoLocal.close()">
+                        <ion-label>Cancelar</ion-label>
+                      </ion-button>
+                    </ion-buttons>
+                    <ion-title>
+                    </ion-title>
+                  </ion-toolbar>
+                </ng-template>
+              </ionic-selectable>
+            </ion-col>
+
+            <ion-col>
+              <ion-label position="floating">Descrição do Local:</ion-label>
+              <ion-input class="selector" [(ngModel)]="droga.descricao_local" name="descricao_local">
+              </ion-input>
+            </ion-col>
+
+          </ion-row>
+
+          <ion-row>
+
+            <ion-col size="6">
+              <ion-label position="floating" *ngIf="arrayExames.length>0">Exames Requisitados*:</ion-label>
+              <ion-label position="floating" *ngIf="arrayExames.length==0" color="danger">Exames Requisitados*:</ion-label>
+              <ionic-selectable class="selector" #exameItem item-content [(ngModel)]="exame" name="exame"
+                itemValueField="CODIGO" itemTextField="nome_de_exame" [items]="examesItems" [canSearch]="true"
+                [canClear]="true" [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true"
+                searchFailText="Sem dados a mostrar" searchPlaceholder="Pesquisar"
+                (onChange)="GetExame(form.value.exame)">
+                <ng-template ionicSelectableHeaderTemplate>
+                  <ion-toolbar>
+                    <ion-buttons start>
+                      <ion-button (click)="exameItem.close()">
+                        <ion-label>Cancelar</ion-label>
+                      </ion-button>
+                    </ion-buttons>
+                    <ion-title>
+                    </ion-title>
+                  </ion-toolbar>
+                </ng-template>
+              </ionic-selectable>
+            </ion-col>
+
+            <ion-col size="6">
+              <div class="selectorarea" *ngIf="arrayExames.length>0">
+                <ion-list *ngFor="let abc of arrayExames; let i = index" [attr.data-index]="i">
+                  <ion-item lines="none">
+                    <ion-input readonly>
+                      {{abc.nome_de_exame}}
+                    </ion-input>
+                    <ion-icon name="close" item-start (click)="deleteExame(i,abc)">
+                    </ion-icon>
+                  </ion-item>
+                </ion-list>
+              </div>
+            </ion-col>
+
+          </ion-row>
+
+          <ion-row *ngIf="!opcaoIncluir">
+
+            <ion-col>
+              <ion-label position="floating">Quesitações:</ion-label>
+              <ion-textarea class="selectorarea" [(ngModel)]="droga.quesitacoes" name="quesitacoes">
+              </ion-textarea>
+            </ion-col>
+
+          </ion-row>
+
+        </ion-grid>
+
+      </ion-card-content>
+    </ion-card>
+    <ion-row>
+      <ion-col>
+        <ion-button expand="block" type="submit" [disabled]="!form.valid">Salvar</ion-button>
+      </ion-col>
+    </ion-row>
+  </form>
+</ion-content>
+
+<!-- FOOTER -->
+
+<ion-footer class="ion-text-center">
+
+</ion-footer>

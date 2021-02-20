@@ -1,0 +1,332 @@
+<ion-header>
+
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="primary">
+      <ion-button (click)="goBack()" id="closebtn">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Usuários-pré</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form #form="ngForm" (ngSubmit)="pesquisar(form)" id="editForm" method="post">
+    <ion-grid>
+      <ion-row>
+
+        <ion-col col-3>
+          <ion-label position="floating">Nome</ion-label>
+          <ion-input class="selectoraper" type="text" required [(ngModel)]="usuario_pre.Nome" name="Nome">
+          </ion-input>
+        </ion-col>
+
+        <ion-col col-3>
+          <ion-label position="floating">CPF</ion-label>
+          <ion-input class="selectoraper" type="text" required [(ngModel)]="usuario_pre.CPF" name="CPF" id="CPF"
+            (ionChange)="formatCPF(usuario_pre.CPF,'CPF')" placeholder="999.999.999-99">
+          </ion-input>
+        </ion-col>
+
+        <ion-col col-3>
+          <ion-label position="floating">Fone</ion-label>
+          <ion-input class="selectoraper" type="text" required [(ngModel)]="usuario_pre.Fone" name="Fone"
+          id="Fone" (ionChange)="formatTelefone(usuario_pre.Fone,'Fone')" placeholder="(00)0000-0000">
+          </ion-input>
+        </ion-col>
+
+        <ion-col col-3>
+          <ion-label position="floating">Matrícula</ion-label>
+          <ion-input class="selectoraper" type="text" maxlength="13" required [(ngModel)]="usuario_pre.Matricula"
+            name="Matricula" onKeyPress="if(this.value.length==8) return false;">
+          </ion-input>
+        </ion-col>
+
+      </ion-row>
+
+      <ion-row>
+
+        <ion-col col-3>
+          <ion-label position="floating">Email</ion-label>
+          <ion-input class="selectoraper" type="email" required [(ngModel)]="usuario_pre.Email" name="Email">
+          </ion-input>
+        </ion-col>
+
+        <ion-col col-3>
+          <ion-label position="floating">Município:</ion-label>
+          <ionic-selectable class="selectoraper" #municipioComponent item-content [(ngModel)]="usuario_pre.Municipio" name="Municipio"
+              itemValueField="nome" itemTextField="nome" [items]="municipios" [canSearch]="true" [canClear]="true"
+              [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true" searchFailText="Sem dados a mostrar"
+               searchPlaceholder="Pesquisar" (onChange)="CarregaSegmentoGrupos()">
+              <ng-template ionicSelectableHeaderTemplate>
+                <ion-toolbar>
+                  <ion-buttons start>
+                    <ion-button (click)="municipioComponent.close()">
+                      <ion-label>Desistir</ion-label>
+                    </ion-button>
+                  </ion-buttons>
+                  <ion-title>
+                  </ion-title>
+                </ion-toolbar>
+              </ng-template>
+            </ionic-selectable>
+          <!-- <ion-select class="selectoraper" required [(ngModel)]="usuario_pre.Municipio" name="Municipio"
+            placeholder="Município" cancelText="Desistir" doneText="Confirmar" value='{{user.municipio}}'>
+            <ion-select-option value="{{municipio.nome}}" *ngFor="let municipio of municipios">
+              {{municipio.nome}}
+            </ion-select-option>
+          </ion-select> -->
+        </ion-col>
+
+        <ion-col col-3>
+          <ion-label position="floating">Órgão:</ion-label>
+          <ionic-selectable class="selectoraper" #segmentoComponent item-content [(ngModel)]="usuario_pre.Segmento" name="Segmento"
+              itemValueField="segmento" itemTextField="segmento" [items]="segmentos" [canSearch]="true" [canClear]="true"
+              [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true" searchFailText="Sem dados a mostrar"
+               searchPlaceholder="Pesquisar" (onChange)="CarregaSegmentoGrupos()">
+              <ng-template ionicSelectableHeaderTemplate>
+                <ion-toolbar>
+                  <ion-buttons start>
+                    <ion-button (click)="segmentoComponent.close()">
+                      <ion-label>Desistir</ion-label>
+                    </ion-button>
+                  </ion-buttons>
+                  <ion-title>
+                  </ion-title>
+                </ion-toolbar>
+              </ng-template>
+            </ionic-selectable>
+          <!-- <ion-select class="selectoraper" required [(ngModel)]="usuario_pre.Segmento" name="Segmento"
+            placeholder="Segumento" cancelText="Desistir" doneText="Confirmar" value='{{usuario_pre.segmento}}' (ionChange)="CarregaSegmentoGrupos()">
+            <ion-select-option value="{{segmento.segmento}}" *ngFor="let segmento of segmentos">
+              {{segmento.segmento}}
+            </ion-select-option>
+          </ion-select> -->
+        </ion-col>
+
+        <ion-col col-3>
+          <ion-label position="floating">Unidade:</ion-label>
+          <ionic-selectable class="selectoraper" #unidadeComponent item-content [(ngModel)]="usuario_pre.Unidade" name="Unidade"
+              itemValueField="nome" itemTextField="nome" [items]="grupos" [canSearch]="true" [canClear]="true"
+              [shouldFocusSearchbar]="true" [shouldStoreItemValue]="true" searchFailText="Sem dados a mostrar"
+               searchPlaceholder="Pesquisar"  placeholder>
+              <ng-template ionicSelectableHeaderTemplate>
+                <ion-toolbar>
+                  <ion-buttons start>
+                    <ion-button (click)="unidadeComponent.close()">
+                      <ion-label>Desistir</ion-label>
+                    </ion-button>
+                  </ion-buttons>
+                  <ion-title>
+                  </ion-title>
+                </ion-toolbar>
+              </ng-template>
+            </ionic-selectable>
+          <!-- <ion-select class="selectoraper" [compareWith]='compareWith' required [(ngModel)]="usuario_pre.Unidade" name="Unidade"
+            placeholder="Segumento" cancelText="Desistir" doneText="Confirmar" value='{{usuario_pre.Unidade}}'>
+            <ion-select-option value="{{unidade.nome}}" *ngFor="let unidade of grupos">
+              {{unidade.nome}}
+            </ion-select-option>
+          </ion-select> -->
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col col-3>
+          <ion-label position="floating">Sexo:</ion-label>
+          <ion-select class="selectoraper" required required [(ngModel)]="usuario_pre.Sexo" name="Sexo"
+            cancelText="Desistir" doneText="Confirmar" placeholder="Sexo">
+            <ion-select-option value="M">Masculino
+            </ion-select-option>
+            <ion-select-option value="F">Femenino
+            </ion-select-option>
+          </ion-select>
+        </ion-col>
+
+        <ion-col col-3>
+          <ion-label position="floating">PIM</ion-label>
+          <ion-input class="selectoraper" type="text" required [(ngModel)]="usuario_pre.PIM" name="PIM">
+          </ion-input>
+        </ion-col>
+
+        <ion-col col-3>
+          <ion-label position="floating">IMEI</ion-label>
+          <ion-input class="selectoraper" type="text" required [(ngModel)]="usuario_pre.IMEI" name="IMEI">
+          </ion-input>
+        </ion-col>
+
+        <ion-col col-3 hidden>
+          <ion-label position="floating">Status</ion-label>
+          <ion-input class="selectoraper" type="text" required [(ngModel)]="usuario_pre.status" name="Status">
+          </ion-input>
+        </ion-col>
+
+      </ion-row>
+
+      <ion-row>
+        <ion-col col-3>
+          <ion-button expand="block" (click)="Cancel()" color="medium">Sair</ion-button>
+        </ion-col>
+        <ion-col col-3>
+          <ion-button expand="block" type="submit">Salvar</ion-button>
+        </ion-col>
+        <ion-col col-3>
+          <ion-button expand="block" (click)="cadastroUserPre(form)">Cadastrar Usuário</ion-button>
+        </ion-col>
+        <ion-col col-3>
+          <ion-button expand="block" (click)="cadastroDevice(form)">Cadastrar Device</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+
+  <ion-grid id="userTable">
+
+    <ngx-datatable class="bootstrap" [rows]="usuario_pres" [columnMode]="'force'" [headerHeight]="40"
+      [footerHeight]="40" rowHeight="auto" [scrollbarH]="true" [limit]="10">
+
+      <ngx-datatable-column name="PIM" width="200">
+        <ng-template let-column="column" ngx-datatable-header-template> {{ column.name }} </ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.PIM}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="IMEI">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.IMEI}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="CPF">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.CPF}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Matrícula">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.Matricula}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Nome">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.Nome}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Sexo">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.Sexo}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Órgão">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.Segmento}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Unidade">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.Unidade}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Email" width="200">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.Email}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Telefone">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.Fone}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Município">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.Municipio}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Status" width="200">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.status}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Opções" width="200">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <ion-button (click)="edit(row)" slot="end" fill="clear" shape="round"
+            [disabled]="permissoes.Editar == 0">
+            <ion-icon (click)="edit(row)" name="create" color="secondary"></ion-icon>
+          </ion-button>
+          <ion-button (click)="delete(row.codigo, row.Nome, form)" slot="end" fill="clear" shape="round"
+            [disabled]="permissoes.Deletar == 0">
+            <ion-icon name="trash" color="secondary"></ion-icon>
+          </ion-button>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+
+  </ion-grid>
+
+  <!-- <ion-grid>
+    <table class="Usertable" id = "userTable">
+      <tr>
+        <th>PIM</th>
+        <th>IMEI</th>
+        <th>CPF</th>
+        <th>Matrícula</th>
+        <th>Nome</th>
+        <th>Sexo</th>
+        <th>Segmento</th>
+        <th>Unidade</th>
+        <th>Email</th>
+        <th>Telefone</th>
+        <th>Município</th>
+        <th>Status</th>
+        <th>Opções</th>
+      </tr>
+
+
+      <tr *ngFor="let user of pagedItems">
+        <td class="table-data">{{user.pim}}</td>
+        <td class="table-data">{{user.imei}}</td>
+        <td class="table-data">{{user.cpf}}</td>
+        <td class="table-data">{{user.matricula}}</td>
+        <td class="table-data">{{user.nome}}</td>
+        <td class="table-data">{{user.sexo}}</td>
+        <td class="table-data">{{user.segmento}}</td>
+        <td class="table-data">{{user.unidade}}</td>
+        <td class="table-data">{{user.email}}</td>
+        <td class="table-data">{{user.telefone}}</td>
+        <td class="table-data">{{user.municipio}}</td>
+        <td class="table-data">{{user.status}}</td>
+        <td>
+
+          <ion-button (click)="edit(user)" slot="end" fill="clear" shape="round" [disabled]="permissoes.Editar == 0">
+            <ion-icon name="create" color="secondary"></ion-icon>
+          </ion-button>
+          <ion-button (click)="delete(user.codigo, user.nome, form)" slot="end" fill="clear" shape="round" [disabled]="permissoes.Deletar == 0">
+            <ion-icon name="trash" color="secondary"></ion-icon>
+          </ion-button>
+
+        </td>
+      </tr>
+
+    </table>
+  </ion-grid> -->
+
+
+</ion-content>
+
+<!-- <ion-footer disable="footerdisable">
+  <ul *ngIf="pager.pages && pager.pages.length" id="horizontal-list">
+    <li [ngClass]="{disabled:pager.currentPage === 1}">
+      <a (click)="setPage(1)">Primeira</a>
+    </li>
+    <li [ngClass]="{disabled:pager.currentPage === 1}">
+      <a (click)="setPage(pager.currentPage - 1)">Anterior</a>
+    </li>
+    <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+      <a (click)="setPage(page)">{{page}}</a>
+    </li>
+
+    <li *ngIf="(pager.totalPages - pager.startPage) > 5 ">
+      <a (click)="setPage(pager.startPage + 5)">...</a>
+    </li>
+    <li *ngIf="(pager.totalPages - pager.startPage) > 5">
+      <a (click)="setPage(pager.totalPages)">{{pager.totalPages}}</a>
+    </li>
+
+    <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+      <a (click)="setPage(pager.currentPage + 1)">Próxima</a>
+    </li>
+    <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+      <a (click)="setPage(pager.totalPages)">Última</a>
+    </li>
+  </ul>
+</ion-footer> -->

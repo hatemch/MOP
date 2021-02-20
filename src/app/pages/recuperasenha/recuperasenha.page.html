@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="primary">
+      <ion-button (click)="goBack()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Recuperar Senha</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-grid>
+    <ion-row  class="ion-text-center">
+      <ion-col><img src="{{AppLogo}}" width="100px" height="100px"></ion-col>
+    </ion-row>
+    <h3 class="ion-text-center">Verificando se é você...</h3>
+  </ion-grid>
+
+  <form #form="ngForm" (ngSubmit)="MinhaConta(form)" method="post">
+    <ion-item>
+      <ion-label position="floating">Digite seu e-mail:</ion-label>
+      <ion-input #email ngModel type="email" name="email" pattern="[A-Za-z0-9._%+-]{2,}@[a-zA-Z-_.]{2,}[.]{1}[a-zA-Z]{2,}"
+      required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Token:</ion-label>
+      <ion-input ngModel type="text" placeholder="Digite o número do token (Opcional)" name="Token" value="{{ Token  }}">
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Senha:</ion-label>
+      <ion-input ngModel type="password" [disabled]="true" placeholder="Digite a Senha" name="Senha" required>
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">ReSenha:</ion-label>
+      <ion-input ngModel type="password" [disabled]="true" placeholder="Repita a Senha" name="ReSenha" required>
+      </ion-input>
+    </ion-item>
+
+    <ion-button type="submit" [disabled]="!form.valid" expand="full" color="danger">Recuperar Senha</ion-button>
+  </form>
+
+
+</ion-content>

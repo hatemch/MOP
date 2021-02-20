@@ -1,0 +1,189 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="primary">
+      <ion-button  *ngIf="!selectBack"(click)="goToGuia()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+      <ion-button  *ngIf="selectBack"(click)="goBack()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Buscar Guia de Pericia</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form #form="ngForm" method="post">
+    <ion-card-header>
+      <ion-card-title>Nº Guia</ion-card-title>
+    </ion-card-header>
+    <ion-card>
+      <ion-row>
+
+        <ion-col>
+
+          <ion-item>
+
+            <ionic-selectable placeholder="Destino do Laudo" required #destino_ladoComponent item-content
+              [(ngModel)]="gpMedicoLegal.destino_lado" name="destino_lado" itemValueField="nome" itemTextField="nome"
+              [items]="grupos" [canSearch]="true" [canClear]="true" [shouldFocusSearchbar]="true"
+              [shouldStoreItemValue]="true" searchFailText="Sem dados a mostrar" searchPlaceholder="Pesquisar">
+              <ng-template ionicSelectableHeaderTemplate>
+                <ion-toolbar>
+                  <ion-buttons start>
+                    <ion-button (click)="destino_ladoComponent.close()">
+                      <ion-label>Cancelar</ion-label>
+                    </ion-button>
+                  </ion-buttons>
+                  <ion-title>
+                  </ion-title>
+                </ion-toolbar>
+              </ng-template>
+            </ionic-selectable>
+          </ion-item>
+        </ion-col>
+        <ion-col size=2>
+          <ion-item>
+
+            <ion-input autocapitalize="on" [(ngModel)]="gpMedicoLegal.tipo_guia" name="tipo_guia" type='text' placeholder="Tipo guia"
+              maxlength=2>
+            </ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size=2>
+          <ion-item>
+
+            <ion-input [(ngModel)]="gpMedicoLegal.ano" name="ano" placeholder="Anho" type='number'max='99'>
+            </ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-item>
+
+            <ion-input [(ngModel)]="gpMedicoLegal.sequencial" name="sequencial" type='text' placeholder="Secuencial">
+            </ion-input>
+          </ion-item>
+        </ion-col>
+
+      </ion-row>
+    </ion-card>
+    <ion-card-header>
+      <ion-card-title>Periodo de Registro</ion-card-title>
+    </ion-card-header>
+    <ion-card>
+      <ion-row>
+        <ion-label></ion-label>
+        <ion-col>
+          <ion-label position="floating">Data Inicio</ion-label>
+          <ion-input class="selector" (ionChange)="dataInicio($event)" type="Date"
+            [(ngModel)]="gpMedicoLegal.periodoRegistroDataInicio" name="periodoRegistroDataInicio"
+            displayFormat="DD/MM/YYYY" required>
+          </ion-input>
+        </ion-col>
+        <ion-col>
+          <ion-label position="floating">Data Fim</ion-label>
+          <ion-input class="selector" [disabled]="disabledata" type="Date"
+            [(ngModel)]="gpMedicoLegal.periodoRegistroDataFin" name="periodoRegistroDataFin" displayFormat="DD/MM/YYYY"
+            required>
+          </ion-input>
+        </ion-col>
+      </ion-row>
+    </ion-card>
+    <ion-card-header>
+      <ion-card-title>Periodo do Fato</ion-card-title>
+    </ion-card-header>
+    <ion-card>
+      <ion-row>
+        <ion-label></ion-label>
+        <ion-col>
+          <ion-label position="floating">Data Inicio</ion-label>
+          <ion-input class="selector" (ionChange)="dataInicio($event)" type="Date"
+            [(ngModel)]="gpMedicoLegal.periodoDoFatoDataInicio" name="periodoDoFatoDataInicio" displayFormat="DD/MM/YYYY"
+            required>
+          </ion-input>
+        </ion-col>
+        <ion-col>
+          <ion-label position="floating">Data Fim</ion-label>
+          <ion-input class="selector" [disabled]="disabledata" type="Date"
+            [(ngModel)]="gpMedicoLegal.periodoDoFatoDataFin" name="periodoDoFatoDataFin" displayFormat="DD/MM/YYYY"
+            required>
+          </ion-input>
+        </ion-col>
+      </ion-row>
+    </ion-card>
+    <ion-card>
+      <ion-row>
+
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Periciando</ion-label>
+            <ion-input placeholder="Nome do periciando"  [(ngModel)]="gpMedicoLegal.periciando" name="periciando"type="text"> </ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-card>
+    <ion-row>
+      <ion-col>
+        <br>
+        <ion-button expand="full" color="primary" (click)="PesquisarGuiaPericia(form)"
+          [disabled]="permissoes.Pesquisar == 0">Pesquisar</ion-button>
+      </ion-col>
+    </ion-row>
+  </form>
+
+  <form #formGuias="ngForm" (ngSubmit)="confirmarGuiasSelecionadas(formGuias)" method="post">
+    <div *ngIf="showChecks">
+      <ion-text>{{ quantGuiasSelecionadas }} Guias Selecionadas para asociar.</ion-text>
+    </div>
+
+    <div>
+      <ion-button color="primary" type="submit" *ngIf="showButtonReenviar === true"
+        [disabled]="quantGuiasSelecionadas == 0">
+        Asociar guias selecionadas</ion-button>
+    </div>
+  </form>
+
+  <ion-grid *ngIf="showTable && gpMedicoLegals.length > 0">
+    <ion-text *ngIf="showButtonReenviar === false">As Guias a seguir serão asociadas automaticamente</ion-text>
+    <!-- [columns]="columns" -->
+    <ngx-datatable class="bootstrap" [rows]="gpMedicoLegals" [columnMode]="'force'" [headerHeight]="40" [footerHeight]="40"
+      rowHeight="auto" [scrollbarH]="true" [limit]="10">
+
+      
+      <ngx-datatable-column name="Número" *ngIf="showChecks" >
+        <ng-template let-column="column" ngx-datatable-header-template> {{ column.name }} </ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          {{row.nome_guia}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Perícia">
+        <ng-template let-column="column" ngx-datatable-header-template> {{ column.name }} </ng-template>
+        <ng-template let-row="row"  ngx-datatable-cell-template>
+          {{row.numero_periciando}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Data Registro">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.data_registro}}</ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Autoridade Responável">
+        <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>{{row.autoridade}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Checks" *ngIf="showChecks" [width]="50">
+        <ng-template let-column="column" ngx-datatable-header-template>
+          <ion-checkbox (ionChange)="onOffCheckInfracoes($event)"></ion-checkbox>
+        </ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <ion-checkbox [(ngModel)]="row.reenviar" name='{{row.codigo}}'
+            (ngModelChange)="contarInfracaoSelecionada($event)"></ion-checkbox>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+
+  </ion-grid>
+</ion-content>

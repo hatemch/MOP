@@ -1,0 +1,33 @@
+ul#horizontal-list {
+	min-width: 696px;
+	//list-style: none;
+	padding-top: 20px;
+	}
+	ul#horizontal-list li {
+        display: inline;
+        padding-left: 20px;
+        
+    }
+
+    form, input, optgroup, select {
+        font-size: small;
+    }
+    
+    form {
+        margin: 20px;
+    }
+
+    ion-icon {
+        font-size: 20px;
+        margin: 5px;
+    }
+    
+    .Usertable{
+        display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    }
+
+    .table-data{
+        padding: 4px;
+    }
